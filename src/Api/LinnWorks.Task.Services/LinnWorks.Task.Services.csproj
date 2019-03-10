@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LinnWorks.Task.Repositories\LinnWorks.Task.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
