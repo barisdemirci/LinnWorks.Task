@@ -13,33 +13,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{C6DF0306-93C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{6EF892A6-3DDA-4FCB-9EE8-0D047ED4E6B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.WebApi", "src\Api\LinnWorks.Task.WebApi\LinnWorks.Task.WebApi.csproj", "{B1B69ABF-1544-4355-908F-39F566BE64E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.WebApi", "src\Api\LinnWorks.Task.WebApi\LinnWorks.Task.WebApi.csproj", "{B1B69ABF-1544-4355-908F-39F566BE64E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.FrontEnd", "src\FrontEnd\LinnWorks.Task.FrontEnd\LinnWorks.Task.FrontEnd.csproj", "{0BC7D85C-3952-4D39-9D91-F6F3D676432F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.FrontEnd", "src\FrontEnd\LinnWorks.Task.FrontEnd\LinnWorks.Task.FrontEnd.csproj", "{0BC7D85C-3952-4D39-9D91-F6F3D676432F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Services", "src\Api\LinnWorks.Task.Services\LinnWorks.Task.Services.csproj", "{63E73414-6304-493C-980D-9384DF93B02B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Services", "src\Api\LinnWorks.Task.Services\LinnWorks.Task.Services.csproj", "{63E73414-6304-493C-980D-9384DF93B02B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Repositories", "src\Api\LinnWorks.Task.Repositories\LinnWorks.Task.Repositories.csproj", "{4E3A27D2-0804-4AC2-B4C6-A8EE7CF70A4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Repositories", "src\Api\LinnWorks.Task.Repositories\LinnWorks.Task.Repositories.csproj", "{4E3A27D2-0804-4AC2-B4C6-A8EE7CF70A4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Entities", "src\Api\LinnWorks.Task.Entities\LinnWorks.Task.Entities.csproj", "{B22FCF39-53C0-4E72-847E-B2D41183BAB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Entities", "src\Api\LinnWorks.Task.Entities\LinnWorks.Task.Entities.csproj", "{B22FCF39-53C0-4E72-847E-B2D41183BAB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Common", "src\LinnWorks.Task.Common\LinnWorks.Task.Common.csproj", "{0A9F8625-1425-4F84-828C-D70552D3D914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Common", "src\LinnWorks.Task.Common\LinnWorks.Task.Common.csproj", "{0A9F8625-1425-4F84-828C-D70552D3D914}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Core", "src\LinnWorks.Task.Core\LinnWorks.Task.Core.csproj", "{69054B72-6BB1-4DE3-8E28-91BE9E32DED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Core", "src\LinnWorks.Task.Core\LinnWorks.Task.Core.csproj", "{69054B72-6BB1-4DE3-8E28-91BE9E32DED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Dtos", "src\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj", "{3AA0369C-ACF3-43F8-AF2D-84C490036CDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Dtos", "src\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj", "{3AA0369C-ACF3-43F8-AF2D-84C490036CDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Mapper", "src\LinnWorks.Task.Mapper\LinnWorks.Task.Mapper.csproj", "{AF010482-0B3C-43D8-8735-606EC3A88AAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Mapper", "src\LinnWorks.Task.Mapper\LinnWorks.Task.Mapper.csproj", "{AF010482-0B3C-43D8-8735-606EC3A88AAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{C7582F62-785A-485E-B1CF-8F57AE310E13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{BFAB60CB-B92F-4FEE-93E3-8F52AC384C5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.WebApi.Tests", "test\Api\LinnWorks.Task.WebApi.Tests\LinnWorks.Task.WebApi.Tests.csproj", "{5F1A8FFA-C236-4A64-BAAD-F1F856F7E368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.WebApi.Tests", "test\Api\LinnWorks.Task.WebApi.Tests\LinnWorks.Task.WebApi.Tests.csproj", "{5F1A8FFA-C236-4A64-BAAD-F1F856F7E368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.Services.Tests", "test\Api\LinnWorks.Task.Services.Tests\LinnWorks.Task.Services.Tests.csproj", "{CEC1C34F-695D-4953-8D11-A258C0CB128B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Services.Tests", "test\Api\LinnWorks.Task.Services.Tests\LinnWorks.Task.Services.Tests.csproj", "{CEC1C34F-695D-4953-8D11-A258C0CB128B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.FrontEnd.Tests", "test\FrontEnd\LinnWorks.Task.FrontEnd.Tests\LinnWorks.Task.FrontEnd.Tests.csproj", "{F442B633-5279-4F66-84AF-24D9C1686C11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.FrontEnd.Tests", "test\FrontEnd\LinnWorks.Task.FrontEnd.Tests\LinnWorks.Task.FrontEnd.Tests.csproj", "{F442B633-5279-4F66-84AF-24D9C1686C11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

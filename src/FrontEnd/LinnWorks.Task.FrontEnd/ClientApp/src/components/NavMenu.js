@@ -16,12 +16,7 @@ export default props => (
       <Nav>
         <LinkContainer to={'/'} exact>
           <NavItem>
-            <Glyphicon glyph='home' /> Home
-          </NavItem>
-        </LinkContainer>
-        <LinkContainer to={'/counter'}>
-          <NavItem>
-            <Glyphicon glyph='education' /> Counter
+            <Glyphicon glyph='home' /> Import File
           </NavItem>
         </LinkContainer>
         <LinkContainer to={'/fetchdata'}>
