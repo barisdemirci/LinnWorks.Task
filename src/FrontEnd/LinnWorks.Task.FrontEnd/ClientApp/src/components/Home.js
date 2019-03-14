@@ -11,32 +11,29 @@ class ImportFile extends Component {
             <div>
                 <h1>Import File</h1>
                 Select image to upload:
-                <input type="file" name="fileToUpload" id="fileToUpload" />
-                <input type="submit" value="Upload Image" name="submit" onClick={this.handleClick} />
+                <form action="http://localhost:5002/api/v1/file/upload" method="post" encType="multipart/form-data">
+                    <input type="file" name="fileToUpload" id="fileToUpload" />
+                    <input type="submit" value="Upload Image" name="submit" />
+                </form>
             </div>
         );
     }
 
     handleClick = () => {
+
         let file = document.getElementById("fileToUpload").files[0];
 
         let formData = new FormData();
 
-        formData.append("photo", file);
-        fetch("http://linnworksqueuemicroservice-dev.eu-central-1.elasticbeanstalk.com/api/v1/file/upload", {
+        formData.append("excel", file);
+        fetch("http://localhost:5002/api/v1/file/upload", {
             method: "POST", body: formData, mode: "no-cors", headers: {
                 'Access-Control-Allow-Origin': '*'
             }
         })
             .then(res => res.json())
-            .then(
-                (result) => {
-                    alert(result);
-                },
-                (error) => {
-                    alert(error);
-                }
-            );
+            .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+            .catch(error => console.error(error));
     }
 }
 

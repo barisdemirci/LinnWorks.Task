@@ -14,7 +14,7 @@ namespace LinnWorks.Queue.MicroService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "value1", "value2", "5" };
         }
 
         // GET api/values/5
@@ -23,7 +23,7 @@ namespace LinnWorks.Queue.MicroService.Controllers
         {
             return "value";
         }
-
+        
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)

@@ -41,9 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Services.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.FrontEnd.Tests", "test\FrontEnd\LinnWorks.Task.FrontEnd.Tests\LinnWorks.Task.FrontEnd.Tests.csproj", "{F442B633-5279-4F66-84AF-24D9C1686C11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Queue.MicroService", "src\MicroServices\LinnWorks.Queue.MicroService\LinnWorks.Queue.MicroService.csproj", "{5773B202-2E3D-4762-81E8-8F57A24C2169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Queue.MicroService", "src\MicroServices\LinnWorks.Queue.MicroService\LinnWorks.Queue.MicroService.csproj", "{5773B202-2E3D-4762-81E8-8F57A24C2169}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Redis", "src\LinnWorks.Redis\LinnWorks.Redis.csproj", "{7993994F-EDF1-4289-BAEE-898D3DD8630C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Redis", "src\LinnWorks.Redis\LinnWorks.Redis.csproj", "{7993994F-EDF1-4289-BAEE-898D3DD8630C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using LinnWorks.Queue.MicroService.Extensions;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace LinnWorks.Queue.MicroService
 {
@@ -25,7 +28,7 @@ namespace LinnWorks.Queue.MicroService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddServices();
         }
 
@@ -38,6 +41,8 @@ namespace LinnWorks.Queue.MicroService
             }
 
             app.UseMvc();
+
+            app.UseCors("CorsPolicy");
         }
     }
 }

@@ -8,6 +8,8 @@ namespace LinnWorks.Queue.MicroService.Services
 {
     public interface IFileService
     {
-        Task UploadFile(IFormFileCollection files);
+        Task AddQueue(IFormFile file);
+
+        Task UploadFileToS3(IFormFile file);
     }
 }
