@@ -4,6 +4,8 @@ namespace LinnWorks.Task.Core.Network
 {
     public interface IHttpClientWrapper
     {
+        string BaseUrl { get; set; }
+
         Task<TDto> PostAsync<TDto>(string endpoint, TDto dto);
 
         Task<TResponseDto> PostAsync<TRequestDto, TResponseDto>(string endpoint, TRequestDto dto);

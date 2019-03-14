@@ -2,7 +2,7 @@
 
 namespace LinnWorks.Task.Entities
 {
-    public class Class1
+    public abstract class BaseEntity
     {
     }
 }

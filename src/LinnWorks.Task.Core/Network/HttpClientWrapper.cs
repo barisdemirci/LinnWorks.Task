@@ -14,6 +14,8 @@ namespace LinnWorks.Task.Core.Network
         private const string ApplicationJson = "application/json";
         private readonly IConfiguration configuration;
 
+        public string BaseUrl { get; set; }
+
         public HttpClientWrapper(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -31,7 +33,7 @@ namespace LinnWorks.Task.Core.Network
 
         public async Task<TDto> GetAsync<TDto>(string endpoint)
         {
-            endpoint = string.Concat(this.configuration[Constants.ApiBaseUrl], endpoint);
+            endpoint = string.Concat(BaseUrl, endpoint);
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(endpoint);
             // Add an Accept header for JSON format.
@@ -51,7 +53,7 @@ namespace LinnWorks.Task.Core.Network
 
         public async Task<TResponseDto> PostAsync<TRequestDto, TResponseDto>(string endpoint, TRequestDto dto)
         {
-            endpoint = string.Concat(this.configuration[Constants.ApiBaseUrl], endpoint);
+            endpoint = string.Concat(BaseUrl, endpoint);
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(endpoint);
 

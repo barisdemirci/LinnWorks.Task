@@ -5,14 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LinnWorks.Task.FrontEnd.Extensions;
 
 namespace LinnWorks.Task.FrontEnd
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("endpoints.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"endpoints.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +36,9 @@ namespace LinnWorks.Task.FrontEnd
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            services.AddServices();
+            services.AddHttpClientWrapper(Configuration);
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

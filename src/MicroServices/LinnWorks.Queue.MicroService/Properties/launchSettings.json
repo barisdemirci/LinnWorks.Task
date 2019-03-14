@@ -2,8 +2,12 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/LinnWorks.Queue.MicroService",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:5001",
+      "applicationUrl": "http://localhost:5002",
       "sslPort": 0
     }
   },
@@ -14,17 +18,18 @@
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
+        "RedisConnectionString": "redis.p5oyuf.0001.euc1.cache.amazonaws.com:6379",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "LinnWorks.Task.WebApi": {
+    "LinnWorks.Queue.MicroService": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

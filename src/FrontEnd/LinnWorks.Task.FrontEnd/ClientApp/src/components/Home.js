@@ -23,19 +23,18 @@ class ImportFile extends Component {
         let formData = new FormData();
 
         formData.append("photo", file);
-        fetch("http://localhost:5000/api/importfile/upload", { method: "POST", body: formData })
+        fetch("http://linnworksqueuemicroservice-dev.eu-central-1.elasticbeanstalk.com/api/v1/file/upload", {
+            method: "POST", body: formData, mode: "no-cors", headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        userSectors: result,
-                        isLoaded: true
-                    });
+                    alert(result);
                 },
                 (error) => {
-                    this.setState({
-                        isLoaded: true
-                    });
+                    alert(error);
                 }
             );
     }

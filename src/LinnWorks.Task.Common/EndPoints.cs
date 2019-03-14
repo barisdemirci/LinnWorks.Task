@@ -4,6 +4,14 @@ namespace LinnWorks.Task.Common
 {
     public static class EndPoints
     {
+        public static class Api
+        {
+            
+        }
 
+        public static class Queue
+        {
+            public const string UploadFile = "queue:uploadfile";
+        }
     }
 }
