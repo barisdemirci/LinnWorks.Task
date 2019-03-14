@@ -45,6 +45,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Queue.MicroServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Redis", "src\LinnWorks.Redis\LinnWorks.Redis.csproj", "{7993994F-EDF1-4289-BAEE-898D3DD8630C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroService", "src\MicroServices\LinnWorks.Processor.MicroService\LinnWorks.Processor.MicroService.csproj", "{7007045A-DE56-4ACD-9B36-9CE072C9743C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroService.Tests", "src\MicroServices\LinnWorks.Processor.MicroService.Tests\LinnWorks.Processor.MicroService.Tests.csproj", "{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{DD0BB530-3998-465B-8AAA-29E6DD585919}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.ExcelReader", "src\LinnWorks.Task.ExcelReader\LinnWorks.Task.ExcelReader.csproj", "{BDAA5E44-125D-454E-8229-16C5C33F5CB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +115,18 @@ Global
 		{7993994F-EDF1-4289-BAEE-898D3DD8630C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7993994F-EDF1-4289-BAEE-898D3DD8630C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7993994F-EDF1-4289-BAEE-898D3DD8630C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7007045A-DE56-4ACD-9B36-9CE072C9743C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7007045A-DE56-4ACD-9B36-9CE072C9743C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7007045A-DE56-4ACD-9B36-9CE072C9743C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7007045A-DE56-4ACD-9B36-9CE072C9743C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +151,10 @@ Global
 		{F442B633-5279-4F66-84AF-24D9C1686C11} = {C7582F62-785A-485E-B1CF-8F57AE310E13}
 		{5773B202-2E3D-4762-81E8-8F57A24C2169} = {6EF892A6-3DDA-4FCB-9EE8-0D047ED4E6B2}
 		{7993994F-EDF1-4289-BAEE-898D3DD8630C} = {5BDF4B70-8D5F-4BD4-8B10-7D513D1B14D4}
+		{7007045A-DE56-4ACD-9B36-9CE072C9743C} = {6EF892A6-3DDA-4FCB-9EE8-0D047ED4E6B2}
+		{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184} = {DD0BB530-3998-465B-8AAA-29E6DD585919}
+		{DD0BB530-3998-465B-8AAA-29E6DD585919} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
+		{BDAA5E44-125D-454E-8229-16C5C33F5CB2} = {5BDF4B70-8D5F-4BD4-8B10-7D513D1B14D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {898533A2-89E0-4153-A05A-C307CE317DF6}
