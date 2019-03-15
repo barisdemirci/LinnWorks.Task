@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.FrontEnd.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Queue.MicroService", "src\MicroServices\LinnWorks.Queue.MicroService\LinnWorks.Queue.MicroService.csproj", "{5773B202-2E3D-4762-81E8-8F57A24C2169}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Redis", "src\LinnWorks.Redis\LinnWorks.Redis.csproj", "{7993994F-EDF1-4289-BAEE-898D3DD8630C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.AWS", "src\LinnWorks.Redis\LinnWorks.AWS.csproj", "{7993994F-EDF1-4289-BAEE-898D3DD8630C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroService", "src\MicroServices\LinnWorks.Processor.MicroService\LinnWorks.Processor.MicroService.csproj", "{7007045A-DE56-4ACD-9B36-9CE072C9743C}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{DD0BB530-3998-465B-8AAA-29E6DD585919}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.ExcelReader", "src\LinnWorks.Task.ExcelReader\LinnWorks.Task.ExcelReader.csproj", "{BDAA5E44-125D-454E-8229-16C5C33F5CB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.ExcelReader.Tests", "test\LinnWorks.Task.ExcelReader.Tests\LinnWorks.Task.ExcelReader.Tests.csproj", "{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDAA5E44-125D-454E-8229-16C5C33F5CB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +161,7 @@ Global
 		{6F3FCC73-2E3A-4D8D-B03D-C3B5708DB184} = {DD0BB530-3998-465B-8AAA-29E6DD585919}
 		{DD0BB530-3998-465B-8AAA-29E6DD585919} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
 		{BDAA5E44-125D-454E-8229-16C5C33F5CB2} = {5BDF4B70-8D5F-4BD4-8B10-7D513D1B14D4}
+		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {898533A2-89E0-4153-A05A-C307CE317DF6}

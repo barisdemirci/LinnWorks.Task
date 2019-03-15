@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 using StackExchange.Redis;
 
-namespace LinnWorks.Redis
+namespace LinnWorks.AWS.Redis
 {
-    public class RedisDataAgent
+    public class RedisDataAgent : IRedisDataAgent
     {
         private static IDatabase _database;
         public RedisDataAgent()
@@ -15,19 +13,19 @@ namespace LinnWorks.Redis
             _database = connection.GetDatabase();
         }
 
-        public string GetFile(string key)
+        public async Task<string> GetValueAsync(string key)
         {
-            return _database.StringGet(key);
+            return await _database.StringGetAsync(key);
         }
 
-        public void AddFile(string key, string value)
+        public async Task AddValueAsync(string key, string value)
         {
-            _database.StringSet(key, value);
+            await _database.StringSetAsync(key, value);
         }
 
-        public void DeleteFileValue(string key)
+        public async Task DeleteValueAsync(string key)
         {
-            _database.KeyDelete(key);
+            await _database.KeyDeleteAsync(key);
         }
     }
 }

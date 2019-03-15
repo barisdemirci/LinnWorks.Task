@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using StackExchange.Redis;
+using Microsoft.Extensions.Configuration;
 
-namespace LinnWorks.Redis
+namespace LinnWorks.AWS.Redis
 {
     public class RedisConnectionFactory
     {

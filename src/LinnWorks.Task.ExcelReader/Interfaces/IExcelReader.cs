@@ -1,10 +1,10 @@
-﻿using System.IO;
-using LinnWorks.Task.Dtos.Excel;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace LinnWorks.Task.ExcelReader.Interfaces
 {
     public interface IExcelReader
     {
-        IWorkbook ReadExcel(string fileName, Stream fileStream);
+        List<T> ReadDocument<T>(string path) where T : class;
     }
 }

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LinnWorks.Redis\LinnWorks.Redis.csproj" />
+    <ProjectReference Include="..\..\LinnWorks.Redis\LinnWorks.AWS.csproj" />
   </ItemGroup>
 
 </Project>

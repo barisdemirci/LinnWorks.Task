@@ -21,7 +21,7 @@ namespace LinnWorks.Processor.MicroService.Tests
     public class FunctionTest
     {
         [Fact]
-        public async Task TestS3EventLambdaFunction()
+        public async System.Threading.Tasks.Task TestS3EventLambdaFunction()
         {
             IAmazonS3 s3Client = new AmazonS3Client(RegionEndpoint.USWest2);
 

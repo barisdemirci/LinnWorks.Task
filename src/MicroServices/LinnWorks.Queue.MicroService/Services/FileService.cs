@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
-using LinnWorks.Redis;
-using LinnWorks.Redis.S3;
+using LinnWorks.AWS.Redis;
+using LinnWorks.AWS.S3;
 using Microsoft.AspNetCore.Http;
-using StackExchange.Redis;
 
 namespace LinnWorks.Queue.MicroService.Services
 {
     public class FileService : IFileService
     {
-        public Task AddQueue(IFormFile file)
+        public async Task AddQueue(IFormFile file)
         {
             RedisDataAgent agent = new RedisDataAgent();
-            agent.AddFile(file.FileName, "test");
-            return Task.FromResult(0);
+            await agent.AddValueAsync(file.Name, file.FileName);
         }
 
-        public Task UploadFileToS3(IFormFile file)
+        public async Task UploadFileToS3(IFormFile file)
         {
-            AmazonUploader uploader = new AmazonUploader();
+            S3 uploader = new S3();
 
             Stream fileStream = file.OpenReadStream();
 
-            uploader.SendMyFileToS3(fileStream, file.FileName);
-
-
-            return Task.FromResult(0);
+            await uploader.UploadFileToS3Async(fileStream, file.FileName);
         }
     }
 }
