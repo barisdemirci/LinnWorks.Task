@@ -15,7 +15,7 @@ namespace LinnWorks.Task.Entities
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=localhost;Database=LinnWorks;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=linnworks.c4tbstnbpx2e.eu-central-1.rds.amazonaws.com;Database=LinnWorks;User Id=sa; Password=Bd1601211");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,5 +24,15 @@ namespace LinnWorks.Task.Entities
         }
 
         public DbSet<Sale> Sales { get; set; }
+
+        public DbSet<Region> Regions { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<ItemType> ItemTypes { get; set; }
+
+        public DbSet<OrderPriority> OrderPriorities { get; set; }
+
+        public DbSet<SalesChannel> SalesChannels { get; set; }
     }
 }

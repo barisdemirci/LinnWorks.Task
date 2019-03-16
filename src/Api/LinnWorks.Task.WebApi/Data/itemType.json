@@ -1,0 +1,38 @@
+[
+  {
+    "ItemTypeName": "Baby Food"
+  },
+  {
+    "ItemTypeName": "Beverages"
+  },
+  {
+    "ItemTypeName": "Cereal"
+  },
+  {
+    "ItemTypeName": "Clothes"
+  },
+  {
+    "ItemTypeName": "Cosmetics"
+  },
+  {
+    "ItemTypeName": "Fruits"
+  },
+  {
+    "ItemTypeName": "Household"
+  },
+  {
+    "ItemTypeName": "Meat"
+  },
+  {
+    "ItemTypeName": "Office Supplies"
+  },
+  {
+    "ItemTypeName": "Personal Care"
+  },
+  {
+    "ItemTypeName": "Snacks"
+  },
+  {
+    "ItemTypeName": "Vegetables"
+  }
+]

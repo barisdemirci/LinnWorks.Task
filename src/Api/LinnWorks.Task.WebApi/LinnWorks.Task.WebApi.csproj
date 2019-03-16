@@ -14,9 +14,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\tool\LinnWorks.Task.TestDataGenerator\LinnWorks.Task.TestDataGenerator.csproj" />
     <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
     <ProjectReference Include="..\..\LinnWorks.Task.Mapper\LinnWorks.Task.Mapper.csproj" />
     <ProjectReference Include="..\LinnWorks.Task.Services\LinnWorks.Task.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Data\country.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Data\itemType.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Data\orderPriority.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Data\region.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Data\salesChannel.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

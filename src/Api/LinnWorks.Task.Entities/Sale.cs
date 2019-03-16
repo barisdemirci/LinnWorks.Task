@@ -1,20 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace LinnWorks.Task.Entities
 {
     public class Sale : BaseEntity
     {
-        public string Region { get; set; }
+        [Key]
+        public int SaleID { get; set; }
 
-        public string Country { get; set; }
+        [ForeignKey("RegionId")]
+        public Region Region { get; set; }
 
-        public string ItemTypes { get; set; }
+        [ForeignKey("CountryId")]
+        public Country Country { get; set; }
 
-        public string SalesChannel { get; set; }
+        [ForeignKey("ItemTypeId")]
+        public ItemType ItemType { get; set; }
 
-        public string OrderPriority { get; set; }
+        [ForeignKey("SalesChannelId")]
+        public SalesChannel SalesChannel { get; set; }
+
+        [ForeignKey("OrderPriorityId")]
+        public OrderPriority OrderPriority { get; set; }
 
         public DateTime OrderDate { get; set; }
 

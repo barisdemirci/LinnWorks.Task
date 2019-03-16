@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinnWorks.Task.Dtos;
+using LinnWorks.Task.Entities;
 using LinnWorks.Task.Mapper;
 using LinnWorks.Task.WebApi.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +30,7 @@ namespace LinnWorks.Task.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddServices();
             services.AddSingleton(AutoMapperFactory.CreateAndConfigure());
+            services.AddScoped<DbContext>(sp => sp.GetService<ApplicationDbContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +39,12 @@ namespace LinnWorks.Task.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var context = new ApplicationDbContext())
+                {
+                    context.Database.EnsureCreated();
+                    InsertTestData(context);
+                    context.SaveChanges();
+                }
             }
             else
             {
@@ -43,6 +53,75 @@ namespace LinnWorks.Task.WebApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        private void InsertTestData(ApplicationDbContext context)
+        {
+            if (!context.Countries.Any())
+            {
+                List<CountryDto> countries = TestDataGenerator.TestDataGenerator.GenerateCountries();
+                foreach (var country in countries)
+                {
+                    Country newCountry = new Country()
+                    {
+                        CountryCode = country.CountryCode,
+                        CountryName = country.CountryName
+                    };
+                    context.Countries.Add(newCountry);
+                }
+            }
+
+            if (!context.Regions.Any())
+            {
+                List<RegionDto> regions = TestDataGenerator.TestDataGenerator.GenerateRegions();
+                foreach (var item in regions)
+                {
+                    Region newItem = new Region()
+                    {
+                        RegionName = item.RegionName
+                    };
+                    context.Regions.Add(newItem);
+                }
+            }
+
+            if (!context.OrderPriorities.Any())
+            {
+                List<OrderPriorityDto> orderPriorities = TestDataGenerator.TestDataGenerator.GenerateOrderPriorities();
+                foreach (var item in orderPriorities)
+                {
+                    OrderPriority newItem = new OrderPriority()
+                    {
+                        OrderPriorityName = item.OrderPriorityName
+                    };
+                    context.OrderPriorities.Add(newItem);
+                }
+            }
+
+            if (!context.SalesChannels.Any())
+            {
+                List<SalesChannelDto> salesChannels = TestDataGenerator.TestDataGenerator.GenerateSalesChannels();
+                foreach (var item in salesChannels)
+                {
+                    SalesChannel newItem = new SalesChannel()
+                    {
+                        SalesChannelName = item.SalesChannelName
+                    };
+                    context.SalesChannels.Add(newItem);
+                }
+            }
+
+            if (!context.ItemTypes.Any())
+            {
+                List<ItemTypeDto> itemTypes = TestDataGenerator.TestDataGenerator.GenerateItemTypes();
+                foreach (var item in itemTypes)
+                {
+                    ItemType newItem = new ItemType()
+                    {
+                        ItemTypeName = item.ItemTypeName
+                    };
+                    context.ItemTypes.Add(newItem);
+                }
+            }
         }
     }
 }

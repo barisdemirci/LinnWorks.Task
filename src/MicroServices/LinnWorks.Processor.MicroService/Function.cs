@@ -62,15 +62,19 @@ namespace LinnWorks.Processor.MicroService
 
             try
             {
-                RedisDataAgent agent = new RedisDataAgent();
-                string key = await agent.GetValueAsync(s3Event.Object.Key);
+                string key = s3Event.Object.Key;
                 context.Logger.LogLine($"{key} redis value");
                 S3 s3 = new S3(S3Client);
                 StreamReader reader = await s3.ReadObjectDataAsync(key);
+                if (reader == null)
+                {
+                    throw new Exception("File doesnt exist.");
+                }
                 CSVReader csvReader = new CSVReader();
                 List<SaleDto> result = csvReader.ReadDocument<SaleDto>(reader);
                 context.Logger.LogLine($"{key} file is processed.");
-                return "Ok";
+                await s3.DeleteFileASync(s3Event.Object.Key);
+                return "Function is completed successfully!";
             }
             catch (Exception e)
             {

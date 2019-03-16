@@ -15,6 +15,7 @@ namespace LinnWorks.AWS.S3
         private readonly string accessKeyID = "AKIAIDGGLITUHE6HKPNA";
         private readonly string secretKey = "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";
         private readonly IAmazonS3 client;
+        private const string bucketName = "linnworkssales";
 
         public S3()
         {
@@ -46,7 +47,7 @@ namespace LinnWorks.AWS.S3
             {
                 GetObjectRequest request = new GetObjectRequest
                 {
-                    BucketName = "linnworkssales",
+                    BucketName = bucketName,
                     Key = fileName
                 };
 
@@ -65,6 +66,17 @@ namespace LinnWorks.AWS.S3
                 Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
                 return null;
             }
+        }
+
+        public async Task DeleteFileASync(string fileName)
+        {
+            DeleteObjectRequest request = new DeleteObjectRequest()
+            {
+                BucketName = bucketName,
+                Key = fileName
+            };
+
+            await client.DeleteObjectAsync(request);
         }
     }
 }
