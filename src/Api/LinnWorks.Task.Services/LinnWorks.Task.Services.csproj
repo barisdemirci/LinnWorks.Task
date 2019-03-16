@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
     <ProjectReference Include="..\LinnWorks.Task.Repositories\LinnWorks.Task.Repositories.csproj" />
   </ItemGroup>
 

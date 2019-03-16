@@ -9,11 +9,10 @@ namespace LinnWorks.Task.ExcelReader.Services
 {
     public class CSVReader : IExcelReader
     {
-        public List<T> ReadDocument<T>(string path) where T : class
+        public List<T> ReadDocument<T>(StreamReader reader) where T : class
         {
-            if (path == null) throw new ArgumentNullException(nameof(path));
             List<T> result = new List<T>();
-            using (var reader = new StreamReader(path))
+            using (reader)
             {
                 bool firstLine = true;
                 while (!reader.EndOfStream)

@@ -14,12 +14,21 @@ namespace LinnWorks.AWS.S3
     {
         private readonly string accessKeyID = "AKIAIDGGLITUHE6HKPNA";
         private readonly string secretKey = "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";
+        private readonly IAmazonS3 client;
+
+        public S3()
+        {
+            this.client = new AmazonS3Client(accessKeyID, secretKey, RegionEndpoint.EUCentral1);
+        }
+
+        public S3(IAmazonS3 client)
+        {
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+        }
 
         public async Task UploadFileToS3Async(Stream fileStream, string fileNameInS3)
         {
             string bucketName = "linnworkssales";
-            IAmazonS3 client = new AmazonS3Client(accessKeyID, secretKey, RegionEndpoint.EUCentral1);
-
             // create a TransferUtility instance passing it the IAmazonS3 created in the first step
             TransferUtility utility = new TransferUtility(client);
             // making a TransferUtilityUploadRequest instance
@@ -30,9 +39,9 @@ namespace LinnWorks.AWS.S3
             await utility.UploadAsync(request); //commensing the transfer
         }
 
-        public async Task ReadObjectDataAsync(string fileName)
+        public async Task<StreamReader> ReadObjectDataAsync(string fileName)
         {
-            string responseBody = "";
+            StreamReader reader = null;
             try
             {
                 GetObjectRequest request = new GetObjectRequest
@@ -40,26 +49,21 @@ namespace LinnWorks.AWS.S3
                     BucketName = "linnworkssales",
                     Key = fileName
                 };
-                IAmazonS3 client = new AmazonS3Client(RegionEndpoint.EUCentral1);
-                using (GetObjectResponse response = await client.GetObjectAsync(request))
-                using (Stream responseStream = response.ResponseStream)
-                using (StreamReader reader = new StreamReader(responseStream))
-                {
-                    string title = response.Metadata["x-amz-meta-title"]; // Assume you have "title" as medata added to the object.
-                    string contentType = response.Headers["Content-Type"];
-                    Console.WriteLine("Object metadata, Title: {0}", title);
-                    Console.WriteLine("Content type: {0}", contentType);
 
-                    responseBody = reader.ReadToEnd(); // Now you process the response body.
-                }
+                GetObjectResponse response = await client.GetObjectAsync(request);
+                Stream responseStream = response.ResponseStream;
+                reader = new StreamReader(responseStream);
+                return reader;
             }
             catch (AmazonS3Exception e)
             {
                 Console.WriteLine("Error encountered ***. Message:'{0}' when writing an object", e.Message);
+                return null;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+                return null;
             }
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using FluentAssertions;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.ExcelReader.Interfaces;
@@ -21,9 +22,10 @@ namespace LinnWorks.Task.ExcelReader.Tests
         {
             // arrange
             string path = "100000 Sales Records.csv";
+            var reader = new StreamReader(path);
 
             // act
-            var result = excelReader.ReadDocument<SaleDto>(path);
+            var result = excelReader.ReadDocument<SaleDto>(reader);
 
             // assert
             result.Count.Should().Be(100000);

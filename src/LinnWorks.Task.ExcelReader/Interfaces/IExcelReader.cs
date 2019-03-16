@@ -5,6 +5,6 @@ namespace LinnWorks.Task.ExcelReader.Interfaces
 {
     public interface IExcelReader
     {
-        List<T> ReadDocument<T>(string path) where T : class;
+        List<T> ReadDocument<T>(StreamReader reader) where T : class;
     }
 }

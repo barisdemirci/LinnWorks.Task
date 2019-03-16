@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
+    <ProjectReference Include="..\..\LinnWorks.Task.Mapper\LinnWorks.Task.Mapper.csproj" />
     <ProjectReference Include="..\LinnWorks.Task.Services\LinnWorks.Task.Services.csproj" />
   </ItemGroup>
 

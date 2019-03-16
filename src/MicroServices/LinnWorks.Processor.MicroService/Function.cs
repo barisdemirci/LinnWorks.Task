@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Amazon;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Util;
+using LinnWorks.AWS.Redis;
+using LinnWorks.AWS.S3;
+using LinnWorks.Task.Dtos.Sales;
+using LinnWorks.Task.ExcelReader.Services;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -15,6 +21,9 @@ namespace LinnWorks.Processor.MicroService
 {
     public class Function
     {
+        private readonly string accessKeyID = "AKIAIDGGLITUHE6HKPNA";
+        private readonly string secretKey = "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";
+
         IAmazonS3 S3Client { get; set; }
 
         /// <summary>
@@ -24,7 +33,7 @@ namespace LinnWorks.Processor.MicroService
         /// </summary>
         public Function()
         {
-            S3Client = new AmazonS3Client();
+            S3Client = new AmazonS3Client(accessKeyID, secretKey, RegionEndpoint.EUCentral1);
         }
 
         /// <summary>
@@ -53,8 +62,15 @@ namespace LinnWorks.Processor.MicroService
 
             try
             {
-                var response = await this.S3Client.GetObjectMetadataAsync(s3Event.Bucket.Name, s3Event.Object.Key);
-                return response.Headers.ContentType;
+                RedisDataAgent agent = new RedisDataAgent();
+                string key = await agent.GetValueAsync(s3Event.Object.Key);
+                context.Logger.LogLine($"{key} redis value");
+                S3 s3 = new S3(S3Client);
+                StreamReader reader = await s3.ReadObjectDataAsync(key);
+                CSVReader csvReader = new CSVReader();
+                List<SaleDto> result = csvReader.ReadDocument<SaleDto>(reader);
+                context.Logger.LogLine($"{key} file is processed.");
+                return "Ok";
             }
             catch (Exception e)
             {

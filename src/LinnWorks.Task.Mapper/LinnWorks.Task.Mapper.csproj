@@ -8,4 +8,9 @@
     <PackageReference Include="AutoMapper" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Api\LinnWorks.Task.Entities\LinnWorks.Task.Entities.csproj" />
+    <ProjectReference Include="..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
+  </ItemGroup>
+
 </Project>

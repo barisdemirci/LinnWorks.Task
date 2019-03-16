@@ -10,6 +10,6 @@ namespace LinnWorks.AWS.S3
     {
         Task UploadFileToS3Async(Stream fileStream, string fileNameInS3);
 
-        Task ReadObjectDataAsync(string fileName);
+        Task<StreamReader> ReadObjectDataAsync(string fileName);
     }
 }

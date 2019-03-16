@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.WebApi", "src\Api\LinnWorks.Task.WebApi\LinnWorks.Task.WebApi.csproj", "{B1B69ABF-1544-4355-908F-39F566BE64E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.FrontEnd", "src\FrontEnd\LinnWorks.Task.FrontEnd\LinnWorks.Task.FrontEnd.csproj", "{0BC7D85C-3952-4D39-9D91-F6F3D676432F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Web", "src\FrontEnd\LinnWorks.Task.FrontEnd\LinnWorks.Task.Web.csproj", "{0BC7D85C-3952-4D39-9D91-F6F3D676432F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.Services", "src\Api\LinnWorks.Task.Services\LinnWorks.Task.Services.csproj", "{63E73414-6304-493C-980D-9384DF93B02B}"
 EndProject
@@ -54,6 +54,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.ExcelReader", "src\LinnWorks.Task.ExcelReader\LinnWorks.Task.ExcelReader.csproj", "{BDAA5E44-125D-454E-8229-16C5C33F5CB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.ExcelReader.Tests", "test\LinnWorks.Task.ExcelReader.Tests\LinnWorks.Task.ExcelReader.Tests.csproj", "{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{C83D2731-2065-4C27-9E7A-947590D1F60B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{AA2D0DB5-DDEF-49F5-A600-34F37574A57F}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Scripts\Run.Web.cmd = SolutionItems\Scripts\Run.Web.cmd
+		SolutionItems\Scripts\Run.WebAPI.cmd = SolutionItems\Scripts\Run.WebAPI.cmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -162,6 +170,7 @@ Global
 		{DD0BB530-3998-465B-8AAA-29E6DD585919} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
 		{BDAA5E44-125D-454E-8229-16C5C33F5CB2} = {5BDF4B70-8D5F-4BD4-8B10-7D513D1B14D4}
 		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
+		{AA2D0DB5-DDEF-49F5-A600-34F37574A57F} = {C83D2731-2065-4C27-9E7A-947590D1F60B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {898533A2-89E0-4153-A05A-C307CE317DF6}
