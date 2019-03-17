@@ -11,7 +11,7 @@ namespace LinnWorks.Task.Mapper.Profiles
     {
         public SaleProfile()
         {
-            CreateMap<Sale, SaleDto>();
+            CreateMap<Sale, SaleDto>().ReverseMap();
         }
     }
 }

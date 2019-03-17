@@ -11,6 +11,7 @@
     <PackageReference Include="AWSSDK.S3" Version="3.3.31.24" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Api\LinnWorks.Task.Repositories\LinnWorks.Task.Repositories.csproj" />
     <ProjectReference Include="..\..\LinnWorks.Redis\LinnWorks.AWS.csproj" />
     <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
     <ProjectReference Include="..\..\LinnWorks.Task.ExcelReader\LinnWorks.Task.ExcelReader.csproj" />

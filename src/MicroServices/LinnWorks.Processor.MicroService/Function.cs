@@ -12,6 +12,7 @@ using Amazon.S3.Util;
 using LinnWorks.AWS.Redis;
 using LinnWorks.AWS.S3;
 using LinnWorks.Task.Dtos.Sales;
+using LinnWorks.Task.Entities;
 using LinnWorks.Task.ExcelReader.Services;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -23,6 +24,7 @@ namespace LinnWorks.Processor.MicroService
     {
         private readonly string accessKeyID = "AKIAIDGGLITUHE6HKPNA";
         private readonly string secretKey = "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";
+        private readonly ApplicationDbContext dbContext;
 
         IAmazonS3 S3Client { get; set; }
 
@@ -34,6 +36,7 @@ namespace LinnWorks.Processor.MicroService
         public Function()
         {
             S3Client = new AmazonS3Client(accessKeyID, secretKey, RegionEndpoint.EUCentral1);
+            dbContext = new ApplicationDbContext();
         }
 
         /// <summary>
@@ -62,7 +65,8 @@ namespace LinnWorks.Processor.MicroService
 
             try
             {
-                string key = s3Event.Object.Key;
+                RedisDataAgent agent = new RedisDataAgent();
+                string key = await agent.GetValueAsync(s3Event.Object.Key);
                 context.Logger.LogLine($"{key} redis value");
                 S3 s3 = new S3(S3Client);
                 StreamReader reader = await s3.ReadObjectDataAsync(key);
@@ -71,8 +75,15 @@ namespace LinnWorks.Processor.MicroService
                     throw new Exception("File doesnt exist.");
                 }
                 CSVReader csvReader = new CSVReader();
-                List<SaleDto> result = csvReader.ReadDocument<SaleDto>(reader);
+                List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
+                foreach (var item in sales)
+                {
+                    Sale newSale = BuildObject(item);
+                    await dbContext.Sales.AddAsync(newSale);
+                }
+                await dbContext.SaveChangesAsync();
                 context.Logger.LogLine($"{key} file is processed.");
+                await agent.DeleteValueAsync(s3Event.Object.Key);
                 await s3.DeleteFileASync(s3Event.Object.Key);
                 return "Function is completed successfully!";
             }
@@ -83,6 +94,27 @@ namespace LinnWorks.Processor.MicroService
                 context.Logger.LogLine(e.StackTrace);
                 throw;
             }
+        }
+
+        private Sale BuildObject(SaleDto dto)
+        {
+            return new Sale()
+            {
+                Country = dbContext.Countries.FirstOrDefault(x => x.CountryName == dto.Country),
+                ItemType = dbContext.ItemTypes.FirstOrDefault(x => x.ItemTypeName == dto.ItemTypes),
+                OrderDate = dto.OrderDate,
+                OrderPriority = dbContext.OrderPriorities.FirstOrDefault(x => x.OrderPriorityName == dto.OrderPriority),
+                Region = dbContext.Regions.FirstOrDefault(x => x.RegionName == dto.Region),
+                OrderID = dto.OrderID,
+                SalesChannel = dbContext.SalesChannels.FirstOrDefault(x => x.SalesChannelName == dto.SalesChannel),
+                ShipDate = dto.ShipDate,
+                TotalCost = dto.TotalCost,
+                TotalProfit = dto.TotalProfit,
+                TotalRevenue = dto.TotalRevenue,
+                UnitCost = dto.UnitCost,
+                UnitPrice = dto.UnitPrice,
+                UnitSold = dto.UnitSold
+            };
         }
     }
 }

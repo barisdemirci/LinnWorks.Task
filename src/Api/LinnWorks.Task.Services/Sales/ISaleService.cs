@@ -8,5 +8,7 @@ namespace LinnWorks.Task.Services.Sales
     public interface ISaleService
     {
         Task<IEnumerable<SaleDto>> GetSalesAsync();
+
+        System.Threading.Tasks.Task AddAllAsync(IEnumerable<SaleDto> salesDto);
     }
 }

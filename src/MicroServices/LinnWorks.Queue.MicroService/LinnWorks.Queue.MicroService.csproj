@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\LinnWorks.Redis\LinnWorks.AWS.csproj" />
+    <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

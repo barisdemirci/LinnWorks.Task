@@ -12,8 +12,8 @@ namespace LinnWorks.AWS.S3
 {
     public class S3 : IS3
     {
-        private readonly string accessKeyID = "AKIAIDGGLITUHE6HKPNA";
-        private readonly string secretKey = "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";
+        private readonly string accessKeyID = "AKIAJS3DZXNAL5QI6RRQ";
+        private readonly string secretKey = "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";
         private readonly IAmazonS3 client;
         private const string bucketName = "linnworkssales";
 

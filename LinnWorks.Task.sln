@@ -65,7 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{AA2D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tool", "tool", "{9496B383-CBAC-45A3-B9E3-C8506359B337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.TestDataGenerator", "tool\LinnWorks.Task.TestDataGenerator\LinnWorks.Task.TestDataGenerator.csproj", "{5262268E-80BF-4D2D-ACC6-BA7F98B67227}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.TestDataGenerator", "tool\LinnWorks.Task.TestDataGenerator\LinnWorks.Task.TestDataGenerator.csproj", "{5262268E-80BF-4D2D-ACC6-BA7F98B67227}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

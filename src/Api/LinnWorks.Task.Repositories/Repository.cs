@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinnWorks.Task.Repositories
@@ -10,6 +13,18 @@ namespace LinnWorks.Task.Repositories
             : base(context)
         {
 
+        }
+
+        public async System.Threading.Tasks.Task AddAllAsync(IEnumerable<TEntity> rows)
+        {
+            if (rows == null) throw new ArgumentNullException(nameof(rows));
+            if (rows.Any())
+            {
+                foreach (var item in rows)
+                {
+                    await Context.Set<TEntity>().AddAsync(item);
+                }
+            }
         }
 
         public async System.Threading.Tasks.Task AddAsync(TEntity row)

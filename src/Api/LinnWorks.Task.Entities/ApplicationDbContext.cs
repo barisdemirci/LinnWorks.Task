@@ -9,7 +9,7 @@ namespace LinnWorks.Task.Entities
     {
         public ApplicationDbContext()
         {
-
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

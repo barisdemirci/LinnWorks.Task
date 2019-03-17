@@ -12,11 +12,13 @@
     "framework"     : "netcoreapp2.1",
     "function-runtime" : "dotnetcore2.1",
     "function-memory-size" : 256,
-    "function-timeout"     : 30,
+    "function-timeout"     : 300,
     "function-handler"     : "LinnWorks.Processor.MicroService::LinnWorks.Processor.MicroService.Function::FunctionHandler",
     "function-name"        : "ExcelProcessor",
     "function-description" : "",
     "function-role"        : "arn:aws:iam::171295880758:role/service-role/admin",
     "tracing-mode"         : "PassThrough",
-    "environment-variables" : ""
+    "environment-variables" : "",
+    "function-subnets"      : "subnet-3296b74f",
+    "function-security-groups" : "sg-9ef8e2f0"
 }
