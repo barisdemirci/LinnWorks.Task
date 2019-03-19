@@ -7,12 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using LinnWorks.Queue.MicroService.Extensions;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Http;
-using System.IO;
+using Microsoft.AspNetCore;
+using Amazon.S3;
 
 namespace LinnWorks.Queue.MicroService
 {
@@ -29,6 +26,7 @@ namespace LinnWorks.Queue.MicroService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddServices();
         }
 
@@ -40,9 +38,27 @@ namespace LinnWorks.Queue.MicroService
                 app.UseDeveloperExceptionPage();
             }
 
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            var options = builder.Build().GetAWSOptions();
+            IAmazonS3 client = options.CreateServiceClient<IAmazonS3>();
+
             app.UseMvc();
 
             app.UseCors("CorsPolicy");
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+               .ConfigureAppConfiguration(builder =>
+               {
+                   builder.AddSystemsManager("/myapplication");
+               })
+               .UseStartup<Startup>();
         }
     }
 }

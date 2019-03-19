@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.Entities;
-using LinnWorks.Task.Repositories.Sales;
 using LinnWorks.Task.Repositories.UnitOfWork;
 
 namespace LinnWorks.Task.Services.Sales
@@ -26,15 +25,22 @@ namespace LinnWorks.Task.Services.Sales
             await unitOfWork.Sales.AddAllAsync(sales);
         }
 
-        public async Task<IEnumerable<SaleDto>> GetSalesAsync()
+        public IEnumerable<SaleDto> GetFilteredSales()
         {
-            List<SaleDto> result = new List<SaleDto>();
-            result.Add(new SaleDto()
-            {
-                Country = "TR"
-            });
+            var sales = unitOfWork.Sales.GetFilteredSales();
+            return mapper.Map<IEnumerable<SaleDto>>(sales);
+        }
 
-            return await System.Threading.Tasks.Task.FromResult(result);
+        public FilterParametersDto GetFilterParameters()
+        {
+            var parameters = unitOfWork.Sales.GetFilterParameters();
+            return mapper.Map<FilterParametersDto>(parameters);
+        }
+
+        public void UpdateSales(IEnumerable<SaleDto> salesDto)
+        {
+            var sales = mapper.Map<IEnumerable<Sale>>(salesDto);
+            unitOfWork.Sales.UpdateRange(sales);
         }
     }
 }

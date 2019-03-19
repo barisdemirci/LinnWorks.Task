@@ -19,6 +19,6 @@
     "function-role"        : "arn:aws:iam::171295880758:role/service-role/admin",
     "tracing-mode"         : "PassThrough",
     "environment-variables" : "",
-    "function-subnets"      : "subnet-3296b74f",
+    "function-subnets"      : "subnet-0af8300f195b46bc9,subnet-3296b74f,subnet-0ecc8e8267077cea8",
     "function-security-groups" : "sg-9ef8e2f0"
 }

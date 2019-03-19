@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.Services.Sales;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,23 @@ namespace LinnWorks.Task.WebApi.Controllers
             this.saleService = saleService ?? throw new ArgumentNullException(nameof(saleService));
         }
 
-        // GET: /<controller>/
         [HttpGet]
-        public async Task<IEnumerable<SaleDto>> GetSalesAsync()
+        [Route("getfilterparameters")]
+        public FilterParametersDto GetFilterParameters()
         {
-            return await saleService.GetSalesAsync();
+            return saleService.GetFilterParameters();
+        }
+
+        [HttpGet]
+        public IEnumerable<SaleDto> GetSales()
+        {
+            return saleService.GetFilteredSales();
+        }
+
+        [HttpPut]
+        public void UpdateSales(IEnumerable<SaleDto> salesDto)
+        {
+            saleService.UpdateSales(salesDto);
         }
     }
 }

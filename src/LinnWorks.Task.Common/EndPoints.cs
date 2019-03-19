@@ -6,7 +6,8 @@ namespace LinnWorks.Task.Common
     {
         public static class Api
         {
-            
+            public const string GetSales = "api:getsales";
+            public const string GetFilterParameters = "api:getfilterparameters";
         }
 
         public static class Queue

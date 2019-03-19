@@ -1,8 +1,7 @@
 {
   "api": {
-    "getsectors": "rest/v1/sectors",
-    "saveselectedsectors": "rest/v1/sectors/saveselectedsectors",
-    "getusersectors": "rest/v1/usersectors"
+    "getsales": "api/sales",
+    "getfilterparameters": "api/sales/getfilterparameters"
   },
   "queue": {
     "uploadfile": "api/v1/file/upload"

@@ -12,5 +12,7 @@ namespace LinnWorks.Task.Repositories
         void Update(TEntity row);
 
         void Delete(TEntity row);
+
+        void UpdateRange(IEnumerable<TEntity> rows);
     }
 }

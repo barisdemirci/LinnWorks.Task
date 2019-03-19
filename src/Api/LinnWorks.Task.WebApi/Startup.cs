@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Amazon.SecretsManager;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Entities;
 using LinnWorks.Task.Mapper;
@@ -28,18 +28,28 @@ namespace LinnWorks.Task.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddServices();
             services.AddSingleton(AutoMapperFactory.CreateAndConfigure());
+            services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<DbContext>(sp => sp.GetService<ApplicationDbContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            var options = builder.Build().GetAWSOptions();
+            IAmazonSecretsManager client = options.CreateServiceClient<IAmazonSecretsManager>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var context = new ApplicationDbContext())
+                using (var context = new ApplicationDbContext(client))
                 {
                     context.Database.EnsureCreated();
                     InsertTestData(context);
@@ -53,6 +63,7 @@ namespace LinnWorks.Task.WebApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseCors("CorsPolicy");
         }
 
         private void InsertTestData(ApplicationDbContext context)

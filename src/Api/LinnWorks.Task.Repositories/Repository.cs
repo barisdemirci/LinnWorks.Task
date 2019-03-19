@@ -47,5 +47,12 @@ namespace LinnWorks.Task.Repositories
 
             Context.Set<TEntity>().Update(row);
         }
+
+        public void UpdateRange(IEnumerable<TEntity> rows)
+        {
+            if (rows == null) throw new ArgumentNullException(nameof(rows));
+
+            Context.Set<TEntity>().UpdateRange(rows);
+        }
     }
 }

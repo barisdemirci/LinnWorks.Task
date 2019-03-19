@@ -7,6 +7,8 @@ namespace LinnWorks.Task.Repositories.Sales
 {
     public interface ISaleRepository : IRepository<Sale>
     {
+        IEnumerable<Sale> GetFilteredSales();
 
+        FilterParameters GetFilterParameters();
     }
 }

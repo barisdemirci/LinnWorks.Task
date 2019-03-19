@@ -28,7 +28,7 @@ namespace LinnWorks.Task.ExcelReader.Services
                     SaleDto item = new SaleDto();
                     item.Region = values[0];
                     item.Country = values[1];
-                    item.ItemTypes = values[2];
+                    item.ItemType = values[2];
                     item.SalesChannel = values[3];
                     item.OrderPriority = values[4];
                     item.OrderDate = ParseDateTime(values[5]);

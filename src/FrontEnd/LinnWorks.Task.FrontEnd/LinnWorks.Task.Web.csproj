@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\LinnWorks.Task.Core\LinnWorks.Task.Core.csproj" />
+    <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

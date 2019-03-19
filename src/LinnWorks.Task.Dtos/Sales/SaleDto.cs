@@ -6,11 +6,13 @@ namespace LinnWorks.Task.Dtos.Sales
 {
     public class SaleDto
     {
+        public int SaleId { get; set; }
+
         public string Region { get; set; }
 
         public string Country { get; set; }
 
-        public string ItemTypes { get; set; }
+        public string ItemType { get; set; }
 
         public string SalesChannel { get; set; }
 

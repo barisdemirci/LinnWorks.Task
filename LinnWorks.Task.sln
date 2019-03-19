@@ -67,6 +67,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tool", "tool", "{9496B383-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.TestDataGenerator", "tool\LinnWorks.Task.TestDataGenerator\LinnWorks.Task.TestDataGenerator.csproj", "{5262268E-80BF-4D2D-ACC6-BA7F98B67227}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.AWS.SecretsManager", "src\LinnWorks.AWS.SecretManager\LinnWorks.AWS.SecretsManager.csproj", "{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{5262268E-80BF-4D2D-ACC6-BA7F98B67227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5262268E-80BF-4D2D-ACC6-BA7F98B67227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5262268E-80BF-4D2D-ACC6-BA7F98B67227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -180,6 +186,7 @@ Global
 		{E6AC07D6-9853-41AF-8EC9-2FE48BA8B8B8} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
 		{AA2D0DB5-DDEF-49F5-A600-34F37574A57F} = {C83D2731-2065-4C27-9E7A-947590D1F60B}
 		{5262268E-80BF-4D2D-ACC6-BA7F98B67227} = {9496B383-CBAC-45A3-B9E3-C8506359B337}
+		{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3} = {5BDF4B70-8D5F-4BD4-8B10-7D513D1B14D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {898533A2-89E0-4153-A05A-C307CE317DF6}

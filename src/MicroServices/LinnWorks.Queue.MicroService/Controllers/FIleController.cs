@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using LinnWorks.Queue.MicroService.Attributes;
+using Amazon.S3;
 using LinnWorks.Queue.MicroService.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinnWorks.Queue.MicroService.Controllers
