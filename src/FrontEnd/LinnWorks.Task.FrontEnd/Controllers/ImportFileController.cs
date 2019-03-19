@@ -24,26 +24,12 @@ namespace LinnWorks.Task.FrontEnd.Controllers
 
         [HttpPost]
         [Route("Upload")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(IFormFile file)
         {
-            var files = this.Request.Form.Files;
-            long size = files.Sum(f => f.Length);
-            await importFileService.UploadFile(files);
-            // full path to file in temp location
-            //  var filePath = Path.GetTempFileName();
+            if (file == null) throw new ArgumentNullException(nameof(file));
 
-            //  foreach (var formFile in files)
-            //    {
-            //    if (formFile.Length > 0)
-            //   {
-            //     using (var stream = new FileStream(filePath, FileMode.Create))
-            //  {
-            //   await formFile.CopyToAsync(stream);
-            //          }
-            // }
+            await importFileService.UploadFile(file);
 
-
-            //    return Ok(new { count = files.Count, size, filePath });
             return Ok();
         }
     }

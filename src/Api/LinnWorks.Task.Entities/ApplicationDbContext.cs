@@ -11,6 +11,11 @@ namespace LinnWorks.Task.Entities
     {
         private readonly IAmazonSecretsManager secretsManager;
 
+        public ApplicationDbContext()
+        {
+
+        }
+
         public ApplicationDbContext(IAmazonSecretsManager secretsManager)
         {
             this.secretsManager = secretsManager ?? throw new ArgumentNullException(nameof(secretsManager));
@@ -19,8 +24,16 @@ namespace LinnWorks.Task.Entities
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            DBConnectionString connectionStringObject = SecretsManager.GetConnectionString(secretsManager);
-            string connectionString = string.Format("Server={0};Database={1};User Id={2}; Password={3}", connectionStringObject.Host, connectionStringObject.DbInstanceIdentifier, connectionStringObject.Username, connectionStringObject.Password);
+            string connectionString = string.Empty;
+            if (secretsManager != null)
+            {
+                DBConnectionString connectionStringObject = SecretsManager.GetConnectionString(secretsManager);
+                connectionString = string.Format("Server={0};Database={1};User Id={2}; Password={3}", connectionStringObject.Host, connectionStringObject.DbInstanceIdentifier, connectionStringObject.Username, connectionStringObject.Password);
+            }
+            else
+            {
+                connectionString = "Server=linnworks.c4tbstnbpx2e.eu-central-1.rds.amazonaws.com;Database=LinnWorks; User Id=sa;Password=Bd1601211";
+            }
             optionsBuilder.UseSqlServer(connectionString);
         }
 

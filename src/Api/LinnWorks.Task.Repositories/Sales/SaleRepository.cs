@@ -1,4 +1,5 @@
-﻿using LinnWorks.Task.Entities;
+﻿using LinnWorks.Task.Dtos;
+using LinnWorks.Task.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,19 @@ namespace LinnWorks.Task.Repositories.Sales
 
         }
 
-        public IEnumerable<Sale> GetFilteredSales()
+        public IEnumerable<Sale> GetFilteredSales(GetSalesRequestDto requestDto)
         {
             List<Sale> selectedUserSector = (from sale in ApplicationDbContext.Set<Entities.Sale>()
                                              join country in ApplicationDbContext.Set<Entities.Country>() on sale.Country.CountryId equals country.CountryId
+                                                where (country.CountryId == requestDto.CountryId || requestDto.CountryId == default(int))
                                              join itemType in ApplicationDbContext.Set<Entities.ItemType>() on sale.ItemType.ItemTypeId equals itemType.ItemTypeId
+                                                where (itemType.ItemTypeId == requestDto.ItemTypeId || requestDto.ItemTypeId == default(int))
                                              join order in ApplicationDbContext.Set<Entities.OrderPriority>() on sale.OrderPriority.OrderPriorityId equals order.OrderPriorityId
+                                                where (order.OrderPriorityId == requestDto.OrderPriorityId || requestDto.OrderPriorityId == default(int))
                                              join region in ApplicationDbContext.Set<Entities.Region>() on sale.Region.RegionId equals region.RegionId
+                                                where (region.RegionId == requestDto.RegionId || requestDto.RegionId == default(int))
                                              join channel in ApplicationDbContext.Set<Entities.SalesChannel>() on sale.SalesChannel.SalesChannelId equals channel.SalesChannelId
+                                                where (channel.SalesChannelId == requestDto.SalesChannelId || requestDto.SalesChannelId == default(int))
                                              select new Sale
                                              {
                                                  Country = country,

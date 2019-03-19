@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Amazon.S3;
 using LinnWorks.Queue.MicroService.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinnWorks.Queue.MicroService.Controllers
@@ -20,11 +21,10 @@ namespace LinnWorks.Queue.MicroService.Controllers
         [HttpPost]
         [Route("upload")]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             try
             {
-                var file = Request.Form.Files[0];
                 if (file != null)
                 {
                     await fileService.AddQueue(file);

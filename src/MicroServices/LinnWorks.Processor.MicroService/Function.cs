@@ -35,9 +35,7 @@ namespace LinnWorks.Processor.MicroService
         public Function()
         {
             S3Client = new AmazonS3Client(RegionEndpoint.EUCentral1);
-            var config = new AmazonSecretsManagerConfig { RegionEndpoint = RegionEndpoint.EUCentral1 };
-            IAmazonSecretsManager client = new AmazonSecretsManagerClient(config);
-            dbContext = new ApplicationDbContext(client);
+            dbContext = new ApplicationDbContext();
         }
 
         /// <summary>

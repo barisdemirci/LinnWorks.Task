@@ -27,10 +27,10 @@ namespace LinnWorks.Task.WebApi.Controllers
             return saleService.GetFilterParameters();
         }
 
-        [HttpGet]
-        public IEnumerable<SaleDto> GetSales()
+        [HttpPost]
+        public IEnumerable<SaleDto> GetSales(GetSalesRequestDto requestDto)
         {
-            return saleService.GetFilteredSales();
+            return saleService.GetFilteredSales(requestDto);
         }
 
         [HttpPut]

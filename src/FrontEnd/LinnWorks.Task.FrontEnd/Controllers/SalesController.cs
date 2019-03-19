@@ -23,9 +23,12 @@ namespace LinnWorks.Task.Web.Controllers
             this.saleService = saleService ?? throw new ArgumentNullException(nameof(saleService));
         }
 
-        public async Task<IEnumerable<SaleDto>> IndexAsync()
+        [HttpPost]
+        public async Task<IEnumerable<SaleDto>> IndexAsync([FromBody]GetSalesRequestDto requestDto)
         {
-            return await saleService.GetSalesAsync();
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
+            return await saleService.GetSalesAsync(requestDto);
         }
 
         [HttpGet]

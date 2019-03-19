@@ -11,6 +11,13 @@ class FetchData extends Component {
         // This method runs when the component is first added to the page
         const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;
         this.props.requestWeatherForecasts(startDateIndex);
+        this.onCountryChange = this.onCountryChange.bind(this);
+        this.onRegionChange = this.onRegionChange.bind(this);
+        this.onSalesChannelChange = this.onSalesChannelChange.bind(this);
+        this.onItemTypeChange = this.onItemTypeChange.bind(this);
+        this.onOrderPriorityChange = this.onOrderPriorityChange.bind(this);
+        this.getSales = this.getSales.bind(this);
+        this.saveChanges = this.saveChanges.bind(this);
     }
 
     componentDidMount() {
@@ -25,9 +32,20 @@ class FetchData extends Component {
     }
 
     getSales() {
+        var filter = {};
+        if (this.state) {
+            filter.CountryId = this.state.selectedCountryId;
+            filter.RegionId = this.state.selectedRegionId;
+            filter.SalesChannelId = this.state.selectedSalesChannelId;
+            filter.OrderPriorityId = this.state.selectedOrderPriorityId;
+            filter.ItemTypeId = this.state.selectedItemTypeId;
+        }
+        filter.PageSize = 1000;
+
         fetch("http://localhost:5000/api/sales", {
-            method: "GET", mode: "no-cors", headers: {
-                'Access-Control-Allow-Origin': '*'
+            method: "POST", body: JSON.stringify(filter), headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         })
             .then(res => res.json())
@@ -54,40 +72,94 @@ class FetchData extends Component {
             );
     }
 
+    onCountryChange(e) {
+        this.setState({ selectedCountryId: e.value });
+    }
+
+    onRegionChange(e) {
+        this.setState({ selectedRegionId: e.value });
+    }
+
+    onSalesChannelChange(e) {
+        this.setState({ selectedSalesChannelId: e.value });
+    }
+
+    onItemTypeChange(e) {
+        this.setState({ selectedItemTypeId: e.value });
+    }
+
+    onOrderPriorityChange(e) {
+        this.setState({ selectedOrderPriorityId: e.value });
+    }
+
+    saveChanges() {
+        fetch("http://localhost:5000/api/sales", {
+            method: "PUT", body: JSON.stringify(this.state.sales), headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        sales: result
+                    });
+                }
+            );
+    }
+
     render() {
         return (
             <div>
-                {renderFilterSection(this.state)}
+                {renderFilterSection(this.state, this)}
                 <h1>LinnWorks Sales</h1>
-                {renderForecastsTable(this.state)}
+                {renderSalesTable(this.state)}
                 {renderPagination(this.props)}
             </div>
         );
     }
 }
 
-function renderFilterSection(state) {
-    if (state && state.parameters)
-    return <div className="filterSection">
-        <div>
-            <Dropdown options={state.parameters.countries} placeholder="Select an option" />
+function renderFilterSection(state, ref) {
+    if (state && state.parameters) {
+        const defaultCountry = state.selectedCountryId ? state.selectedCountryId : state.parameters.countries[0];
+        const defaultItemType = state.selectedItemTypeId ? state.selectedItemTypeId : state.parameters.itemTypes[0];
+        const defaultSalesChannel = state.selectedSalesChannelId ? state.selectedSalesChannelId : state.parameters.salesChannels[0];
+        const defaultRegion = state.selectedRegionId ? state.selectedRegionId : state.parameters.regions[0];
+        const defaultOrderPriority = state.selectedOrderPriorityId ? state.selectedOrderPriorityId : state.parameters.orderPriorities[0];
+        return <div className="filterSection">
+            <div>
+                <label>Region</label>
+                <Dropdown onChange={ref.onRegionChange} options={state.parameters.regions} value={defaultRegion} placeholder="Select an option" />
+            </div>
+            <div>
+                <label>Country</label>
+                <Dropdown onChange={ref.onCountryChange} options={state.parameters.countries} value={defaultCountry} placeholder="Select an option" />
+            </div>
+            <div>
+                <label>Item Type</label>
+                <Dropdown onChange={ref.onItemTypeChange} options={state.parameters.itemTypes} value={defaultItemType} placeholder="Select an option" />
+            </div>
+            <div>
+                <label>Sales Channel</label>
+                <Dropdown onChange={ref.onSalesChannelChange} options={state.parameters.salesChannels} value={defaultSalesChannel} placeholder="Select an option" />
+            </div>
+            <div>
+                <label>Order Priority</label>
+                <Dropdown onChange={ref.onOrderPriorityChange} options={state.parameters.orderPriorities} value={defaultOrderPriority} placeholder="Select an option" />
+            </div>
+            <div className="filterButton">
+                <button onClick={ref.getSales}>Filter</button>
+            </div>
+            <div className="saveChanges">
+                <button onClick={ref.saveChanges}>Save Changes</button>
+            </div>
         </div>
-        <div>
-            <Dropdown options={state.parameters.itemTypes} placeholder="Select an option" />
-        </div>
-        <div>
-            <Dropdown options={state.parameters.salesChannels} placeholder="Select an option" />
-        </div>
-        <div>
-            <Dropdown options={state.parameters.regions} placeholder="Select an option" />
-        </div>
-        <div>
-            <Dropdown options={state.parameters.orderPriorities} placeholder="Select an option" />
-        </div>
-    </div>
+    }
 }
 
-function renderForecastsTable(state) {
+function renderSalesTable(state) {
     if (state && state.sales)
         return (
             <table className='table'>

@@ -15,7 +15,7 @@
     "function-timeout"     : 300,
     "function-handler"     : "LinnWorks.Processor.MicroService::LinnWorks.Processor.MicroService.Function::FunctionHandler",
     "function-name"        : "ExcelProcessor",
-    "function-description" : "",
+    "function-description" : "Excel Processor",
     "function-role"        : "arn:aws:iam::171295880758:role/service-role/admin",
     "tracing-mode"         : "PassThrough",
     "environment-variables" : "",

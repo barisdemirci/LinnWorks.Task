@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\LinnWorks.Task.Core\LinnWorks.Task.Core.csproj" />
+    <ProjectReference Include="..\..\LinnWorks.Task.Dtos\LinnWorks.Task.Dtos.csproj" />
     <ProjectReference Include="..\LinnWorks.Task.Entities\LinnWorks.Task.Entities.csproj" />
   </ItemGroup>
 

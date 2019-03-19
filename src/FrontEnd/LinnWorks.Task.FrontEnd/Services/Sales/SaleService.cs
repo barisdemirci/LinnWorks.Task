@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LinnWorks.Task.Common;
-using LinnWorks.Task.Core;
 using LinnWorks.Task.Core.Network;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
@@ -24,11 +23,6 @@ namespace LinnWorks.Task.Web.Services.Sales
             httpClient.BaseUrl = this.configuration[Constants.ApiBaseUrl];
         }
 
-        public System.Threading.Tasks.Task AddAllAsync(IEnumerable<SaleDto> salesDto)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<FilterParametersViewModel> GetFilterParameters()
         {
             string getFilterParametersUrl = configuration[EndPoints.Api.GetFilterParameters];
@@ -44,6 +38,8 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.CountryId.ToString()
                     });
             }
+            parameters.Countries.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+
             parameters.ItemTypes = new List<DropDownViewModel>();
             foreach (var item in parametersDto.ItemTypes)
             {
@@ -54,6 +50,8 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.ItemTypeId.ToString()
                     });
             }
+            parameters.ItemTypes.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+
             parameters.OrderPriorities = new List<DropDownViewModel>();
             foreach (var item in parametersDto.OrderPriorities)
             {
@@ -64,6 +62,8 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.OrderPriorityId.ToString()
                     });
             }
+            parameters.OrderPriorities.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+
             parameters.Regions = new List<DropDownViewModel>();
             foreach (var item in parametersDto.Regions)
             {
@@ -74,6 +74,8 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.RegionId.ToString()
                     });
             }
+            parameters.Regions.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+
             parameters.SalesChannels = new List<DropDownViewModel>();
             foreach (var item in parametersDto.SalesChannels)
             {
@@ -84,19 +86,21 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.SalesChannelId.ToString()
                     });
             }
+            parameters.SalesChannels.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
             return parameters;
         }
 
-        public async Task<IEnumerable<SaleDto>> GetSalesAsync()
+        public async Task<IEnumerable<SaleDto>> GetSalesAsync(GetSalesRequestDto requestDto)
         {
             string getSalesUrl = configuration[EndPoints.Api.GetSales];
-            IEnumerable<SaleDto> sales = await httpClient.GetAsync<IEnumerable<SaleDto>>(getSalesUrl);
+            IEnumerable<SaleDto> sales = await httpClient.PostAsync<GetSalesRequestDto, IEnumerable<SaleDto>>(getSalesUrl, requestDto);
             return sales;
         }
 
-        public System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
+        public async System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
-            throw new NotImplementedException();
+            string getSalesUrl = configuration[EndPoints.Api.UpdateSales];
+            await httpClient.PostAsync<IEnumerable<SaleDto>>(getSalesUrl, salesDto);
         }
     }
 }

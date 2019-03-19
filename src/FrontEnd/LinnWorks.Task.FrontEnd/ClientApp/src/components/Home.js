@@ -13,7 +13,7 @@ class ImportFile extends Component {
         let formData = new FormData();
 
         formData.append("excel", file);
-        fetch("http://localhost:5002/api/v1/file/upload", {
+        fetch("http://localhost:5000/api/importfile/upload", {
             method: "POST", body: formData, mode: "no-cors", headers: {
                 'Access-Control-Allow-Origin': '*'
             }
@@ -27,11 +27,13 @@ class ImportFile extends Component {
         return (
             <div>
                 <h1>Import File</h1>
-                Select image to upload:
-                <form action="http://localhost:5002/api/v1/file/upload" method="post" encType="multipart/form-data">
+                <div>
+                    Select image to upload:
                     <input type="file" name="fileToUpload" id="fileToUpload" />
-                    <input type="submit" value="Upload Image" name="submit" />
-                </form>
+                </div>
+                <div>
+                    <input type="submit" value="Upload Image" name="submit" onClick={this.handleClick} />
+                </div>
             </div>
         );
     }

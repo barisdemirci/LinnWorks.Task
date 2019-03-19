@@ -25,9 +25,11 @@ namespace LinnWorks.Task.Services.Sales
             await unitOfWork.Sales.AddAllAsync(sales);
         }
 
-        public IEnumerable<SaleDto> GetFilteredSales()
+        public IEnumerable<SaleDto> GetFilteredSales(GetSalesRequestDto requestDto)
         {
-            var sales = unitOfWork.Sales.GetFilteredSales();
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
+            var sales = unitOfWork.Sales.GetFilteredSales(requestDto);
             return mapper.Map<IEnumerable<SaleDto>>(sales);
         }
 

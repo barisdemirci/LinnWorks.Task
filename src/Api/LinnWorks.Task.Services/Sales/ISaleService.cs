@@ -8,7 +8,7 @@ namespace LinnWorks.Task.Services.Sales
 {
     public interface ISaleService
     {
-        IEnumerable<SaleDto> GetFilteredSales();
+        IEnumerable<SaleDto> GetFilteredSales(GetSalesRequestDto requestDto);
 
         FilterParametersDto GetFilterParameters();
 
