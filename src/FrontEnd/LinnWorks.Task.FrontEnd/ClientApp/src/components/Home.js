@@ -7,19 +7,15 @@ class ImportFile extends Component {
     }
 
     handleClick = () => {
-
         let file = document.getElementById("fileToUpload").files[0];
-
         let formData = new FormData();
-
         formData.append("excel", file);
-        fetch("http://localhost:5000/api/importfile/upload", {
+        fetch("http://queuemicroservice.eu-central-1.elasticbeanstalk.com/api/file/upload", {
             method: "POST", body: formData, mode: "no-cors", headers: {
                 'Access-Control-Allow-Origin': '*'
             }
         })
-            .then(res => res.json())
-            .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+            .then(data => console.log(JSON.stringify(data)))
             .catch(error => console.error(error));
     }
 

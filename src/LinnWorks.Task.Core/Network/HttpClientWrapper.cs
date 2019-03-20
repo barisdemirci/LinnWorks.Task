@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -77,6 +79,29 @@ namespace LinnWorks.Task.Core.Network
         public Task<TResponse> PutAsync<TRequest, TResponse>(string endpoint, TRequest dto)
         {
             throw new NotImplementedException();
+        }
+
+        public async System.Threading.Tasks.Task<string> UploadFileAsync(string endpoint, IFormFile file)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                endpoint = string.Concat(BaseUrl, endpoint);
+                byte[] data;
+                using (var br = new BinaryReader(file.OpenReadStream()))
+                    data = br.ReadBytes((int)file.OpenReadStream().Length);
+
+                ByteArrayContent bytes = new ByteArrayContent(data);
+                MultipartFormDataContent multiContent = new MultipartFormDataContent();
+                multiContent.Add(bytes, "excel", file.FileName);
+
+                var result = await client.PostAsync(endpoint, multiContent);
+                return "Service is called";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }

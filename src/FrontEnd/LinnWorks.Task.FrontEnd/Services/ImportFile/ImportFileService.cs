@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LinnWorks.Task.Common;
-using LinnWorks.Task.Core;
 using LinnWorks.Task.Core.Network;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +26,7 @@ namespace LinnWorks.Task.FrontEnd.Services
             if (file == null) throw new ArgumentNullException(nameof(file));
 
             string endPoint = configuration[EndPoints.Queue.UploadFile];
-            var result = await httpClient.PostAsync(endPoint, file);
+            await httpClient.UploadFileAsync(endPoint, file);
         }
     }
 }

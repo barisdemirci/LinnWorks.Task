@@ -65,21 +65,29 @@ namespace LinnWorks.Processor.MicroService
             try
             {
                 RedisDataAgent agent = new RedisDataAgent();
-                string key = await agent.GetValueAsync(s3Event.Object.Key);
-                context.Logger.LogLine($"{key} redis value");
-                S3 s3 = new S3(S3Client);
-                StreamReader reader = await s3.ReadObjectDataAsync(key);
-                CSVReader csvReader = new CSVReader();
-                List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
-                foreach (var item in sales)
+                string value = await agent.GetValueAsync("excel");
+                context.Logger.LogLine($"{value} redis value");
+                if (!string.IsNullOrEmpty(value))
                 {
-                    Sale newSale = BuildObject(item);
-                    await dbContext.Sales.AddAsync(newSale);
+                    S3 s3 = new S3(S3Client);
+                    StreamReader reader = await s3.ReadObjectDataAsync(value);
+                    CSVReader csvReader = new CSVReader();
+                    List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
+                    foreach (var item in sales)
+                    {
+                        Sale newSale = BuildObject(item);
+                        await dbContext.Sales.AddAsync(newSale);
+                    }
+                    await dbContext.SaveChangesAsync();
+                    await agent.DeleteValueAsync(value);
+                    await s3.DeleteFileASync(value);
+                    return "Function is completed successfully!";
                 }
-                await dbContext.SaveChangesAsync();
-                await agent.DeleteValueAsync(key);
-                await s3.DeleteFileASync(key);
-                return "Function is completed successfully!";
+                else
+                {
+                    context.Logger.LogLine("No task");
+                    return "No task to continue";
+                }
             }
             catch (Exception e)
             {

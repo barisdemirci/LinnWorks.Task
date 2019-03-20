@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amazon.S3;
 using LinnWorks.Queue.MicroService.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinnWorks.Queue.MicroService.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class FileController : ControllerBase
     {
@@ -21,10 +21,12 @@ namespace LinnWorks.Queue.MicroService.Controllers
         [HttpPost]
         [Route("upload")]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> Upload(IFormFile file)
+        [EnableCors("CorsPolicy")]
+        public async Task<IActionResult> Upload()
         {
             try
             {
+                IFormFile file = this.Request.Form.Files[0];
                 if (file != null)
                 {
                     await fileService.AddQueue(file);
@@ -33,7 +35,7 @@ namespace LinnWorks.Queue.MicroService.Controllers
                 }
                 else
                 {
-                    return BadRequest("No file");
+                    return Ok("No file");
                 }
             }
             catch (Exception ex)
@@ -41,7 +43,6 @@ namespace LinnWorks.Queue.MicroService.Controllers
                 return Ok(new
                 {
                     error = ex.Message,
-                    innerException = ex.InnerException,
                     stackTrace = ex.StackTrace
                 });
             }

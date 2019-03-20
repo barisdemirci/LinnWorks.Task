@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace LinnWorks.Task.Core.Network
 {
@@ -19,5 +20,7 @@ namespace LinnWorks.Task.Core.Network
         Task<bool> DeleteAsync(string endpoint);
 
         Task<bool> DeleteAsync<TDto>(string endpoint, TDto dto);
+
+        System.Threading.Tasks.Task<string> UploadFileAsync(string endpoint, IFormFile file);
     }
 }

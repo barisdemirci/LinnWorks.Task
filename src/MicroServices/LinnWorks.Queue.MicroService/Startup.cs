@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +24,12 @@ namespace LinnWorks.Queue.MicroService
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddServices();
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +46,7 @@ namespace LinnWorks.Queue.MicroService
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             var options = builder.Build().GetAWSOptions();
-            IAmazonS3 client = options.CreateServiceClient<IAmazonS3>();
+            options.CreateServiceClient<IAmazonS3>();
 
             app.UseMvc();
 

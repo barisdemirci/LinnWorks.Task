@@ -44,12 +44,12 @@ namespace LinnWorks.Task.WebApi
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             var options = builder.Build().GetAWSOptions();
-            IAmazonSecretsManager client = options.CreateServiceClient<IAmazonSecretsManager>();
+            IAmazonSecretsManager secretsManager = options.CreateServiceClient<IAmazonSecretsManager>();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var context = new ApplicationDbContext(client))
+                using (var context = new ApplicationDbContext(secretsManager))
                 {
                     context.Database.EnsureCreated();
                     InsertTestData(context);

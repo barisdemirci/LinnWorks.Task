@@ -4,6 +4,6 @@
     "getfilterparameters": "api/sales/getfilterparameters"
   },
   "queue": {
-    "uploadfile": "api/v1/file/upload"
+    "uploadfile": "api/file/upload"
   }
 }

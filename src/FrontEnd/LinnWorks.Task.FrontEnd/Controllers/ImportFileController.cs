@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using LinnWorks.Task.FrontEnd.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,16 +13,22 @@ namespace LinnWorks.Task.FrontEnd.Controllers
     {
         private readonly IImportFileService importFileService;
 
-        public ImportFileController(IImportFileService sectorService)
+        public ImportFileController(IImportFileService importFileService)
         {
-            this.importFileService = sectorService ?? throw new ArgumentNullException(nameof(sectorService));
+            this.importFileService = importFileService ?? throw new ArgumentNullException(nameof(importFileService));
         }
 
 
         [HttpPost]
         [Route("Upload")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> Upload()
         {
+            IFormFile file = this.Request.Form.Files[0];
+            if (Request == null)
+            {
+                return Ok("File is empty");
+            }
             if (file == null) throw new ArgumentNullException(nameof(file));
 
             await importFileService.UploadFileAsync(file);

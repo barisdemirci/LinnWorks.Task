@@ -12,7 +12,7 @@ namespace LinnWorks.Queue.MicroService.Services
 {
     public class FileService : IFileService
     {
-        private readonly IAmazonS3 s3Client;
+        private IAmazonS3 s3Client;
 
         public FileService(IAmazonS3 s3Client)
         {
@@ -28,9 +28,7 @@ namespace LinnWorks.Queue.MicroService.Services
         public async System.Threading.Tasks.Task UploadFileToS3(IFormFile file)
         {
             S3 uploader = new S3(s3Client);
-
             Stream fileStream = file.OpenReadStream();
-
             await uploader.UploadFileToS3Async(fileStream, file.FileName);
         }
     }
