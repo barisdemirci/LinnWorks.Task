@@ -8,11 +8,11 @@ using LinnWorks.Task.Common;
 
 namespace LinnWorks.AWS.SecretsManager
 {
-    public class SecretsManager
+    public class SecretsManager : ISecretsManager
     {
         private const string SecretName = "ConnectionStringOfDB";
 
-        public static DBConnectionString GetConnectionString(IAmazonSecretsManager secretsManager)
+        public DBConnectionString GetConnectionString(IAmazonSecretsManager secretsManager)
         {
             GetSecretValueRequest request = new GetSecretValueRequest();
             request.SecretId = SecretName;
