@@ -8,6 +8,6 @@ namespace LinnWorks.Task.FrontEnd.Services
 {
     public interface IImportFileService
     {
-        System.Threading.Tasks.Task UploadFile(IFormFile file);
+        System.Threading.Tasks.Task UploadFileAsync(IFormFile file);
     }
 }

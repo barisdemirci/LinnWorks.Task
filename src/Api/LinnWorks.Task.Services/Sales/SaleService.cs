@@ -21,6 +21,8 @@ namespace LinnWorks.Task.Services.Sales
         }
         public async System.Threading.Tasks.Task AddAllAsync(IEnumerable<SaleDto> salesDto)
         {
+            if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
+
             var sales = mapper.Map<IEnumerable<Sale>>(salesDto);
             await unitOfWork.Sales.AddAllAsync(sales);
         }
@@ -41,6 +43,8 @@ namespace LinnWorks.Task.Services.Sales
 
         public void UpdateSales(IEnumerable<SaleDto> salesDto)
         {
+            if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
+
             var sales = mapper.Map<IEnumerable<Sale>>(salesDto);
             unitOfWork.Sales.UpdateRange(sales);
         }

@@ -69,6 +69,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroService.Tests", "src\MicroServices\LinnWorks.Processor.MicroService.Tests\LinnWorks.Processor.MicroService.Tests.csproj", "{C81293D6-0288-4C57-88B1-27862DC8E117}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.DtosBuilder", "test\LinnWorks.Task.DtosBuilder\LinnWorks.Task.DtosBuilder.csproj", "{8FF7879A-28DD-40CE-B281-755773C1A356}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{C81293D6-0288-4C57-88B1-27862DC8E117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C81293D6-0288-4C57-88B1-27862DC8E117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C81293D6-0288-4C57-88B1-27862DC8E117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF7879A-28DD-40CE-B281-755773C1A356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF7879A-28DD-40CE-B281-755773C1A356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF7879A-28DD-40CE-B281-755773C1A356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF7879A-28DD-40CE-B281-755773C1A356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +193,7 @@ Global
 		{B0E227A6-8078-43C7-B8B5-CACBCD64C3E3} = {5BDF4B70-8D5F-4BD4-8B10-7D513D1B14D4}
 		{A7E4C645-3795-4F12-BE94-EEE824DE9C3F} = {6EF892A6-3DDA-4FCB-9EE8-0D047ED4E6B2}
 		{C81293D6-0288-4C57-88B1-27862DC8E117} = {DD0BB530-3998-465B-8AAA-29E6DD585919}
+		{8FF7879A-28DD-40CE-B281-755773C1A356} = {168EED74-236A-4DCD-811C-7C7237D3B32F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {898533A2-89E0-4153-A05A-C307CE317DF6}

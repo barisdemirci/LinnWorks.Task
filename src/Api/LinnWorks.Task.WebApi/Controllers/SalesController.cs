@@ -30,12 +30,16 @@ namespace LinnWorks.Task.WebApi.Controllers
         [HttpPost]
         public IEnumerable<SaleDto> GetSales(GetSalesRequestDto requestDto)
         {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
             return saleService.GetFilteredSales(requestDto);
         }
 
         [HttpPut]
         public void UpdateSales(IEnumerable<SaleDto> salesDto)
         {
+            if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
+
             saleService.UpdateSales(salesDto);
         }
     }

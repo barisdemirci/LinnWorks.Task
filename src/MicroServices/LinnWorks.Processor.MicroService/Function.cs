@@ -93,13 +93,13 @@ namespace LinnWorks.Processor.MicroService
         {
             return new Sale()
             {
-                Country = dbContext.Countries.FirstOrDefault(x => x.CountryName == dto.Country),
-                ItemType = dbContext.ItemTypes.FirstOrDefault(x => x.ItemTypeName == dto.ItemType),
+                Country = dbContext.Countries.FirstOrDefault(x => x.CountryName == dto.Country.CountryName),
+                ItemType = dbContext.ItemTypes.FirstOrDefault(x => x.ItemTypeName == dto.ItemType.ItemTypeName),
                 OrderDate = dto.OrderDate,
-                OrderPriority = dbContext.OrderPriorities.FirstOrDefault(x => x.OrderPriorityName == dto.OrderPriority),
-                Region = dbContext.Regions.FirstOrDefault(x => x.RegionName == dto.Region),
+                OrderPriority = dbContext.OrderPriorities.FirstOrDefault(x => x.OrderPriorityName == dto.OrderPriority.OrderPriorityName),
+                Region = dbContext.Regions.FirstOrDefault(x => x.RegionName == dto.Region.RegionName),
                 OrderID = dto.OrderID,
-                SalesChannel = dbContext.SalesChannels.FirstOrDefault(x => x.SalesChannelName == dto.SalesChannel),
+                SalesChannel = dbContext.SalesChannels.FirstOrDefault(x => x.SalesChannelName == dto.SalesChannel.SalesChannelName),
                 ShipDate = dto.ShipDate,
                 TotalCost = dto.TotalCost,
                 TotalProfit = dto.TotalProfit,

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using LinnWorks.Task.FrontEnd.Services;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +24,7 @@ namespace LinnWorks.Task.FrontEnd.Controllers
         {
             if (file == null) throw new ArgumentNullException(nameof(file));
 
-            await importFileService.UploadFile(file);
+            await importFileService.UploadFileAsync(file);
 
             return Ok();
         }

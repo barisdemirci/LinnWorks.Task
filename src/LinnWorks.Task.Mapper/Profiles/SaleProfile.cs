@@ -12,13 +12,12 @@ namespace LinnWorks.Task.Mapper.Profiles
     {
         public SaleProfile()
         {
-            CreateMap<Sale, SaleDto>()
-                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Country.CountryName))
-                .ForMember(dest => dest.ItemType, opt => opt.MapFrom(src => src.ItemType.ItemTypeName))
-                .ForMember(dest => dest.OrderPriority, opt => opt.MapFrom(src => src.OrderPriority.OrderPriorityName))
-                .ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Region.RegionName))
-                .ForMember(dest => dest.SalesChannel, opt => opt.MapFrom(src => src.SalesChannel.SalesChannelName));
-            CreateMap<SaleDto, Sale>();
+            CreateMap<Country, CountryDto>().ReverseMap();
+            CreateMap<ItemType, ItemTypeDto>().ReverseMap();
+            CreateMap<Region, RegionDto>().ReverseMap();
+            CreateMap<SalesChannel, SalesChannelDto>().ReverseMap();
+            CreateMap<OrderPriority, OrderPriorityDto>().ReverseMap();
+            CreateMap<Sale, SaleDto>().ReverseMap();
             CreateMap<FilterParameters, FilterParametersDto>();
         }
     }

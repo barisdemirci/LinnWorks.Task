@@ -24,7 +24,7 @@ namespace LinnWorks.Task.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IEnumerable<SaleDto>> IndexAsync([FromBody]GetSalesRequestDto requestDto)
+        public async Task<IEnumerable<SaleDto>> GetSalesAsync([FromBody]GetSalesRequestDto requestDto)
         {
             if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
 
@@ -36,6 +36,14 @@ namespace LinnWorks.Task.Web.Controllers
         public async Task<FilterParametersViewModel> GetFilterParameters()
         {
             return await saleService.GetFilterParameters();
+        }
+
+        [HttpPut]
+        public async System.Threading.Tasks.Task UpdateSalesAsync([FromBody] IEnumerable<SaleDto> sales)
+        {
+            if (sales == null) throw new ArgumentNullException(nameof(sales));
+
+            await saleService.UpdateSalesAsync(sales);
         }
     }
 }

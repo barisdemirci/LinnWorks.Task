@@ -4,6 +4,7 @@ using System.IO;
 using System.Globalization;
 using LinnWorks.Task.ExcelReader.Interfaces;
 using LinnWorks.Task.Dtos.Sales;
+using LinnWorks.Task.Dtos;
 
 namespace LinnWorks.Task.ExcelReader.Services
 {
@@ -26,11 +27,11 @@ namespace LinnWorks.Task.ExcelReader.Services
 
                     var values = line.Split(',');
                     SaleDto item = new SaleDto();
-                    item.Region = values[0];
-                    item.Country = values[1];
-                    item.ItemType = values[2];
-                    item.SalesChannel = values[3];
-                    item.OrderPriority = values[4];
+                    item.Region = new RegionDto() { RegionName = values[0] };
+                    item.Country = new CountryDto() { CountryName = values[1] };
+                    item.ItemType = new ItemTypeDto { ItemTypeName = values[2] };
+                    item.SalesChannel = new SalesChannelDto() { SalesChannelName = values[3] };
+                    item.OrderPriority = new OrderPriorityDto() { OrderPriorityName = values[4] };
                     item.OrderDate = ParseDateTime(values[5]);
                     item.OrderID = int.Parse(values[6]);
                     item.ShipDate = ParseDateTime(values[7]);
