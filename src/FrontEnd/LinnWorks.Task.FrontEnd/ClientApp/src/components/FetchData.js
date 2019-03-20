@@ -186,11 +186,11 @@ function renderSalesTable(state) {
                     {state.sales.map(sale =>
                         <tr key={sale.saleId}>
                             <td>{sale.saleId}</td>
-                            <td>{sale.region}</td>
-                            <td>{sale.country}</td>
-                            <td>{sale.itemType}</td>
-                            <td>{sale.salesChannel}</td>
-                            <td>{sale.orderPriority}</td>
+                            <td>{sale.region.regionName}</td>
+                            <td>{sale.country.countryName}</td>
+                            <td>{sale.itemType.itemTypeName}</td>
+                            <td>{sale.salesChannel.salesChannelName}</td>
+                            <td>{sale.orderPriority.orderPriorityName}</td>
                             <td>{sale.orderDate}</td>
                             <td>{sale.orderID}</td>
                             <td>{sale.shipDate}</td>
