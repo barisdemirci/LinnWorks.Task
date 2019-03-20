@@ -13,23 +13,29 @@ namespace LinnWorks.Queue.MicroService.Services
     public class FileService : IFileService
     {
         private IAmazonS3 s3Client;
+        private IS3 s3;
+        private IRedisDataAgent regisAgent;
 
-        public FileService(IAmazonS3 s3Client)
+        public FileService(IAmazonS3 s3Client, IRedisDataAgent regisAgent, IS3 s3)
         {
             this.s3Client = s3Client ?? throw new ArgumentNullException(nameof(s3Client));
+            this.regisAgent = regisAgent ?? throw new ArgumentNullException(nameof(regisAgent));
+            this.s3 = s3 ?? throw new ArgumentNullException(nameof(s3));
         }
 
         public async System.Threading.Tasks.Task AddQueue(IFormFile file)
         {
-            RedisDataAgent agent = new RedisDataAgent();
-            await agent.AddValueAsync(file.Name, file.FileName);
+            if (file == null) throw new ArgumentNullException(nameof(file));
+
+            await regisAgent.AddValueAsync(file.Name, file.FileName);
         }
 
         public async System.Threading.Tasks.Task UploadFileToS3(IFormFile file)
         {
-            S3 uploader = new S3(s3Client);
+            if (file == null) throw new ArgumentNullException(nameof(file));
+
             Stream fileStream = file.OpenReadStream();
-            await uploader.UploadFileToS3Async(fileStream, file.FileName);
+            await s3.UploadFileToS3Async(fileStream, file.FileName);
         }
     }
 }
