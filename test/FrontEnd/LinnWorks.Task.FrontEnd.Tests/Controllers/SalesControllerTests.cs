@@ -55,11 +55,14 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
         [Fact]
         public async System.Threading.Tasks.Task GetFilterParameters_CallsService()
         {
+            // arrange 
+            GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
+
             // act
-            await saleController.GetFilterParameters();
+            await saleController.GetFilterParameters(requestDto);
 
             // assert
-            await saleService.Received(1).GetFilterParameters();
+            await saleService.Received(1).GetFilterParameters(requestDto);
         }
 
         [Fact]
@@ -80,6 +83,26 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
 
             // assert
             await saleService.Received(1).UpdateSalesAsync(sales);
+        }
+
+        [Fact]
+        public void GetLastPageIndexAsync_ArgumentIsNull_ThrowsArgumentNullException()
+        {
+            // act & assert
+            Assert.ThrowsAsync<ArgumentNullException>(() => saleController.GetLastPageIndexAsync(null));
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task GetLastPageIndexAsync_ArgsOk_CallsService()
+        {
+            // arrange
+            GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
+
+            // act
+            await saleController.GetLastPageIndexAsync(requestDto);
+
+            // assert
+            await saleService.Received(1).GetLastPageIndexAsync(requestDto);
         }
     }
 }

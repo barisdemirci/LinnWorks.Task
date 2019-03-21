@@ -20,11 +20,18 @@ namespace LinnWorks.Task.WebApi.Controllers
             this.saleService = saleService ?? throw new ArgumentNullException(nameof(saleService));
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("getfilterparameters")]
-        public FilterParametersDto GetFilterParameters()
+        public FilterParametersDto GetFilterParameters(GetSalesRequestDto requestDto)
         {
-            return saleService.GetFilterParameters();
+            return saleService.GetFilterParameters(requestDto);
+        }
+
+        [HttpPost]
+        [Route("getlastpageindex")]
+        public int Getlastpageindex(GetSalesRequestDto requestDto)
+        {
+            return saleService.GetLastPageIndex(requestDto);
         }
 
         [HttpPost]

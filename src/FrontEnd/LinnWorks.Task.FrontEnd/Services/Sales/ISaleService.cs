@@ -14,6 +14,8 @@ namespace LinnWorks.Task.Web.Services.Sales
 
         System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto);
 
-        Task<FilterParametersViewModel> GetFilterParameters();
+        Task<FilterParametersViewModel> GetFilterParameters(GetSalesRequestDto requestDto);
+
+        Task<int> GetLastPageIndexAsync(GetSalesRequestDto requestDto);
     }
 }

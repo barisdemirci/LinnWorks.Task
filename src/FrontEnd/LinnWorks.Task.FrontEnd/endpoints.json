@@ -1,7 +1,8 @@
 {
   "api": {
     "getsales": "api/sales",
-    "getfilterparameters": "api/sales/getfilterparameters"
+    "getfilterparameters": "api/sales/getfilterparameters",
+    "getlastpageindex": "api/sales/getlastpageindex"
   },
   "queue": {
     "uploadfile": "api/file/upload"

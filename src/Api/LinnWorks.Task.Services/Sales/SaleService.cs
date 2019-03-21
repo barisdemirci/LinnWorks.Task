@@ -35,10 +35,19 @@ namespace LinnWorks.Task.Services.Sales
             return mapper.Map<IEnumerable<SaleDto>>(sales);
         }
 
-        public FilterParametersDto GetFilterParameters()
+        public FilterParametersDto GetFilterParameters(GetSalesRequestDto requestDto)
         {
-            var parameters = unitOfWork.Sales.GetFilterParameters();
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
+            var parameters = unitOfWork.Sales.GetFilterParameters(requestDto);
             return mapper.Map<FilterParametersDto>(parameters);
+        }
+
+        public int GetLastPageIndex(GetSalesRequestDto requestDto)
+        {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
+            return unitOfWork.Sales.GetLastPageIndex(requestDto);
         }
 
         public void UpdateSales(IEnumerable<SaleDto> salesDto)

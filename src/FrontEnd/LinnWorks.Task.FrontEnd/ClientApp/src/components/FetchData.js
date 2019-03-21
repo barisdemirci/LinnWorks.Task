@@ -1,37 +1,34 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { actionCreators } from '../store/WeatherForecasts';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 class FetchData extends Component {
     componentWillMount() {
         // This method runs when the component is first added to the page
-        const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;
-        this.props.requestWeatherForecasts(startDateIndex);
         this.onCountryChange = this.onCountryChange.bind(this);
         this.onRegionChange = this.onRegionChange.bind(this);
         this.onSalesChannelChange = this.onSalesChannelChange.bind(this);
         this.onItemTypeChange = this.onItemTypeChange.bind(this);
         this.onOrderPriorityChange = this.onOrderPriorityChange.bind(this);
         this.getSales = this.getSales.bind(this);
+        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
         this.saveChanges = this.saveChanges.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
     }
 
     componentDidMount() {
-        this.getSales();
+        this.getSales(1);
         this.getParameters();
+        this.getLastPageIndex(1);
     }
 
-    componentWillReceiveProps(nextProps) {
-        // This method runs when incoming props (e.g., route params) change
-        const startDateIndex = parseInt(nextProps.match.params.startDateIndex, 10) || 0;
-        this.props.requestWeatherForecasts(startDateIndex);
+    componentWillReceiveProps() {
+
     }
 
-    getSales() {
+    getFilter(pageIndex) {
         var filter = {};
         if (this.state) {
             filter.CountryId = this.state.selectedCountryId;
@@ -40,8 +37,14 @@ class FetchData extends Component {
             filter.OrderPriorityId = this.state.selectedOrderPriorityId;
             filter.ItemTypeId = this.state.selectedItemTypeId;
         }
-        filter.PageSize = 1000;
+        filter.pageIndex = pageIndex;
+        this.setState({ pageIndex: pageIndex });
+        filter.PageSize = 100;
+        return filter;
+    }
 
+    getSales(pageIndex) {
+        var filter = this.getFilter(pageIndex);
         fetch("http://localhost:5000/api/sales", {
             method: "POST", body: JSON.stringify(filter), headers: {
                 'Accept': 'application/json',
@@ -51,25 +54,48 @@ class FetchData extends Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        sales: result
-                    });
+                    this.setState({ sales: result });
                 }
-            );
+            ).catch(error => console.error(error));
     }
 
-    getParameters() {
-        fetch("http://localhost:5000/api/sales/getfilterparameters", {
-            method: "GET"
+    getLastPageIndex(pageIndex) {
+        var filter = this.getFilter(pageIndex);
+        fetch("http://localhost:5000/api/sales/getlastpageIndex", {
+            method: "POST", body: JSON.stringify(filter), headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
         })
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        parameters: result
-                    });
+                    this.setState({ lastPageIndex: result });
                 }
-            );
+            ).catch(error => console.error(error));
+    }
+
+    getParameters() {
+        var filter = this.getFilter(1);
+        fetch("http://localhost:5000/api/sales/getfilterparameters", {
+            method: "POST", body: JSON.stringify(filter), headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({ parameters: result });
+
+                }
+            ).catch(error => console.error(error));
+    }
+
+    onFilterButtonClick() {
+        var pageIndex = 1;
+        this.getSales(pageIndex);
+        this.getLastPageIndex(pageIndex);
     }
 
     onCountryChange(e) {
@@ -92,6 +118,28 @@ class FetchData extends Component {
         this.setState({ selectedOrderPriorityId: e.value });
     }
 
+    nextPage() {
+        if (this.state.pageIndex) {
+            var pageIndex = this.state.pageIndex;
+            pageIndex += 1;
+            if (this.state.lastPageIndex >= pageIndex) {
+                this.setState({ pageIndex: pageIndex });
+                this.getSales(pageIndex);
+            }
+        }
+    }
+
+    previousPage() {
+        if (this.state.pageIndex) {
+            var pageIndex = this.state.pageIndex;
+            if (pageIndex !== 1) {
+                pageIndex -= 1;
+                this.setState({ pageIndex: pageIndex });
+                this.getSales(pageIndex);
+            }
+        }
+    }
+
     saveChanges() {
         fetch("http://localhost:5000/api/sales", {
             method: "PUT", body: JSON.stringify(this.state.sales), headers: {
@@ -106,7 +154,7 @@ class FetchData extends Component {
                         sales: result
                     });
                 }
-            );
+            ).catch(error => console.error(error));
     }
 
     render() {
@@ -115,7 +163,7 @@ class FetchData extends Component {
                 {renderFilterSection(this.state, this)}
                 <h1>LinnWorks Sales</h1>
                 {renderSalesTable(this.state)}
-                {renderPagination(this.props)}
+                {renderPagination(this)}
             </div>
         );
     }
@@ -149,12 +197,9 @@ function renderFilterSection(state, ref) {
                 <label>Order Priority</label>
                 <Dropdown onChange={ref.onOrderPriorityChange} options={state.parameters.orderPriorities} value={defaultOrderPriority} placeholder="Select an option" />
             </div>
-            <div className="filterButton">
-                <button onClick={ref.getSales}>Filter</button>
-            </div>
-            <div className="saveChanges">
-                <button onClick={ref.saveChanges}>Save Changes</button>
-            </div>
+            <p className="clearfix">
+                    <button className='btn btn-default pull-left' onClick={ref.onFilterButtonClick}>Filter</button>
+            </p>
         </div>
     }
 }
@@ -208,17 +253,12 @@ function renderSalesTable(state) {
 }
 
 function renderPagination(props) {
-    const prevStartDateIndex = (props.startDateIndex || 0) - 5;
-    const nextStartDateIndex = (props.startDateIndex || 0) + 5;
-
     return <p className='clearfix text-center'>
-        <Link className='btn btn-default pull-left' to={`/fetchdata/${prevStartDateIndex}`}>Previous</Link>
-        <Link className='btn btn-default pull-right' to={`/fetchdata/${nextStartDateIndex}`}>Next</Link>
-        {props.isLoading ? <span>Loading...</span> : []}
+        <button className='btn btn-default pull-left' onClick={props.previousPage}>Previous</button>
+        <button className='btn btn-default pull-right' onClick={props.nextPage}>Next</button>
     </p>;
 }
 
 export default connect(
-    state => state.weatherForecasts,
-    dispatch => bindActionCreators(actionCreators, dispatch)
+
 )(FetchData);

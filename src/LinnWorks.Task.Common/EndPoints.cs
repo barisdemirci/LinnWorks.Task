@@ -9,6 +9,7 @@ namespace LinnWorks.Task.Common
             public const string GetSales = "api:getsales";
             public const string GetFilterParameters = "api:getfilterparameters";
             public const string UpdateSales = "api:updatesales";
+            public const string GetLastPageIndex = "api:getlastpageindex";
         }
 
         public static class Queue

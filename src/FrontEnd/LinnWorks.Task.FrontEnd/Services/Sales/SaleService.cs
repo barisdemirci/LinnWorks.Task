@@ -23,10 +23,10 @@ namespace LinnWorks.Task.Web.Services.Sales
             httpClient.BaseUrl = this.configuration[Constants.ApiBaseUrl];
         }
 
-        public async Task<FilterParametersViewModel> GetFilterParameters()
+        public async Task<FilterParametersViewModel> GetFilterParameters(GetSalesRequestDto requestDto)
         {
             string getFilterParametersUrl = configuration[EndPoints.Api.GetFilterParameters];
-            FilterParametersDto parametersDto = await httpClient.GetAsync<FilterParametersDto>(getFilterParametersUrl);
+            FilterParametersDto parametersDto = await httpClient.PostAsync<GetSalesRequestDto, FilterParametersDto>(getFilterParametersUrl, requestDto);
             FilterParametersViewModel parameters = new FilterParametersViewModel();
             parameters.Countries = new List<DropDownViewModel>();
             foreach (var item in parametersDto.Countries)
@@ -88,6 +88,13 @@ namespace LinnWorks.Task.Web.Services.Sales
             }
             parameters.SalesChannels.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
             return parameters;
+        }
+
+        public async Task<int> GetLastPageIndexAsync(GetSalesRequestDto requestDto)
+        {
+            string getSalesUrl = configuration[EndPoints.Api.GetLastPageIndex];
+            int lastPageIndex = await httpClient.PostAsync<GetSalesRequestDto, int>(getSalesUrl, requestDto);
+            return lastPageIndex;
         }
 
         public async Task<IEnumerable<SaleDto>> GetSalesAsync(GetSalesRequestDto requestDto)

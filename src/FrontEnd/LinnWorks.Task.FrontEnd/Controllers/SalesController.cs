@@ -31,11 +31,23 @@ namespace LinnWorks.Task.Web.Controllers
             return await saleService.GetSalesAsync(requestDto);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("getfilterparameters")]
-        public async Task<FilterParametersViewModel> GetFilterParameters()
+        [ResponseCache(Duration = 10)]
+        public async Task<FilterParametersViewModel> GetFilterParameters([FromBody]GetSalesRequestDto requestDto)
         {
-            return await saleService.GetFilterParameters();
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
+            return await saleService.GetFilterParameters(requestDto);
+        }
+
+        [HttpPost]
+        [Route("getlastpageindex")]
+        public async Task<int> GetLastPageIndexAsync([FromBody]GetSalesRequestDto requestDto)
+        {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
+            return await saleService.GetLastPageIndexAsync(requestDto);
         }
 
         [HttpPut]

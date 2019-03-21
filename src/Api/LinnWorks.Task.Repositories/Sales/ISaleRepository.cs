@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Entities;
 
@@ -10,6 +9,8 @@ namespace LinnWorks.Task.Repositories.Sales
     {
         IEnumerable<Sale> GetFilteredSales(GetSalesRequestDto requestDto);
 
-        FilterParameters GetFilterParameters();
+        FilterParameters GetFilterParameters(GetSalesRequestDto requestDto);
+
+        int GetLastPageIndex(GetSalesRequestDto requestDto);
     }
 }

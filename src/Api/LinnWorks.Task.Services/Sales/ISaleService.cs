@@ -10,7 +10,9 @@ namespace LinnWorks.Task.Services.Sales
     {
         IEnumerable<SaleDto> GetFilteredSales(GetSalesRequestDto requestDto);
 
-        FilterParametersDto GetFilterParameters();
+        FilterParametersDto GetFilterParameters(GetSalesRequestDto requestDto);
+
+        int GetLastPageIndex(GetSalesRequestDto requestDto);
 
         System.Threading.Tasks.Task AddAllAsync(IEnumerable<SaleDto> salesDto);
 
