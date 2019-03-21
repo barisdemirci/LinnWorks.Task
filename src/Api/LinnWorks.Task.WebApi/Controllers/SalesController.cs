@@ -29,8 +29,10 @@ namespace LinnWorks.Task.WebApi.Controllers
 
         [HttpPost]
         [Route("getlastpageindex")]
-        public int Getlastpageindex(GetSalesRequestDto requestDto)
+        public int GetLastPageIndex(GetSalesRequestDto requestDto)
         {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
             return saleService.GetLastPageIndex(requestDto);
         }
 

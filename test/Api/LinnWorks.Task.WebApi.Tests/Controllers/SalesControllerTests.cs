@@ -45,11 +45,14 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
         [Fact]
         public void GetFilterParameters_NoArgs_CallsService()
         {
+            // arrange
+            GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
+
             // act
-            saleController.GetFilterParameters();
+            saleController.GetFilterParameters(requestDto);
 
             // assert
-            saleService.Received(1).GetFilterParameters();
+            saleService.Received(1).GetFilterParameters(requestDto);
         }
 
         [Fact]
@@ -70,6 +73,25 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
 
             // assert
             saleService.Received(1).UpdateSales(sales);
+        }
+        [Fact]
+        public void GetLastPageIndex_ArgumentIsNull_ThrowsArgumentNullException()
+        {
+            // act & assert
+            Assert.Throws<ArgumentNullException>(() => saleController.GetLastPageIndex(null));
+        }
+
+        [Fact]
+        public void GetLastPageIndex_ArgsOk_CallsService()
+        {
+            // arrange
+            GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
+
+            // act
+            saleController.GetLastPageIndex(requestDto);
+
+            // assert
+            saleService.Received(1).GetLastPageIndex(requestDto);
         }
     }
 }

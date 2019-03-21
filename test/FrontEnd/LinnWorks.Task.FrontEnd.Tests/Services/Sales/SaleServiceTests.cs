@@ -47,14 +47,15 @@ namespace LinnWorks.Task.FrontEnd.Tests.Services.Sales
                 Regions = new List<RegionDto>(),
                 SalesChannels = new List<SalesChannelDto>()
             };
-            httpClient.GetAsync<FilterParametersDto>(endpoint).Returns(parameters);
             GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
+            httpClient.PostAsync<GetSalesRequestDto, FilterParametersDto>(endpoint, requestDto).Returns(parameters);
+
 
             // act
             await saleService.GetFilterParameters(requestDto);
 
             // assert
-            await httpClient.Received(1).PostAsync<FilterParametersDto>(endpoint, requestDto);
+            await httpClient.Received(1).PostAsync<GetSalesRequestDto, FilterParametersDto>(endpoint, requestDto);
         }
 
         [Fact]
@@ -120,7 +121,7 @@ namespace LinnWorks.Task.FrontEnd.Tests.Services.Sales
             await saleService.GetLastPageIndexAsync(requestDto);
 
             // assert
-            await httpClient.Received(1).PostAsync<GetSalesRequestDto>(endpoint, requestDto);
+            await httpClient.Received(1).PostAsync<GetSalesRequestDto, int>(endpoint, requestDto);
         }
     }
 }

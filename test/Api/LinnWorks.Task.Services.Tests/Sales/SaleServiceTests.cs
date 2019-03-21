@@ -6,7 +6,6 @@ using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.DtosBuilder;
 using LinnWorks.Task.Entities;
-using LinnWorks.Task.Mapper.Profiles;
 using LinnWorks.Task.Repositories.UnitOfWork;
 using LinnWorks.Task.Services.Sales;
 using NSubstitute;
@@ -86,12 +85,14 @@ namespace LinnWorks.Task.Services.Tests.Sales
         [Fact]
         public void GetFilterParameters_ArgsOk_CallsRepository()
         {
+            // arrange
+            GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
 
             // act
-            var result = saleService.GetFilterParameters();
+            var result = saleService.GetFilterParameters(requestDto);
 
             // assert
-            unitOfWork.Sales.Received(1).GetFilterParameters();
+            unitOfWork.Sales.Received(1).GetFilterParameters(requestDto);
         }
 
         [Fact]
@@ -119,6 +120,26 @@ namespace LinnWorks.Task.Services.Tests.Sales
 
             // assert
             unitOfWork.Sales.Received(1).UpdateRange(sales);
+        }
+
+        [Fact]
+        public void GetLastPageIndex_ArgumentIsNull_ThrowsArgumentNullException()
+        {
+            // act & assert
+            Assert.Throws<ArgumentNullException>(() => saleService.GetLastPageIndex(null));
+        }
+
+        [Fact]
+        public void GetLastPageIndex_ArgsOk_CallsRepository()
+        {
+            // arrange
+            GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
+
+            // act
+            saleService.GetLastPageIndex(requestDto);
+
+            // assert
+            unitOfWork.Sales.Received(1).GetLastPageIndex(requestDto);
         }
     }
 }
