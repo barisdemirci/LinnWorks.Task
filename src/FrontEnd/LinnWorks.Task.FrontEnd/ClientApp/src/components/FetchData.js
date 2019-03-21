@@ -39,7 +39,7 @@ class FetchData extends Component {
         }
         filter.pageIndex = pageIndex;
         this.setState({ pageIndex: pageIndex });
-        filter.PageSize = 100;
+        filter.PageSize = 1000;
         return filter;
     }
 
