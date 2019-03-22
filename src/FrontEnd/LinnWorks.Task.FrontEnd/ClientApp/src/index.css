@@ -4,3 +4,51 @@
         padding-top: 50px;
     }
 }
+
+.uploadSection {
+    margin: 10px;
+}
+
+.uploadInput {
+    margin: 10px;
+}
+
+.uploadButton {
+    margin: 10px;
+}
+
+.region {
+    margin: 3px;
+    width: 15%;
+    display: inline-block;
+}
+
+.country {
+    margin: 3px;
+    width: 15%;
+    display: inline-block;
+}
+
+.itemType {
+    margin: 3px;
+    width: 15%;
+    display: inline-block;
+}
+
+.salesChannel {
+    margin: 3px;
+    width: 15%;
+    display: inline-block;
+}
+
+.orderPriority {
+    margin: 3px;
+    width: 15%;
+    display: inline-block;
+}
+
+.filterButton {
+    margin: 5px;
+    width: 100px;
+    display: inline-block;
+}

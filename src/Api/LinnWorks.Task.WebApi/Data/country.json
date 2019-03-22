@@ -196,11 +196,7 @@
     "CountryCode": "KM"
   },
   {
-    "CountryName": "Congo",
-    "CountryCode": "CG"
-  },
-  {
-    "CountryName": "Congo, The Democratic Republic of the",
+    "CountryName": "Democratic Republic of the Congo",
     "CountryCode": "CD"
   },
   {
@@ -210,6 +206,10 @@
   {
     "CountryName": "Costa Rica",
     "CountryCode": "CR"
+  },
+  {
+    "CountryName": "Cote d'Ivoire",
+    "CountryCode": "CI"
   },
   {
     "CountryName": "Croatia",
@@ -242,6 +242,10 @@
   {
     "CountryName": "Dominican Republic",
     "CountryCode": "DO"
+  },
+  {
+    "CountryName": "East Timor",
+    "CountryCode": "ET"
   },
   {
     "CountryName": "Ecuador",
@@ -308,7 +312,7 @@
     "CountryCode": "GA"
   },
   {
-    "CountryName": "Gambia",
+    "CountryName": "The Gambia",
     "CountryCode": "GM"
   },
   {
@@ -464,6 +468,10 @@
     "CountryCode": "KG"
   },
   {
+    "CountryName": "Laos",
+    "CountryCode": "LA"
+  },
+  {
     "CountryName": "Latvia",
     "CountryCode": "LV"
   },
@@ -480,7 +488,7 @@
     "CountryCode": "LR"
   },
   {
-    "CountryName": "Libyan Arab Jamahiriya",
+    "CountryName": "Libya",
     "CountryCode": "LY"
   },
   {
@@ -500,7 +508,7 @@
     "CountryCode": "MO"
   },
   {
-    "CountryName": "Macedonia, The Former Yugoslav Republic of",
+    "CountryName": "Macedonia",
     "CountryCode": "MK"
   },
   {
@@ -552,11 +560,11 @@
     "CountryCode": "MX"
   },
   {
-    "CountryName": "Micronesia, Federated States of",
+    "CountryName": "Federated States of Micronesia",
     "CountryCode": "FM"
   },
   {
-    "CountryName": "Moldova, Republic of",
+    "CountryName": "Moldova",
     "CountryCode": "MD"
   },
   {
@@ -800,6 +808,10 @@
     "CountryCode": "LK"
   },
   {
+    "CountryName": "South Sudan",
+    "CountryCode": "SS"
+  },
+  {
     "CountryName": "Sudan",
     "CountryCode": "SD"
   },
@@ -824,7 +836,7 @@
     "CountryCode": "CH"
   },
   {
-    "CountryName": "Syrian Arab Republic",
+    "CountryName": "Syria",
     "CountryCode": "SY"
   },
   {
@@ -842,10 +854,6 @@
   {
     "CountryName": "Thailand",
     "CountryCode": "TH"
-  },
-  {
-    "CountryName": "Timor-Leste",
-    "CountryCode": "TL"
   },
   {
     "CountryName": "Togo",

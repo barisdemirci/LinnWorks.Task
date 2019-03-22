@@ -7,8 +7,6 @@ using Amazon;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.S3.Util;
 using Amazon.SecretsManager;
 using LinnWorks.AWS.Redis;
 using LinnWorks.AWS.S3;
@@ -66,13 +64,13 @@ namespace LinnWorks.Processor.MicroService
             {
                 RedisDataAgent agent = new RedisDataAgent();
                 string value = await agent.GetValueAsync("excel");
-                context.Logger.LogLine($"{value} redis value");
                 if (!string.IsNullOrEmpty(value))
                 {
                     S3 s3 = new S3(S3Client);
                     StreamReader reader = await s3.ReadObjectDataAsync(value);
                     CSVReader csvReader = new CSVReader();
                     List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
+                    LoadData();
                     foreach (var item in sales)
                     {
                         Sale newSale = BuildObject(item);
@@ -81,7 +79,9 @@ namespace LinnWorks.Processor.MicroService
                     await dbContext.SaveChangesAsync();
                     await agent.DeleteValueAsync(value);
                     await s3.DeleteFileASync(value);
-                    return "Function is completed successfully!";
+                    string returnValue = $"Function is completed successfully!";
+                    context.Logger.LogLine(returnValue);
+                    return returnValue;
                 }
                 else
                 {
@@ -97,17 +97,32 @@ namespace LinnWorks.Processor.MicroService
             }
         }
 
+        private List<Country> Countries;
+        private List<ItemType> ItemTypes;
+        private List<OrderPriority> OrderPriorities;
+        private List<Region> Regions;
+        private List<SalesChannel> SalesChannels;
+
+        private void LoadData()
+        {
+            Countries = dbContext.Countries.ToList();
+            ItemTypes = dbContext.ItemTypes.ToList();
+            Regions = dbContext.Regions.ToList();
+            OrderPriorities = dbContext.OrderPriorities.ToList();
+            SalesChannels = dbContext.SalesChannels.ToList();
+        }
+
         private Sale BuildObject(SaleDto dto)
         {
             return new Sale()
             {
-                Country = dbContext.Countries.FirstOrDefault(x => x.CountryName == dto.Country.CountryName),
-                ItemType = dbContext.ItemTypes.FirstOrDefault(x => x.ItemTypeName == dto.ItemType.ItemTypeName),
+                Country = Countries.FirstOrDefault(x => x.CountryName == dto.Country.CountryName),
+                ItemType = ItemTypes.FirstOrDefault(x => x.ItemTypeName == dto.ItemType.ItemTypeName),
                 OrderDate = dto.OrderDate,
-                OrderPriority = dbContext.OrderPriorities.FirstOrDefault(x => x.OrderPriorityName == dto.OrderPriority.OrderPriorityName),
-                Region = dbContext.Regions.FirstOrDefault(x => x.RegionName == dto.Region.RegionName),
+                OrderPriority = OrderPriorities.FirstOrDefault(x => x.OrderPriorityName == dto.OrderPriority.OrderPriorityName),
+                Region = Regions.FirstOrDefault(x => x.RegionName == dto.Region.RegionName),
                 OrderID = dto.OrderID,
-                SalesChannel = dbContext.SalesChannels.FirstOrDefault(x => x.SalesChannelName == dto.SalesChannel.SalesChannelName),
+                SalesChannel = SalesChannels.FirstOrDefault(x => x.SalesChannelName == dto.SalesChannel.SalesChannelName),
                 ShipDate = dto.ShipDate,
                 TotalCost = dto.TotalCost,
                 TotalProfit = dto.TotalProfit,

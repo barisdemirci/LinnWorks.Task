@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace LinnWorks.Task.Entities
 {
     public class Sale : BaseEntity
     {
         [Key]
-        public int SaleID { get; set; }
+        public int SaleId { get; set; }
 
         [ForeignKey("RegionId")]
         public Region Region { get; set; }

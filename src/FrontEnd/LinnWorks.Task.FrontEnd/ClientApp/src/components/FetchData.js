@@ -177,29 +177,29 @@ function renderFilterSection(state, ref) {
         const defaultRegion = state.selectedRegionId ? state.selectedRegionId : state.parameters.regions[0];
         const defaultOrderPriority = state.selectedOrderPriorityId ? state.selectedOrderPriorityId : state.parameters.orderPriorities[0];
         return <div className="filterSection">
-            <div>
+            <div className="region">
                 <label>Region</label>
                 <Dropdown onChange={ref.onRegionChange} options={state.parameters.regions} value={defaultRegion} placeholder="Select an option" />
             </div>
-            <div>
+            <div className="country">
                 <label>Country</label>
                 <Dropdown onChange={ref.onCountryChange} options={state.parameters.countries} value={defaultCountry} placeholder="Select an option" />
             </div>
-            <div>
+            <div className="itemType">
                 <label>Item Type</label>
                 <Dropdown onChange={ref.onItemTypeChange} options={state.parameters.itemTypes} value={defaultItemType} placeholder="Select an option" />
             </div>
-            <div>
+            <div className="salesChannel">
                 <label>Sales Channel</label>
                 <Dropdown onChange={ref.onSalesChannelChange} options={state.parameters.salesChannels} value={defaultSalesChannel} placeholder="Select an option" />
             </div>
-            <div>
+            <div className="orderPriority">
                 <label>Order Priority</label>
                 <Dropdown onChange={ref.onOrderPriorityChange} options={state.parameters.orderPriorities} value={defaultOrderPriority} placeholder="Select an option" />
             </div>
-            <p className="clearfix">
+            <div className="filterButton">
                     <button className='btn btn-default pull-left' onClick={ref.onFilterButtonClick}>Filter</button>
-            </p>
+            </div>
         </div>
     }
 }

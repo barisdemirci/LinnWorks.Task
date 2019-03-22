@@ -33,11 +33,11 @@ namespace LinnWorks.Task.Repositories.Sales
         public FilterParameters GetFilterParameters(GetSalesRequestDto requestDto)
         {
             FilterParameters parameters = new FilterParameters();
-            parameters.Countries = ApplicationDbContext.Countries.ToList();
-            parameters.ItemTypes = ApplicationDbContext.ItemTypes.ToList();
-            parameters.Regions = ApplicationDbContext.Regions.ToList();
-            parameters.SalesChannels = ApplicationDbContext.SalesChannels.ToList();
-            parameters.OrderPriorities = ApplicationDbContext.OrderPriorities.ToList();
+            parameters.Countries = ApplicationDbContext.Countries.OrderBy(x => x.CountryName).ToList();
+            parameters.ItemTypes = ApplicationDbContext.ItemTypes.OrderBy(x => x.ItemTypeName).ToList();
+            parameters.Regions = ApplicationDbContext.Regions.OrderBy(x => x.RegionName).ToList();
+            parameters.SalesChannels = ApplicationDbContext.SalesChannels.OrderBy(x => x.SalesChannelName).ToList();
+            parameters.OrderPriorities = ApplicationDbContext.OrderPriorities.OrderBy(x => x.OrderPriorityName).ToList();
             return parameters;
         }
 
@@ -63,7 +63,7 @@ namespace LinnWorks.Task.Repositories.Sales
                         SalesChannel = sale.SalesChannel,
                         OrderID = sale.OrderID,
                         OrderDate = sale.OrderDate,
-                        SaleID = sale.SaleID,
+                        SaleId = sale.SaleId,
                         ShipDate = sale.ShipDate,
                         TotalCost = sale.TotalCost,
                         TotalProfit = sale.TotalProfit,

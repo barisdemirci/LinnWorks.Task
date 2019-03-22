@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Amazon.SecretsManager;
 using LinnWorks.AWS.SecretsManager;
 using Microsoft.EntityFrameworkCore;

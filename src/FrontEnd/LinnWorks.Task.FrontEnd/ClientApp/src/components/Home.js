@@ -8,28 +8,53 @@ class ImportFile extends Component {
 
     handleClick = () => {
         let file = document.getElementById("fileToUpload").files[0];
+        if (file === undefined) {
+            alert("Please choose a file");
+            return;
+        }
         let formData = new FormData();
         formData.append("excel", file);
-        fetch("http://queuemicroservice.eu-central-1.elasticbeanstalk.com/api/file/upload", {
+        var ref = this;
+        ref.changeEnablement(true);
+        fetch("http://linnworksqueuemicroservice-dev.eu-central-1.elasticbeanstalk.com/api/file/upload", {
             method: "POST", body: formData, mode: "no-cors", headers: {
                 'Access-Control-Allow-Origin': '*'
             }
         })
-            .then(data => console.log(JSON.stringify(data)))
-            .catch(error => console.error(error));
+            .then(function () {
+                ref.changeEnablement(false);
+                alert("File is uploaded successfully.");
+            })
+            .catch(function () {
+                ref.changeEnablement(false);
+                alert("Something went wrong.");
+            });
+    }
+
+    changeEnablement(disabled) {
+        document.getElementById("fileToUpload").disabled = disabled;
+        document.getElementById("uploadButton").disabled = disabled;
+        var label = document.getElementById("statusLabel");
+        if (disabled) {
+            label.style.visibility = "";
+        }
+        else {
+            label.style.visibility = "hidden";
+        }
     }
 
     render() {
         return (
-            <div>
+            <div id="uploadSection" className="import">
                 <h1>Import File</h1>
-                <div>
+                <div className="uploadInput">
                     Select image to upload:
                     <input type="file" name="fileToUpload" id="fileToUpload" />
                 </div>
-                <div>
-                    <input type="submit" value="Upload Image" name="submit" onClick={this.handleClick} />
+                <div className="uploadButton">
+                    <input id="uploadButton" type="submit" value="Upload Image" name="submit" onClick={this.handleClick} />
                 </div>
+                <label style={{ visibility: "hidden" }} id="statusLabel">The file is uploading...</label>
             </div>
         );
     }
