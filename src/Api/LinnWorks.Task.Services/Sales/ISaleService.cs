@@ -16,6 +16,6 @@ namespace LinnWorks.Task.Services.Sales
 
         System.Threading.Tasks.Task AddAllAsync(IEnumerable<SaleDto> salesDto);
 
-        System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto);
+        System.Threading.Tasks.Task UpdateSales(IEnumerable<SaleDto> salesDto);
     }
 }

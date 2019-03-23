@@ -7,7 +7,7 @@ using System.Text;
 namespace LinnWorks.Task.Entities
 {
     [Table("Regions")]
-    public class Region : BaseEntity
+    public class Region
     {
         public int RegionId { get; set; }
 

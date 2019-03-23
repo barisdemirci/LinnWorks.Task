@@ -50,13 +50,13 @@ namespace LinnWorks.Task.Services.Sales
             return unitOfWork.Sales.GetLastPageIndex(requestDto);
         }
 
-        public async System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
+        public System.Threading.Tasks.Task UpdateSales(IEnumerable<SaleDto> salesDto)
         {
             if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
 
             var sales = mapper.Map<IEnumerable<Sale>>(salesDto);
             unitOfWork.Sales.UpdateRange(sales);
-            await unitOfWork.SaveAsync();
+            return unitOfWork.SaveAsync();
         }
     }
 }

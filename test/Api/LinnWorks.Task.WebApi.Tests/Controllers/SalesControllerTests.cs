@@ -72,7 +72,7 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
             saleController.UpdateSalesAsync(sales);
 
             // assert
-            saleService.Received(1).UpdateSalesAsync(sales);
+            saleService.Received(1).UpdateSales(sales);
         }
         [Fact]
         public void GetLastPageIndex_ArgumentIsNull_ThrowsArgumentNullException()

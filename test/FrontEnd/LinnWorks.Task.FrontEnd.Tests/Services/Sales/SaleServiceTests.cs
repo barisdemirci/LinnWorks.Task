@@ -106,7 +106,7 @@ namespace LinnWorks.Task.FrontEnd.Tests.Services.Sales
         public void GetLastPageIndexAsync_ArgumentIsNull_ThrowsArgumentNullException()
         {
             // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => saleService.GetLastPageIndexAsync(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => saleService.GetLastPageIndex(null));
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace LinnWorks.Task.FrontEnd.Tests.Services.Sales
             GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
 
             // act
-            await saleService.GetLastPageIndexAsync(requestDto);
+            await saleService.GetLastPageIndex(requestDto);
 
             // assert
             await httpClient.Received(1).PostAsync<GetSalesRequestDto, int>(endpoint, requestDto);

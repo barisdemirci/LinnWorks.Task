@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LinnWorks.Task.Entities
 {
-    public class Sale : BaseEntity
+    public class Sale
     {
         [Key]
         public int SaleId { get; set; }

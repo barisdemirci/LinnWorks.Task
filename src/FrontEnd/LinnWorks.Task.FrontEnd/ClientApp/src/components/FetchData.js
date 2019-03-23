@@ -33,7 +33,7 @@ class FetchData extends Component {
 
     }
 
-    getFilter(pageIndex) {
+    getFilter = (pageIndex) => {
         var filter = {};
         if (this.state) {
             filter.CountryId = this.state.selectedCountryId;

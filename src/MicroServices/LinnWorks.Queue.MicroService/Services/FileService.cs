@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Amazon;
 using Amazon.S3;
 using LinnWorks.AWS.Redis;
 using LinnWorks.AWS.S3;
@@ -23,19 +21,19 @@ namespace LinnWorks.Queue.MicroService.Services
             this.s3 = s3 ?? throw new ArgumentNullException(nameof(s3));
         }
 
-        public async System.Threading.Tasks.Task AddQueue(IFormFile file)
+        public System.Threading.Tasks.Task AddQueue(IFormFile file)
         {
             if (file == null) throw new ArgumentNullException(nameof(file));
 
-            await regisAgent.AddValueAsync(file.Name, file.FileName);
+            return regisAgent.AddValueAsync(file.Name, file.FileName);
         }
 
-        public async System.Threading.Tasks.Task UploadFileToS3(IFormFile file)
+        public System.Threading.Tasks.Task UploadFileToS3(IFormFile file)
         {
             if (file == null) throw new ArgumentNullException(nameof(file));
 
             Stream fileStream = file.OpenReadStream();
-            await s3.UploadFileToS3Async(fileStream, file.FileName);
+            return s3.UploadFileToS3Async(fileStream, file.FileName);
         }
     }
 }

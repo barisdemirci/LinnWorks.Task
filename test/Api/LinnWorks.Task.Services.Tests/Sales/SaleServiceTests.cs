@@ -99,7 +99,7 @@ namespace LinnWorks.Task.Services.Tests.Sales
         public void UpdateSales_ArgumentIsNull_ThrowsArgumentNullException()
         {
             // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => saleService.UpdateSalesAsync(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => saleService.UpdateSales(null));
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace LinnWorks.Task.Services.Tests.Sales
             unitOfWork.Sales.GetFilteredSales(requestDto).Returns(sales);
 
             // act
-            saleService.UpdateSalesAsync(salesDto);
+            saleService.UpdateSales(salesDto);
 
             // assert
             unitOfWork.Sales.Received(1).UpdateRange(sales);

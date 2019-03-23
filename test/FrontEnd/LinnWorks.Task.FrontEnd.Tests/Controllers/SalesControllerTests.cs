@@ -102,7 +102,7 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
             await saleController.GetLastPageIndexAsync(requestDto);
 
             // assert
-            await saleService.Received(1).GetLastPageIndexAsync(requestDto);
+            await saleService.Received(1).GetLastPageIndex(requestDto);
         }
     }
 }

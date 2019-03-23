@@ -24,11 +24,13 @@ namespace LinnWorks.Task.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IEnumerable<SaleDto>> GetSalesAsync([FromBody]GetSalesRequestDto requestDto)
+        public async Task<IActionResult> GetSalesAsync([FromBody]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+            if (requestDto == null) BadRequest();
 
-            return await saleService.GetSalesAsync(requestDto);
+            var sales = await saleService.GetSalesAsync(requestDto);
+
+            return Ok(sales);
         }
 
         [HttpPost]
@@ -36,26 +38,26 @@ namespace LinnWorks.Task.Web.Controllers
         [ResponseCache(Duration = 10)]
         public async Task<FilterParametersViewModel> GetFilterParameters([FromBody]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+            if (requestDto == null) BadRequest();
 
             return await saleService.GetFilterParameters(requestDto);
         }
 
         [HttpPost]
         [Route("getlastpageindex")]
-        public async Task<int> GetLastPageIndexAsync([FromBody]GetSalesRequestDto requestDto)
+        public Task<int> GetLastPageIndexAsync([FromBody]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+            if (requestDto == null) BadRequest();
 
-            return await saleService.GetLastPageIndexAsync(requestDto);
+            return saleService.GetLastPageIndex(requestDto);
         }
 
         [HttpPut]
-        public async System.Threading.Tasks.Task UpdateSalesAsync([FromBody] IEnumerable<SaleDto> sales)
+        public System.Threading.Tasks.Task UpdateSalesAsync([FromBody] IEnumerable<SaleDto> sales)
         {
-            if (sales == null) throw new ArgumentNullException(nameof(sales));
+            if (sales == null) BadRequest();
 
-            await saleService.UpdateSalesAsync(sales);
+            return saleService.UpdateSalesAsync(sales);
         }
     }
 }

@@ -35,27 +35,16 @@ namespace LinnWorks.AWS.S3
         public async Task<StreamReader> ReadObjectDataAsync(string fileName)
         {
             StreamReader reader = null;
-            try
+            GetObjectRequest request = new GetObjectRequest
             {
-                GetObjectRequest request = new GetObjectRequest
-                {
-                    BucketName = bucketName,
-                    Key = fileName
-                };
+                BucketName = bucketName,
+                Key = fileName
+            };
 
-                GetObjectResponse response = await client.GetObjectAsync(request);
-                Stream responseStream = response.ResponseStream;
-                reader = new StreamReader(responseStream);
-                return reader;
-            }
-            catch (AmazonS3Exception e)
-            {
-                throw e;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            GetObjectResponse response = await client.GetObjectAsync(request);
+            Stream responseStream = response.ResponseStream;
+            reader = new StreamReader(responseStream);
+            return reader;
         }
 
         public async Task DeleteFileASync(string fileName)

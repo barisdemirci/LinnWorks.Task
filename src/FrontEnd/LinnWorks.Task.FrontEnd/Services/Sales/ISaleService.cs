@@ -16,6 +16,6 @@ namespace LinnWorks.Task.Web.Services.Sales
 
         Task<FilterParametersViewModel> GetFilterParameters(GetSalesRequestDto requestDto);
 
-        Task<int> GetLastPageIndexAsync(GetSalesRequestDto requestDto);
+        Task<int> GetLastPageIndex(GetSalesRequestDto requestDto);
     }
 }

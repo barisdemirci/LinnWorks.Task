@@ -18,14 +18,14 @@ namespace LinnWorks.AWS.Redis
             return await _database.StringGetAsync(key);
         }
 
-        public async Task AddValueAsync(string key, string value)
+        public Task AddValueAsync(string key, string value)
         {
-            await _database.StringSetAsync(key, value);
+            return _database.StringSetAsync(key, value);
         }
 
-        public async Task DeleteValueAsync(string key)
+        public Task DeleteValueAsync(string key)
         {
-            await _database.KeyDeleteAsync(key);
+            return _database.KeyDeleteAsync(key);
         }
     }
 }

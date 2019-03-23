@@ -90,24 +90,22 @@ namespace LinnWorks.Task.Web.Services.Sales
             return parameters;
         }
 
-        public async Task<int> GetLastPageIndexAsync(GetSalesRequestDto requestDto)
+        public Task<int> GetLastPageIndex(GetSalesRequestDto requestDto)
         {
             string getSalesUrl = configuration[EndPoints.Api.GetLastPageIndex];
-            int lastPageIndex = await httpClient.PostAsync<GetSalesRequestDto, int>(getSalesUrl, requestDto);
-            return lastPageIndex;
+            return httpClient.PostAsync<GetSalesRequestDto, int>(getSalesUrl, requestDto);
         }
 
         public async Task<IEnumerable<SaleDto>> GetSalesAsync(GetSalesRequestDto requestDto)
         {
             string getSalesUrl = configuration[EndPoints.Api.GetSales];
-            IEnumerable<SaleDto> sales = await httpClient.PostAsync<GetSalesRequestDto, IEnumerable<SaleDto>>(getSalesUrl, requestDto);
-            return sales;
+            return await httpClient.PostAsync<GetSalesRequestDto, IEnumerable<SaleDto>>(getSalesUrl, requestDto);
         }
 
-        public async System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
+        public System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
             string updateSalesUrl = configuration[EndPoints.Api.UpdateSales];
-            await httpClient.PutAsync<IEnumerable<SaleDto>>(updateSalesUrl, salesDto);
+            return httpClient.PutAsync<IEnumerable<SaleDto>>(updateSalesUrl, salesDto);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace LinnWorks.Task.WebApi.Controllers
         {
             if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
 
-            return saleService.UpdateSalesAsync(salesDto);
+            return saleService.UpdateSales(salesDto);
         }
     }
 }

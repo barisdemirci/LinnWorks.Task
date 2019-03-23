@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
 namespace LinnWorks.Task.Entities
 {
     [Table("Countries")]
-    public class Country : BaseEntity
+    public class Country
     {
         [Key]
         public int CountryId { get; set; }

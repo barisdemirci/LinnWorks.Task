@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace LinnWorks.Task.Entities
 {
     [Table("SalesChannels")]
-    public class SalesChannel : BaseEntity
+    public class SalesChannel
     {
         [Key]
         public int SalesChannelId { get; set; }
