@@ -32,29 +32,27 @@ class ImportFile extends Component {
     }
 
     changeEnablement(disabled) {
-        document.getElementById("fileToUpload").disabled = disabled;
-        document.getElementById("uploadButton").disabled = disabled;
-        var label = document.getElementById("statusLabel");
-        if (disabled) {
-            label.style.visibility = "";
-        }
-        else {
-            label.style.visibility = "hidden";
-        }
+        this.setState({ disabled: disabled });
     }
 
     render() {
+        let disabled = "";
+        let visibilityofLabel = "hidden";
+        if (this.state !== null && this.state.disabled !== undefined && this.state.disabled) {
+            disabled = "disabled";
+            visibilityofLabel = "visible";
+        }
         return (
             <div id="uploadSection" className="import">
                 <h1>Import File</h1>
                 <div className="uploadInput">
                     Select image to upload:
-                    <input type="file" name="fileToUpload" id="fileToUpload" />
+                    <input type="file" name="fileToUpload" id="fileToUpload" disabled={disabled} />
                 </div>
                 <div className="uploadButton">
-                    <input id="uploadButton" type="submit" value="Upload Image" name="submit" onClick={this.handleClick} />
+                    <input id="uploadButton" type="submit" value="Upload Image" name="submit" onClick={this.handleClick} disabled={disabled} />
                 </div>
-                <label style={{ visibility: "hidden" }} id="statusLabel">The file is uploading...</label>
+                <label style={{ visibility: visibilityofLabel }} id="statusLabel">The file is uploading...</label>
             </div>
         );
     }
