@@ -10,18 +10,23 @@ namespace LinnWorks.Task.Entities
         [Key]
         public int SaleId { get; set; }
 
+        public int RegionId { get; set; }
         [ForeignKey("RegionId")]
         public Region Region { get; set; }
 
+        public int? CountryId { get; set; }
         [ForeignKey("CountryId")]
         public Country Country { get; set; }
 
+        public int ItemTypeId { get; set; }
         [ForeignKey("ItemTypeId")]
         public ItemType ItemType { get; set; }
 
+        public int SalesChannelId { get; set; }
         [ForeignKey("SalesChannelId")]
         public SalesChannel SalesChannel { get; set; }
 
+        public int OrderPriorityId { get; set; }
         [ForeignKey("OrderPriorityId")]
         public OrderPriority OrderPriority { get; set; }
 

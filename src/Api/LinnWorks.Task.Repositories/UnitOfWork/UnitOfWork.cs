@@ -21,9 +21,9 @@ namespace LinnWorks.Task.Repositories.UnitOfWork
 
         public ISaleRepository Sales { get; private set; }
 
-        System.Threading.Tasks.Task IUnitOfWork.SaveAsync()
+        async System.Threading.Tasks.Task IUnitOfWork.SaveAsync()
         {
-            throw new NotImplementedException();
+            await Context.SaveChangesAsync();
         }
 
         private bool disposed = false;

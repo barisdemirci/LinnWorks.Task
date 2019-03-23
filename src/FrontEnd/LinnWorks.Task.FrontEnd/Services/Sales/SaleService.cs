@@ -106,8 +106,8 @@ namespace LinnWorks.Task.Web.Services.Sales
 
         public async System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
-            string getSalesUrl = configuration[EndPoints.Api.UpdateSales];
-            await httpClient.PutAsync<IEnumerable<SaleDto>>(getSalesUrl, salesDto);
+            string updateSalesUrl = configuration[EndPoints.Api.UpdateSales];
+            await httpClient.PutAsync<IEnumerable<SaleDto>>(updateSalesUrl, salesDto);
         }
     }
 }

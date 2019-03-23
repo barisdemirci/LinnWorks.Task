@@ -16,6 +16,10 @@ namespace LinnWorks.Task.Dtos
 
         public int ItemTypeId { get; set; }
 
+        public DateTime OrderDate { get; set; }
+
+        public int OrderId { get; set; }
+
         public int PageIndex { get; set; }
 
         public int PageSize { get; set; }

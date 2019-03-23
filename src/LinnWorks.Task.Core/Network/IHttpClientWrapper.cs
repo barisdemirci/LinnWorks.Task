@@ -15,7 +15,7 @@ namespace LinnWorks.Task.Core.Network
 
         Task<TDto> PutAsync<TDto>(string endpoint, TDto dto);
 
-        Task<TResponse> PutAsync<TRequest, TResponse>(string endpoint, TRequest dto);
+        Task<TResponseDto> PutAsync<TRequest, TResponseDto>(string endpoint, TRequest dto);
 
         Task<bool> DeleteAsync(string endpoint);
 

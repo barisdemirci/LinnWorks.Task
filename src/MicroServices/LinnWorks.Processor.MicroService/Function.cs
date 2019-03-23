@@ -71,11 +71,13 @@ namespace LinnWorks.Processor.MicroService
                     CSVReader csvReader = new CSVReader();
                     List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
                     LoadData();
-                    foreach (var item in sales)
+                    List<Sale> salesEntity = new List<Sale>();
+                    foreach (var item in sales.AsParallel())
                     {
                         Sale newSale = BuildObject(item);
-                        await dbContext.Sales.AddAsync(newSale);
+                        salesEntity.Add(newSale);
                     }
+                    await dbContext.AddRangeAsync(salesEntity);
                     await dbContext.SaveChangesAsync();
                     await agent.DeleteValueAsync(value);
                     await s3.DeleteFileASync(value);
@@ -92,7 +94,7 @@ namespace LinnWorks.Processor.MicroService
             catch (Exception e)
             {
                 context.Logger.LogLine(e.Message);
-                context.Logger.LogLine(e.StackTrace);
+                context.Logger.LogLine(e.InnerException.Message);
                 throw;
             }
         }

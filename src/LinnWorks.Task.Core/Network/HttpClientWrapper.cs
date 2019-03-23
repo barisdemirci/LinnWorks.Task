@@ -55,6 +55,9 @@ namespace LinnWorks.Task.Core.Network
 
         public async Task<TResponseDto> PostAsync<TRequestDto, TResponseDto>(string endpoint, TRequestDto dto)
         {
+            if (string.IsNullOrEmpty(endpoint)) throw new ArgumentNullException(nameof(endpoint));
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+
             endpoint = string.Concat(BaseUrl, endpoint);
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(endpoint);
@@ -71,37 +74,44 @@ namespace LinnWorks.Task.Core.Network
             throw new NotImplementedException();
         }
 
-        public Task<TDto> PutAsync<TDto>(string endpoint, TDto dto)
+        public async Task<TDto> PutAsync<TDto>(string endpoint, TDto dto)
         {
-            throw new NotImplementedException();
+            return await PutAsync<TDto, TDto>(endpoint, dto);
         }
 
-        public Task<TResponse> PutAsync<TRequest, TResponse>(string endpoint, TRequest dto)
+        public async Task<TResponseDto> PutAsync<TRequest, TResponseDto>(string endpoint, TRequest dto)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(endpoint)) throw new ArgumentNullException(nameof(endpoint));
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+            HttpClient client = new HttpClient();
+            endpoint = string.Concat(BaseUrl, endpoint);
+            client.BaseAddress = new Uri(endpoint);
+            string content = JsonConvert.SerializeObject(dto);
+            HttpContent httpContent = new StringContent(content, Encoding, ApplicationJson);
+            HttpResponseMessage response = await client.PutAsync(endpoint, httpContent);
+
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TResponseDto>(data);
         }
 
         public async System.Threading.Tasks.Task<string> UploadFileAsync(string endpoint, IFormFile file)
         {
-            try
-            {
-                HttpClient client = new HttpClient();
-                endpoint = string.Concat(BaseUrl, endpoint);
-                byte[] data;
-                using (var br = new BinaryReader(file.OpenReadStream()))
-                    data = br.ReadBytes((int)file.OpenReadStream().Length);
+            if (string.IsNullOrEmpty(endpoint)) throw new ArgumentNullException(nameof(endpoint));
+            if (file == null) throw new ArgumentNullException(nameof(endpoint));
 
-                ByteArrayContent bytes = new ByteArrayContent(data);
-                MultipartFormDataContent multiContent = new MultipartFormDataContent();
-                multiContent.Add(bytes, "excel", file.FileName);
+            HttpClient client = new HttpClient();
+            endpoint = string.Concat(BaseUrl, endpoint);
+            byte[] data;
+            using (var br = new BinaryReader(file.OpenReadStream()))
+                data = br.ReadBytes((int)file.OpenReadStream().Length);
 
-                var result = await client.PostAsync(endpoint, multiContent);
-                return "Service is called";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            ByteArrayContent bytes = new ByteArrayContent(data);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            multiContent.Add(bytes, "excel", file.FileName);
+
+            var result = await client.PostAsync(endpoint, multiContent);
+            return "Service is called";
         }
     }
 }

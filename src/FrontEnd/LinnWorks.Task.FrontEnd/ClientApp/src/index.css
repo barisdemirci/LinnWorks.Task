@@ -5,6 +5,14 @@
     }
 }
 
+.col-sm-3 {
+    width: 17%;
+}
+
+.col-sm-9 {
+    width: 82%;
+}
+
 .uploadSection {
     margin: 10px;
 }
@@ -19,36 +27,66 @@
 
 .region {
     margin: 3px;
-    width: 15%;
+    width: 17%;
     display: inline-block;
 }
 
 .country {
     margin: 3px;
-    width: 15%;
+    width: 17%;
     display: inline-block;
 }
 
 .itemType {
     margin: 3px;
-    width: 15%;
+    width: 17%;
     display: inline-block;
 }
 
 .salesChannel {
     margin: 3px;
-    width: 15%;
+    width: 17%;
     display: inline-block;
 }
 
 .orderPriority {
     margin: 3px;
-    width: 15%;
+    width: 17%;
+    display: inline-block;
+}
+
+.orderDate {
+    margin: 3px;
+    width: 17%;
+    display: inline-block;
+}
+
+.orderId {
+    margin: 3px;
+    width: 17%;
     display: inline-block;
 }
 
 .filterButton {
-    margin: 5px;
-    width: 100px;
+    margin: 10px;
+    width: 150px;
     display: inline-block;
+}
+
+.saveButton {
+    margin: 10px;
+    width: 150px;
+    display: inline-block;
+}
+
+
+.numberInput {
+    margin: 5px;
+    width: 100%;
+}
+
+.itemDropDown {
+}
+
+.itemDate {
 }

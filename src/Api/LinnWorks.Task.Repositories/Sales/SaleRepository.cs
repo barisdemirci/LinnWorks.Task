@@ -44,6 +44,7 @@ namespace LinnWorks.Task.Repositories.Sales
         private IQueryable<Sale> GetQueryFilteredSales(GetSalesRequestDto requestDto)
         {
             return (from sale in ApplicationDbContext.Set<Sale>()
+                    where (sale.OrderID == requestDto.OrderId || requestDto.OrderId == default(int)) && (sale.OrderDate >= requestDto.OrderDate || requestDto.OrderDate == default(DateTime))
                     join country in ApplicationDbContext.Set<Country>() on sale.Country.CountryId equals country.CountryId
                     where (country.CountryId == requestDto.CountryId || requestDto.CountryId == default(int))
                     join itemType in ApplicationDbContext.Set<ItemType>() on sale.ItemType.ItemTypeId equals itemType.ItemTypeId

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.Services.Sales;
@@ -45,11 +43,11 @@ namespace LinnWorks.Task.WebApi.Controllers
         }
 
         [HttpPut]
-        public void UpdateSales(IEnumerable<SaleDto> salesDto)
+        public System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
             if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
 
-            saleService.UpdateSales(salesDto);
+            return saleService.UpdateSalesAsync(salesDto);
         }
     }
 }
