@@ -25,10 +25,11 @@ namespace LinnWorks.Task.Web.Services.Sales
 
         public async Task<FilterParametersViewModel> GetFilterParameters(GetSalesRequestDto requestDto)
         {
-            string getFilterParametersUrl = configuration[EndPoints.Api.GetFilterParameters];
-            FilterParametersDto parametersDto = await httpClient.PostAsync<GetSalesRequestDto, FilterParametersDto>(getFilterParametersUrl, requestDto);
+            string getFilterParametersUrl = GetEndPointForGetSalesRequest(EndPoints.Api.GetFilterParameters, requestDto);
+            FilterParametersDto parametersDto = await httpClient.GetAsync<FilterParametersDto>(getFilterParametersUrl);
             FilterParametersViewModel parameters = new FilterParametersViewModel();
             parameters.Countries = new List<DropDownViewModel>();
+            DropDownViewModel allItem = new DropDownViewModel() { Value = default(int).ToString(), Label = "All" };
             foreach (var item in parametersDto.Countries)
             {
                 parameters.Countries.Add(
@@ -38,7 +39,7 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.CountryId.ToString()
                     });
             }
-            parameters.Countries.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+            parameters.Countries.Insert(0, allItem);
 
             parameters.ItemTypes = new List<DropDownViewModel>();
             foreach (var item in parametersDto.ItemTypes)
@@ -50,7 +51,7 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.ItemTypeId.ToString()
                     });
             }
-            parameters.ItemTypes.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+            parameters.ItemTypes.Insert(0, allItem);
 
             parameters.OrderPriorities = new List<DropDownViewModel>();
             foreach (var item in parametersDto.OrderPriorities)
@@ -62,7 +63,7 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.OrderPriorityId.ToString()
                     });
             }
-            parameters.OrderPriorities.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+            parameters.OrderPriorities.Insert(0, allItem);
 
             parameters.Regions = new List<DropDownViewModel>();
             foreach (var item in parametersDto.Regions)
@@ -74,7 +75,7 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.RegionId.ToString()
                     });
             }
-            parameters.Regions.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+            parameters.Regions.Insert(0, allItem);
 
             parameters.SalesChannels = new List<DropDownViewModel>();
             foreach (var item in parametersDto.SalesChannels)
@@ -86,26 +87,31 @@ namespace LinnWorks.Task.Web.Services.Sales
                         Value = item.SalesChannelId.ToString()
                     });
             }
-            parameters.SalesChannels.Insert(0, new DropDownViewModel() { Value = default(int).ToString(), Label = "All" });
+            parameters.SalesChannels.Insert(0, allItem);
             return parameters;
         }
 
         public Task<int> GetLastPageIndex(GetSalesRequestDto requestDto)
         {
-            string getSalesUrl = configuration[EndPoints.Api.GetLastPageIndex];
-            return httpClient.PostAsync<GetSalesRequestDto, int>(getSalesUrl, requestDto);
+            string getSalesUrl = GetEndPointForGetSalesRequest(EndPoints.Api.GetLastPageIndex, requestDto);
+            return httpClient.GetAsync<int>(getSalesUrl);
         }
 
         public async Task<IEnumerable<SaleDto>> GetSalesAsync(GetSalesRequestDto requestDto)
         {
-            string getSalesUrl = configuration[EndPoints.Api.GetSales];
-            return await httpClient.PostAsync<GetSalesRequestDto, IEnumerable<SaleDto>>(getSalesUrl, requestDto);
+            string getSalesUrl = GetEndPointForGetSalesRequest(EndPoints.Api.GetSales, requestDto);
+            return await httpClient.GetAsync<IEnumerable<SaleDto>>(getSalesUrl);
         }
 
         public System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
             string updateSalesUrl = configuration[EndPoints.Api.UpdateSales];
-            return httpClient.PutAsync<IEnumerable<SaleDto>>(updateSalesUrl, salesDto);
+            return httpClient.PutAsync(updateSalesUrl, salesDto);
+        }
+
+        private string GetEndPointForGetSalesRequest(string endPointKey, GetSalesRequestDto requestDto)
+        {
+            return string.Format(configuration[endPointKey], requestDto.CountryId, requestDto.SalesChannelId, requestDto.OrderPriorityId, requestDto.RegionId, requestDto.ItemTypeId, requestDto.OrderDate, requestDto.OrderId, requestDto.PageIndex, requestDto.PageSize);
         }
     }
 }

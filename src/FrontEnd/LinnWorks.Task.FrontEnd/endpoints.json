@@ -1,8 +1,8 @@
 {
   "api": {
-    "getsales": "api/sales",
-    "getfilterparameters": "api/sales/getfilterparameters",
-    "getlastpageindex": "api/sales/getlastpageindex",
+    "getsales": "api/sales?CountryId={0}&SalesChannelId={1}&OrderPriorityId={2}&RegionId={3}&ItemTypeId={4}&OrderDate={5}&OrderId={6}&PageIndex={7}&PageSize={8}",
+    "getfilterparameters": "api/sales/filterparameters?CountryId={0}&SalesChannelId={1}&OrderPriorityId={2}&RegionId={3}&ItemTypeId={4}&OrderDate={5}&OrderId={6}&PageIndex={7}&PageSize={8}",
+    "getlastpageindex": "api/sales/lastpageindex?CountryId={0}&SalesChannelId={1}&OrderPriorityId={2}&RegionId={3}&ItemTypeId={4}&OrderDate={5}&OrderId={6}&PageIndex={7}&PageSize={8}",
     "updatesales": "api/sales"
   },
   "queue": {

@@ -18,36 +18,46 @@ namespace LinnWorks.Task.WebApi.Controllers
             this.saleService = saleService ?? throw new ArgumentNullException(nameof(saleService));
         }
 
-        [HttpPost]
-        [Route("getfilterparameters")]
-        public FilterParametersDto GetFilterParameters(GetSalesRequestDto requestDto)
+        [HttpGet]
+        [Route("filterparameters")]
+        public IActionResult GetFilterParameters([FromQuery]GetSalesRequestDto requestDto)
         {
-            return saleService.GetFilterParameters(requestDto);
+            if (requestDto == null) BadRequest();
+
+            FilterParametersDto parameters = saleService.GetFilterParameters(requestDto);
+
+            return Ok(parameters);
         }
 
-        [HttpPost]
-        [Route("getlastpageindex")]
-        public int GetLastPageIndex(GetSalesRequestDto requestDto)
+        [HttpGet]
+        [Route("lastpageindex")]
+        public IActionResult GetLastPageIndex([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+            if (requestDto == null) BadRequest();
 
-            return saleService.GetLastPageIndex(requestDto);
+            int lastIndex = saleService.GetLastPageIndex(requestDto);
+
+            return Ok(lastIndex);
         }
 
-        [HttpPost]
-        public IEnumerable<SaleDto> GetSales(GetSalesRequestDto requestDto)
+        [HttpGet]
+        public IActionResult GetSales([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+            if (requestDto == null) BadRequest();
 
-            return saleService.GetFilteredSales(requestDto);
+            var sales = saleService.GetFilteredSales(requestDto);
+
+            return Ok(sales);
         }
 
         [HttpPut]
-        public System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
+        public IActionResult UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
-            if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
+            if (salesDto == null) BadRequest();
 
-            return saleService.UpdateSales(salesDto);
+            saleService.UpdateSales(salesDto);
+
+            return Ok();
         }
     }
 }

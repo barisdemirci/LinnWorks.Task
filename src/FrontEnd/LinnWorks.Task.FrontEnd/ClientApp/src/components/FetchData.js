@@ -8,7 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 class FetchData extends Component {
     componentWillMount() {
-        // This method runs when the component is first added to the page
         this.onCountryChange = this.onCountryChange.bind(this);
         this.onRegionChange = this.onRegionChange.bind(this);
         this.onSalesChannelChange = this.onSalesChannelChange.bind(this);
@@ -33,7 +32,7 @@ class FetchData extends Component {
 
     }
 
-    getFilter = (pageIndex) => {
+    getFilterQuery = (pageIndex) => {
         var filter = {};
         if (this.state) {
             filter.CountryId = this.state.selectedCountryId;
@@ -44,16 +43,41 @@ class FetchData extends Component {
             filter.OrderDate = this.state.selectedOrderDate !== null ? this.state.selectedOrderDate : undefined;
             filter.OrderId = this.state.selectedOrderId !== "" ? this.state.selectedOrderId : undefined;
         }
-        filter.pageIndex = pageIndex;
+        filter.PageIndex = pageIndex;
         this.setState({ pageIndex: pageIndex });
         filter.PageSize = 1000;
-        return filter;
+
+        let query = "";
+        query = query.concat(`PageIndex=${filter.PageIndex}&PageSize=${filter.PageSize}`);
+        if (filter.CountryId !== undefined) {
+            query = query.concat(`&CountryId=${filter.CountryId}`);
+        }
+        if (filter.SalesChannelId !== undefined) {
+            query = query.concat(`&SalesChannelId=${filter.SalesChannelId}`);
+        }
+        if (filter.OrderPriorityId !== undefined) {
+            query = query.concat(`&OrderPriorityId=${filter.OrderPriorityId}`);
+        }
+        if (filter.RegionId !== undefined) {
+            query = query.concat(`&RegionId=${filter.RegionId}`);
+        }
+        if (filter.ItemTypeId !== undefined) {
+            query = query.concat(`&ItemTypeId=${filter.ItemTypeId}`);
+        }
+        if (filter.OrderDate !== undefined) {
+            query = query.concat(`&OrderDate=${filter.OrderDate.toISOString()}`);
+        }
+        if (filter.OrderId) {
+            query = query.concat(`&OrderId=${filter.OrderId}`);
+        }
+        return query;
     }
 
     getSales(pageIndex) {
-        var filter = this.getFilter(pageIndex);
-        fetch("http://localhost:5000/api/sales", {
-            method: "POST", body: JSON.stringify(filter), headers: {
+        var query = this.getFilterQuery(pageIndex);
+        var url = `http://localhost:5000/api/sales?${query}`;
+        fetch(url, {
+            method: "GET", headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
@@ -67,9 +91,10 @@ class FetchData extends Component {
     }
 
     getLastPageIndex(pageIndex) {
-        var filter = this.getFilter(pageIndex);
-        fetch("http://localhost:5000/api/sales/getlastpageIndex", {
-            method: "POST", body: JSON.stringify(filter), headers: {
+        var query = this.getFilterQuery(pageIndex);
+        var url = `http://localhost:5000/api/sales/lastpageIndex?${query}`;
+        fetch(url, {
+            method: "GET", headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
@@ -83,9 +108,10 @@ class FetchData extends Component {
     }
 
     getParameters() {
-        var filter = this.getFilter(1);
-        fetch("http://localhost:5000/api/sales/getfilterparameters", {
-            method: "POST", body: JSON.stringify(filter), headers: {
+        var query = this.getFilterQuery(1);
+        var url = `http://localhost:5000/api/sales/filterparameters?${query}`;
+        fetch(url, {
+            method: "GET", headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }

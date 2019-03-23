@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.Web.Services.Sales;
-using LinnWorks.Task.Web.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LinnWorks.Task.Web.Controllers
 {
@@ -23,8 +20,8 @@ namespace LinnWorks.Task.Web.Controllers
             this.saleService = saleService ?? throw new ArgumentNullException(nameof(saleService));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetSalesAsync([FromBody]GetSalesRequestDto requestDto)
+        [HttpGet]
+        public async Task<IActionResult> GetSalesAsync([FromQuery]GetSalesRequestDto requestDto)
         {
             if (requestDto == null) BadRequest();
 
@@ -33,31 +30,37 @@ namespace LinnWorks.Task.Web.Controllers
             return Ok(sales);
         }
 
-        [HttpPost]
-        [Route("getfilterparameters")]
+        [HttpGet]
+        [Route("filterparameters")]
         [ResponseCache(Duration = 10)]
-        public async Task<FilterParametersViewModel> GetFilterParameters([FromBody]GetSalesRequestDto requestDto)
+        public async Task<IActionResult> GetFilterParameters([FromQuery]GetSalesRequestDto requestDto)
         {
             if (requestDto == null) BadRequest();
 
-            return await saleService.GetFilterParameters(requestDto);
+            var parameters = await saleService.GetFilterParameters(requestDto);
+
+            return Ok(parameters);
         }
 
-        [HttpPost]
-        [Route("getlastpageindex")]
-        public Task<int> GetLastPageIndexAsync([FromBody]GetSalesRequestDto requestDto)
+        [HttpGet]
+        [Route("lastpageindex")]
+        public async Task<IActionResult> GetLastPageIndexAsync([FromQuery]GetSalesRequestDto requestDto)
         {
             if (requestDto == null) BadRequest();
 
-            return saleService.GetLastPageIndex(requestDto);
+            var lastIndex = await saleService.GetLastPageIndex(requestDto);
+
+            return Ok(lastIndex);
         }
 
         [HttpPut]
-        public System.Threading.Tasks.Task UpdateSalesAsync([FromBody] IEnumerable<SaleDto> sales)
+        public async Task<IActionResult> UpdateSalesAsync([FromBody] IEnumerable<SaleDto> sales)
         {
             if (sales == null) BadRequest();
 
-            return saleService.UpdateSalesAsync(sales);
+            await saleService.UpdateSalesAsync(sales);
+
+            return Ok();
         }
     }
 }

@@ -5,23 +5,10 @@
     "iis": {
       "applicationUrl": "http://localhost/LinnWorks.Queue.MicroService",
       "sslPort": 0
-    },
-    "iisExpress": {
-      "applicationUrl": "http://localhost:5002",
-      "sslPort": 0
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
-      "environmentVariables": {
-        "RedisConnectionString": "redis.p5oyuf.0001.euc1.cache.amazonaws.com:6379",
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "LinnWorks.Queue.MicroService": {
       "commandName": "Project",
       "launchBrowser": true,
