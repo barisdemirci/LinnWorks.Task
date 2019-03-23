@@ -7,29 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 class FetchData extends Component {
-    componentWillMount() {
-        this.onCountryChange = this.onCountryChange.bind(this);
-        this.onRegionChange = this.onRegionChange.bind(this);
-        this.onSalesChannelChange = this.onSalesChannelChange.bind(this);
-        this.onItemTypeChange = this.onItemTypeChange.bind(this);
-        this.onOrderPriorityChange = this.onOrderPriorityChange.bind(this);
-        this.onOrderDateChange = this.onOrderDateChange.bind(this);
-        this.onOrderIdChange = this.onOrderIdChange.bind(this);
-        this.getSales = this.getSales.bind(this);
-        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
-        this.saveChanges = this.saveChanges.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-    }
-
     componentDidMount() {
         this.getSales(1);
         this.getParameters();
         this.getLastPageIndex(1);
-    }
-
-    componentWillReceiveProps() {
-
     }
 
     getFilterQuery = (pageIndex) => {
@@ -73,7 +54,7 @@ class FetchData extends Component {
         return query;
     }
 
-    getSales(pageIndex) {
+    getSales = (pageIndex) => {
         var query = this.getFilterQuery(pageIndex);
         var url = `http://localhost:5000/api/sales?${query}`;
         fetch(url, {
@@ -90,7 +71,7 @@ class FetchData extends Component {
             ).catch(error => console.error(error));
     }
 
-    getLastPageIndex(pageIndex) {
+    getLastPageIndex = (pageIndex) => {
         var query = this.getFilterQuery(pageIndex);
         var url = `http://localhost:5000/api/sales/lastpageIndex?${query}`;
         fetch(url, {
@@ -125,41 +106,41 @@ class FetchData extends Component {
             ).catch(error => console.error(error));
     }
 
-    onFilterButtonClick() {
+    onFilterButtonClick = () => {
         var pageIndex = 1;
         this.getSales(pageIndex);
         this.getLastPageIndex(pageIndex);
     }
 
-    onCountryChange(e) {
+    onCountryChange = (e) => {
         this.setState({ selectedCountryId: e.value });
     }
 
-    onRegionChange(e) {
+    onRegionChange = (e) => {
         this.setState({ selectedRegionId: e.value });
     }
 
-    onSalesChannelChange(e) {
+    onSalesChannelChange = (e) => {
         this.setState({ selectedSalesChannelId: e.value });
     }
 
-    onItemTypeChange(e) {
+    onItemTypeChange = (e) => {
         this.setState({ selectedItemTypeId: e.value });
     }
 
-    onOrderPriorityChange(e) {
+    onOrderPriorityChange = (e) => {
         this.setState({ selectedOrderPriorityId: e.value });
     }
 
-    onOrderDateChange(e) {
+    onOrderDateChange = (e) => {
         this.setState({ selectedOrderDate: e });
     }
 
-    onOrderIdChange(e) {
+    onOrderIdChange = (e) => {
         this.setState({ selectedOrderId: e.currentTarget.value });
     }
 
-    nextPage() {
+    nextPage = () => {
         if (this.state.pageIndex) {
             var pageIndex = this.state.pageIndex;
             pageIndex += 1;
@@ -170,7 +151,7 @@ class FetchData extends Component {
         }
     }
 
-    previousPage() {
+    previousPage = () => {
         if (this.state.pageIndex) {
             var pageIndex = this.state.pageIndex;
             if (pageIndex !== 1) {
@@ -181,7 +162,7 @@ class FetchData extends Component {
         }
     }
 
-    saveChanges() {
+    saveChanges = () => {
         if (this.state.editSaleList) {
             fetch("http://localhost:5000/api/sales", {
                 method: "PUT", body: JSON.stringify(this.state.editSaleList), headers: {
