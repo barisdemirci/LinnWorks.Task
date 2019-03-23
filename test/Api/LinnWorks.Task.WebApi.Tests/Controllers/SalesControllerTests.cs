@@ -59,7 +59,7 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
         public void UpdateSales_ArgumentIsNull_ThrowsArgumentNullException()
         {
             // act & assert
-            Assert.Throws<ArgumentNullException>(() => saleController.UpdateSales(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => saleController.UpdateSalesAsync(null));
         }
 
         [Fact]
@@ -69,10 +69,10 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
             List<SaleDto> sales = SaleDtoBuilder.BuildList(1);
 
             // act
-            saleController.UpdateSales(sales);
+            saleController.UpdateSalesAsync(sales);
 
             // assert
-            saleService.Received(1).UpdateSales(sales);
+            saleService.Received(1).UpdateSalesAsync(sales);
         }
         [Fact]
         public void GetLastPageIndex_ArgumentIsNull_ThrowsArgumentNullException()

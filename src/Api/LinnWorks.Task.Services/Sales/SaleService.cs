@@ -54,16 +54,9 @@ namespace LinnWorks.Task.Services.Sales
         {
             if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
 
-            try
-            {
-                var sales = mapper.Map<IEnumerable<Sale>>(salesDto);
-                unitOfWork.Sales.UpdateRange(sales);
-                await unitOfWork.SaveAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var sales = mapper.Map<IEnumerable<Sale>>(salesDto);
+            unitOfWork.Sales.UpdateRange(sales);
+            await unitOfWork.SaveAsync();
         }
     }
 }
