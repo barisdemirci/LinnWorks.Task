@@ -60,7 +60,7 @@ namespace LinnWorks.Task.Web.Controllers
 
             await saleService.UpdateSalesAsync(sales);
 
-            return Ok();
+            return Ok(true);
         }
     }
 }

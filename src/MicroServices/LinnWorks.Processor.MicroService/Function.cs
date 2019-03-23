@@ -7,7 +7,6 @@ using Amazon;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
-using Amazon.SecretsManager;
 using LinnWorks.AWS.Redis;
 using LinnWorks.AWS.S3;
 using LinnWorks.Task.Dtos.Sales;

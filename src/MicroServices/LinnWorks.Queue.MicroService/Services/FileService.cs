@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Amazon.S3;
 using LinnWorks.AWS.Redis;

@@ -32,7 +32,6 @@ namespace LinnWorks.Task.WebApi
             services.AddServices();
             services.AddSingleton(AutoMapperFactory.CreateAndConfigure());
             services.AddDbContext<ApplicationDbContext>();
-            services.AddScoped<DbContext>(sp => sp.GetService<ApplicationDbContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

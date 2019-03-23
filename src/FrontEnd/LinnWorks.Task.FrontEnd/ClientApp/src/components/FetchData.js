@@ -5,9 +5,11 @@ import 'react-dropdown/style.css';
 import 'react-table/react-table.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Api } from '../api/api';
 
 class FetchData extends Component {
-    componentDidMount() {
+    async componentDidMount() {
+        this.api = new Api();
         this.getSales(1);
         this.getParameters();
         this.getLastPageIndex(1);
@@ -54,56 +56,27 @@ class FetchData extends Component {
         return query;
     }
 
-    getSales = (pageIndex) => {
+    async getSales(pageIndex: number) {
         var query = this.getFilterQuery(pageIndex);
-        var url = `http://localhost:5000/api/sales?${query}`;
-        fetch(url, {
-            method: "GET", headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({ sales: result.length > 0 ? result : undefined });
-                }
-            ).catch(error => console.error(error));
+        var url = `sales?${query}`;
+        var sales = await this.api.Get(url);
+        if (sales !== undefined) {
+            this.setState({ sales: sales.length > 0 ? sales : undefined });
+        }
     }
 
-    getLastPageIndex = (pageIndex) => {
+    async getLastPageIndex(pageIndex) {
         var query = this.getFilterQuery(pageIndex);
-        var url = `http://localhost:5000/api/sales/lastpageIndex?${query}`;
-        fetch(url, {
-            method: "GET", headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({ lastPageIndex: result });
-                }
-            ).catch(error => console.error(error));
+        var url = `sales/lastpageIndex?${query}`;
+        var lastPageIndex = await this.api.Get(url);
+        this.setState({ lastPageIndex: lastPageIndex });
     }
 
-    getParameters() {
+    async getParameters() {
         var query = this.getFilterQuery(1);
-        var url = `http://localhost:5000/api/sales/filterparameters?${query}`;
-        fetch(url, {
-            method: "GET", headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({ parameters: result });
-
-                }
-            ).catch(error => console.error(error));
+        var url = `sales/filterparameters?${query}`;
+        var parameters = await this.api.Get(url);
+        this.setState({ parameters: parameters });
     }
 
     onFilterButtonClick = () => {
@@ -112,32 +85,27 @@ class FetchData extends Component {
         this.getLastPageIndex(pageIndex);
     }
 
-    onCountryChange = (e) => {
-        this.setState({ selectedCountryId: e.value });
+    async saveChanges(e) {
+        e.preventDefault();
+        if (this.state.editSaleList) {
+            await this.api.Put("sales", JSON.stringify(this.state.editSaleList));
+            this.setState({ editSaleList: undefined });
+            alert("The changes were saved.");
+        }
+        else {
+            alert("Nothing to save");
+        }
     }
 
-    onRegionChange = (e) => {
-        this.setState({ selectedRegionId: e.value });
-    }
-
-    onSalesChannelChange = (e) => {
-        this.setState({ selectedSalesChannelId: e.value });
-    }
-
-    onItemTypeChange = (e) => {
-        this.setState({ selectedItemTypeId: e.value });
-    }
-
-    onOrderPriorityChange = (e) => {
-        this.setState({ selectedOrderPriorityId: e.value });
-    }
-
-    onOrderDateChange = (e) => {
-        this.setState({ selectedOrderDate: e });
-    }
-
-    onOrderIdChange = (e) => {
-        this.setState({ selectedOrderId: e.currentTarget.value });
+    onFieldChange = (fieldName, e) => {
+        let value = e !== null ? e.value : '';
+        if (!isNaN(new Date(e).valueOf())) {
+            value = e;
+        }
+        else if (e.currentTarget !== undefined) {
+            value = e.currentTarget.value;
+        }
+        this.setState({ [fieldName]: value });
     }
 
     nextPage = () => {
@@ -159,26 +127,6 @@ class FetchData extends Component {
                 this.setState({ pageIndex: pageIndex });
                 this.getSales(pageIndex);
             }
-        }
-    }
-
-    saveChanges = () => {
-        if (this.state.editSaleList) {
-            fetch("http://localhost:5000/api/sales", {
-                method: "PUT", body: JSON.stringify(this.state.editSaleList), headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .done(function () {
-                    this.setState({
-                        editSaleList: undefined
-                    });
-                    alert("The changes are saved successfully.");
-                }).fail(error => console.error(error));
-        }
-        else {
-            alert("Nothing to save");
         }
     }
 
@@ -208,16 +156,18 @@ class FetchData extends Component {
         return <DatePicker selected={date} />;
     }
 
-    onRenderRegionChange(sale, ref, e) {
+    onEditRegionChange(sale, ref, e) {
         sale.region.regionId = e.value;
         sale.region.regionName = e.label;
         ref.AddSaleObjectToList(sale);
+        ref.setState({ displayRegion: undefined });
     }
 
-    onRenderCountryChange(sale, ref, e) {
+    onEditCountryChange(sale, ref, e) {
         sale.country.countryId = e.value;
         sale.country.countryName = e.label;
         ref.AddSaleObjectToList(sale);
+        ref.setState({ displayCountry: undefined });
     }
 
     AddSaleObjectToList(newSale) {
@@ -260,39 +210,39 @@ function renderFilterSection(state, ref) {
             <div className="filterSection">
                 <div className="region">
                     <label>Region</label>
-                    <Dropdown onChange={ref.onRegionChange} options={state.parameters.regions} value={defaultRegion} placeholder="Select an option" />
+                    <Dropdown onChange={ref.onFieldChange.bind(this, 'selectedRegionId')} options={state.parameters.regions} value={defaultRegion} placeholder="Select an option" />
                 </div>
                 <div className="country">
                     <label>Country</label>
-                    <Dropdown onChange={ref.onCountryChange} options={state.parameters.countries} value={defaultCountry} placeholder="Select an option" />
+                    <Dropdown onChange={ref.onFieldChange.bind(this, 'selectedCountryId')} options={state.parameters.countries} value={defaultCountry} placeholder="Select an option" />
                 </div>
                 <div className="itemType">
                     <label>Item Type</label>
-                    <Dropdown onChange={ref.onItemTypeChange} options={state.parameters.itemTypes} value={defaultItemType} placeholder="Select an option" />
+                    <Dropdown onChange={ref.onFieldChange.bind(this, 'selectedItemTypeId')} options={state.parameters.itemTypes} value={defaultItemType} placeholder="Select an option" />
                 </div>
                 <div className="salesChannel">
                     <label>Sales Channel</label>
-                    <Dropdown onChange={ref.onSalesChannelChange} options={state.parameters.salesChannels} value={defaultSalesChannel} placeholder="Select an option" />
+                    <Dropdown onChange={ref.onFieldChange.bind(this, 'selectedSalesChannelId')} options={state.parameters.salesChannels} value={defaultSalesChannel} placeholder="Select an option" />
                 </div>
                 <div className="orderPriority">
                     <label>Order Priority</label>
-                    <Dropdown onChange={ref.onOrderPriorityChange} options={state.parameters.orderPriorities} value={defaultOrderPriority} placeholder="Select an option" />
+                    <Dropdown onChange={ref.onFieldChange.bind(this, 'selectedOrderPriorityId')} options={state.parameters.orderPriorities} value={defaultOrderPriority} placeholder="Select an option" />
                 </div>
                 <div className="orderDate">
                     <label>Order Date</label>
                     <div>
-                        <DatePicker selected={ref.state.selectedOrderDate} onChange={ref.onOrderDateChange} />
+                        <DatePicker selected={ref.state.selectedOrderDate} onChange={ref.onFieldChange.bind(this, 'selectedOrderDate')} />
                     </div>
                 </div>
                 <div className="orderId">
                     <label>Order Id</label>
                     <div>
-                        <input type='number' onChange={ref.onOrderIdChange.bind(this)} />
+                        <input type='number' onChange={ref.onFieldChange.bind(this, 'selectedOrderId')} />
                     </div>
                 </div>
             </div>
             <div>
-                <button className='btn btn-default pull-right saveButton' onClick={ref.saveChanges}>Save Changes</button>
+                <button className='btn btn-default pull-right saveButton' onClick={ref.saveChanges.bind(ref)}>Save Changes</button>
                 <button className='btn btn-default pull-right filterButton' onClick={ref.onFilterButtonClick}>Filter</button>
             </div>
         </div>
@@ -300,11 +250,11 @@ function renderFilterSection(state, ref) {
 }
 
 function renderRegionDropDown(ref, currentValue, sale) {
-    return <Dropdown onChange={ref.onRenderRegionChange.bind(this, sale, ref)} options={ref.state.parameters.regions} value={currentValue.toString()} />;
+    return <Dropdown onChange={ref.onEditRegionChange.bind(this, sale, ref)} options={ref.state.parameters.regions} value={currentValue.toString()} />;
 }
 
 function renderCountryDropDown(ref, currentValue, sale) {
-    return <Dropdown onChange={ref.onRenderCountryChange.bind(this, sale, ref)} options={ref.state.parameters.countries} value={currentValue.toString()} />;
+    return <Dropdown onChange={ref.onEditCountryChange.bind(this, sale, ref)} options={ref.state.parameters.countries} value={currentValue.toString()} />;
 }
 
 function renderSalesTable(ref) {

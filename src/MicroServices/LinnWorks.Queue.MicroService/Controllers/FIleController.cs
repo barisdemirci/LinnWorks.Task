@@ -29,11 +29,11 @@ namespace LinnWorks.Queue.MicroService.Controllers
             {
                 await fileService.AddQueue(file);
                 await fileService.UploadFileToS3(file);
-                return Ok("uploaded");
+                return Ok(true);
             }
             else
             {
-                return Ok("No file");
+                return BadRequest(false);
             }
         }
     }
