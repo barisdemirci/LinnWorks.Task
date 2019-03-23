@@ -59,7 +59,7 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
         public void UpdateSales_ArgumentIsNull_ThrowsArgumentNullException()
         {
             // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => saleController.UpdateSalesAsync(null));
+            Assert.Throws<ArgumentNullException>(() => saleController.UpdateSalesAsync(null));
         }
 
         [Fact]
