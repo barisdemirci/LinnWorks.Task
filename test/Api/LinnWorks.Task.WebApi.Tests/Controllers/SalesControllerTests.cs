@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.DtosBuilder;
 using LinnWorks.Task.Services.Sales;
 using LinnWorks.Task.WebApi.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
 
@@ -30,6 +32,16 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
         }
 
         [Fact]
+        public void GetSales_ArgumentIsNull_ReturnsBadRequest()
+        {
+            // act
+            IActionResult result = saleController.GetSales(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
+        }
+
+        [Fact]
         public void GetSales_ArgsOk_CallsService()
         {
             // arrange
@@ -40,6 +52,16 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
 
             // assert
             saleService.Received(1).GetFilteredSales(requestDto);
+        }
+
+        [Fact]
+        public void GetFilterParameters_ArgumentIsNull_ReturnsBadRequest()
+        {
+            // act
+            IActionResult result = saleController.GetFilterParameters(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         [Fact]
@@ -56,10 +78,13 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
         }
 
         [Fact]
-        public void UpdateSales_ArgumentIsNull_ThrowsArgumentNullException()
+        public void UpdateSales_ArgumentIsNull_ReturnsBadRequest()
         {
-            // act & assert
-            Assert.Throws<ArgumentNullException>(() => saleController.UpdateSalesAsync(null));
+            // act
+            var result = saleController.UpdateSalesAsync(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         [Fact]
@@ -74,11 +99,15 @@ namespace LinnWorks.Task.WebApi.Tests.Controllers
             // assert
             saleService.Received(1).UpdateSales(sales);
         }
+
         [Fact]
-        public void GetLastPageIndex_ArgumentIsNull_ThrowsArgumentNullException()
+        public void GetLastPageIndex_ArgumentIsNull_ReturnsBadRequest()
         {
-            // act & assert
-            Assert.Throws<ArgumentNullException>(() => saleController.GetLastPageIndex(null));
+            // act
+            IActionResult result = saleController.GetLastPageIndex(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         [Fact]

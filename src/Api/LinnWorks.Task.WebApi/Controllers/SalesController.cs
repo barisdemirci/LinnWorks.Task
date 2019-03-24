@@ -22,7 +22,7 @@ namespace LinnWorks.Task.WebApi.Controllers
         [Route("filterparameters")]
         public IActionResult GetFilterParameters([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) BadRequest();
+            if (requestDto == null) return BadRequest();
 
             FilterParametersDto parameters = saleService.GetFilterParameters(requestDto);
 
@@ -33,7 +33,7 @@ namespace LinnWorks.Task.WebApi.Controllers
         [Route("lastpageindex")]
         public IActionResult GetLastPageIndex([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) BadRequest();
+            if (requestDto == null) return BadRequest();
 
             int lastIndex = saleService.GetLastPageIndex(requestDto);
 
@@ -43,7 +43,7 @@ namespace LinnWorks.Task.WebApi.Controllers
         [HttpGet]
         public IActionResult GetSales([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) BadRequest();
+            if (requestDto == null) return BadRequest();
 
             var sales = saleService.GetFilteredSales(requestDto);
 
@@ -53,7 +53,7 @@ namespace LinnWorks.Task.WebApi.Controllers
         [HttpPut]
         public IActionResult UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
-            if (salesDto == null) BadRequest();
+            if (salesDto == null) return BadRequest();
 
             saleService.UpdateSales(salesDto);
 

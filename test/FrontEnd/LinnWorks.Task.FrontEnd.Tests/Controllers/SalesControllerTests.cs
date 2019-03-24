@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.DtosBuilder;
 using LinnWorks.Task.Web.Controllers;
 using LinnWorks.Task.Web.Services.Sales;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
 
@@ -32,15 +34,19 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
             Assert.Throws<ArgumentNullException>(() => new SalesController(null));
         }
 
+
         [Fact]
-        public void GetSectorsAsync_ArgumentIsNull_ThrowsArgumentNullException()
+        public async void GetSalesAsync_ArgumentIsNull_ReturnsBadRequest()
         {
-            // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => saleController.GetSalesAsync(null));
+            // act
+            IActionResult result = await saleController.GetSalesAsync(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task GetSectorsAsync_ArgsOk_CallsService()
+        public async System.Threading.Tasks.Task GetSalesAsync_ArgsOk_CallsService()
         {
             // arrange
             GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
@@ -53,7 +59,17 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task GetFilterParameters_CallsService()
+        public async void GetFilterParameters_ArgumentIsNull_ReturnsBadRequest()
+        {
+            // act
+            IActionResult result = await saleController.GetFilterParameters(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task GetFilterParameters_ArgsOk_CallsService()
         {
             // arrange 
             GetSalesRequestDto requestDto = GetSalesRequestDtoBuilder.Build();
@@ -66,10 +82,13 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
         }
 
         [Fact]
-        public void UpdateSales_ArgumentIsNull_ThrowsArgumentNullException()
+        public async void UpdateSalesAsync_ArgumentIsNull_ReturnsBadRequest()
         {
-            // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => saleController.UpdateSalesAsync(null));
+            // act
+            IActionResult result = await saleController.UpdateSalesAsync(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         [Fact]
@@ -86,10 +105,13 @@ namespace LinnWorks.Task.FrontEnd.Tests.Controllers
         }
 
         [Fact]
-        public void GetLastPageIndexAsync_ArgumentIsNull_ThrowsArgumentNullException()
+        public async void GetLastPageIndexAsync_ArgumentIsNull_ReturnsBadRequest()
         {
-            // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => saleController.GetLastPageIndexAsync(null));
+            // act
+            IActionResult result = await saleController.GetLastPageIndexAsync(null);
+
+            // assert
+            result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         [Fact]

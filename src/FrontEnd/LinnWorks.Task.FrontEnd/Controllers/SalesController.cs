@@ -23,7 +23,7 @@ namespace LinnWorks.Task.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSalesAsync([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) BadRequest();
+            if (requestDto == null) return BadRequest();
 
             var sales = await saleService.GetSalesAsync(requestDto);
 
@@ -35,7 +35,7 @@ namespace LinnWorks.Task.Web.Controllers
         [ResponseCache(Duration = 10)]
         public async Task<IActionResult> GetFilterParameters([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) BadRequest();
+            if (requestDto == null) return BadRequest();
 
             var parameters = await saleService.GetFilterParameters(requestDto);
 
@@ -46,7 +46,7 @@ namespace LinnWorks.Task.Web.Controllers
         [Route("lastpageindex")]
         public async Task<IActionResult> GetLastPageIndexAsync([FromQuery]GetSalesRequestDto requestDto)
         {
-            if (requestDto == null) BadRequest();
+            if (requestDto == null) return BadRequest();
 
             var lastIndex = await saleService.GetLastPageIndex(requestDto);
 
@@ -56,7 +56,7 @@ namespace LinnWorks.Task.Web.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateSalesAsync([FromBody] IEnumerable<SaleDto> sales)
         {
-            if (sales == null) BadRequest();
+            if (sales == null) return BadRequest();
 
             await saleService.UpdateSalesAsync(sales);
 

@@ -25,6 +25,8 @@ namespace LinnWorks.Task.Web.Services.Sales
 
         public async Task<FilterParametersViewModel> GetFilterParameters(GetSalesRequestDto requestDto)
         {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
             string getFilterParametersUrl = GetEndPointForGetSalesRequest(EndPoints.Api.GetFilterParameters, requestDto);
             FilterParametersDto parametersDto = await httpClient.GetAsync<FilterParametersDto>(getFilterParametersUrl);
             FilterParametersViewModel parameters = new FilterParametersViewModel();
@@ -93,18 +95,24 @@ namespace LinnWorks.Task.Web.Services.Sales
 
         public Task<int> GetLastPageIndex(GetSalesRequestDto requestDto)
         {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
             string getSalesUrl = GetEndPointForGetSalesRequest(EndPoints.Api.GetLastPageIndex, requestDto);
             return httpClient.GetAsync<int>(getSalesUrl);
         }
 
         public async Task<IEnumerable<SaleDto>> GetSalesAsync(GetSalesRequestDto requestDto)
         {
+            if (requestDto == null) throw new ArgumentNullException(nameof(requestDto));
+
             string getSalesUrl = GetEndPointForGetSalesRequest(EndPoints.Api.GetSales, requestDto);
             return await httpClient.GetAsync<IEnumerable<SaleDto>>(getSalesUrl);
         }
 
         public System.Threading.Tasks.Task UpdateSalesAsync(IEnumerable<SaleDto> salesDto)
         {
+            if (salesDto == null) throw new ArgumentNullException(nameof(salesDto));
+
             string updateSalesUrl = configuration[EndPoints.Api.UpdateSales];
             return httpClient.PutAsync(updateSalesUrl, salesDto);
         }
