@@ -62,33 +62,25 @@ namespace LinnWorks.Processor.MicroService
             try
             {
                 RedisDataAgent agent = new RedisDataAgent();
-                string value = await agent.GetValueAsync("excel");
-                if (!string.IsNullOrEmpty(value))
+                string value = await agent.RightPopAsync("ExcelTask");
+                S3 s3 = new S3(S3Client);
+                StreamReader reader = await s3.ReadObjectDataAsync(value);
+                CSVReader csvReader = new CSVReader();
+                List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
+                LoadData();
+                List<Sale> salesEntity = new List<Sale>();
+                foreach (var item in sales.AsParallel())
                 {
-                    S3 s3 = new S3(S3Client);
-                    StreamReader reader = await s3.ReadObjectDataAsync(value);
-                    CSVReader csvReader = new CSVReader();
-                    List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
-                    LoadData();
-                    List<Sale> salesEntity = new List<Sale>();
-                    foreach (var item in sales.AsParallel())
-                    {
-                        Sale newSale = BuildObject(item);
-                        salesEntity.Add(newSale);
-                    }
-                    await dbContext.AddRangeAsync(salesEntity);
-                    await dbContext.SaveChangesAsync();
-                    await agent.DeleteValueAsync(value);
-                    await s3.DeleteFileASync(value);
-                    string returnValue = $"Function is completed successfully!";
-                    context.Logger.LogLine(returnValue);
-                    return returnValue;
+                    Sale newSale = BuildObject(item);
+                    salesEntity.Add(newSale);
                 }
-                else
-                {
-                    context.Logger.LogLine("No task");
-                    return "No task to continue";
-                }
+                await dbContext.AddRangeAsync(salesEntity);
+                await dbContext.SaveChangesAsync();
+                await s3.DeleteFileASync(value);
+                string returnValue = $"Function is completed successfully!";
+                context.Logger.LogLine(returnValue);
+                return returnValue;
+
             }
             catch (Exception e)
             {

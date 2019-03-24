@@ -20,12 +20,18 @@ namespace LinnWorks.AWS.Redis
 
         public Task AddValueAsync(string key, string value)
         {
-            return _database.StringSetAsync(key, value);
+            return _database.ListLeftPushAsync(key, value);
         }
 
         public Task DeleteValueAsync(string key)
         {
             return _database.KeyDeleteAsync(key);
+        }
+
+
+        public Task<RedisValue> RightPopAsync(string key)
+        {
+            return _database.ListRightPopAsync(key);
         }
     }
 }

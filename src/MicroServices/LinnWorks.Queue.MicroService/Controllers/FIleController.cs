@@ -24,17 +24,25 @@ namespace LinnWorks.Queue.MicroService.Controllers
         [EnableCors("CorsPolicy")]
         public async Task<IActionResult> UploadAsync()
         {
-            IFormFile file = Request.Form.Files[0];
-            if (file != null)
+            try
             {
-                await fileService.AddQueue(file);
-                await fileService.UploadFileToS3(file);
-                return Ok(true);
+                IFormFile file = Request.Form.Files[0];
+                if (file != null)
+                {
+                    await fileService.AddQueue(file.Name, file.FileName);
+                    await fileService.UploadFileToS3(file);
+                    return Ok(true);
+                }
+                else
+                {
+                    return BadRequest(false);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(false);
+                return BadRequest(ex.Message);
             }
+
         }
     }
 }

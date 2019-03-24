@@ -15,7 +15,7 @@ class ImportFile extends Component {
             return;
         }
         let formData = new FormData();
-        formData.append("excel", file);
+        formData.append("ExcelTask", file);
         var ref = this;
         ref.changeEnablement(true);
         await this.queueApi.Post("file/upload", formData);

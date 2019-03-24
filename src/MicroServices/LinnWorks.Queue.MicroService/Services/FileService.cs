@@ -20,11 +20,9 @@ namespace LinnWorks.Queue.MicroService.Services
             this.s3 = s3 ?? throw new ArgumentNullException(nameof(s3));
         }
 
-        public System.Threading.Tasks.Task AddQueue(IFormFile file)
+        public System.Threading.Tasks.Task AddQueue(string key, string value)
         {
-            if (file == null) throw new ArgumentNullException(nameof(file));
-
-            return regisAgent.AddValueAsync(file.Name, file.FileName);
+            return regisAgent.AddValueAsync(key, value);
         }
 
         public System.Threading.Tasks.Task UploadFileToS3(IFormFile file)
