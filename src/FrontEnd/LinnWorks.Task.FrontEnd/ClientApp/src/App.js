@@ -1,8 +1,8 @@
 ﻿import React from 'react';
 import { Route } from 'react-router';
 import Layout from './components/Layout';
-import ImportFile from './components/ImportFile';
-import FetchData from './components/FetchData';
+import { ImportFile } from './components/ImportFile';
+import { FetchData } from './components/FetchData';
 
 export default () => (
     <Layout>

@@ -77,10 +77,9 @@ namespace LinnWorks.Processor.MicroService
                 await dbContext.AddRangeAsync(salesEntity);
                 await dbContext.SaveChangesAsync();
                 await s3.DeleteFileASync(value);
-                string returnValue = $"Function is completed successfully!";
+                string returnValue = $"Parsing of {value} file is completed successfully!";
                 context.Logger.LogLine(returnValue);
                 return returnValue;
-
             }
             catch (Exception e)
             {

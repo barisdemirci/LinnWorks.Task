@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import 'react-table/react-table.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Api } from '../api/api';
+import { TD } from './td';
 
-class FetchData extends Component {
+export class FetchData extends Component {
     async componentDidMount() {
         this.api = new Api();
         this.getSales(1);
@@ -170,7 +170,7 @@ class FetchData extends Component {
         ref.setState({ displayCountry: undefined });
     }
 
-    AddSaleObjectToList(newSale) {
+    addSaleObjectToList(newSale) {
         var newList = this.state.editSaleList;
         if (newList === undefined) {
             newList = [];
@@ -187,12 +187,72 @@ class FetchData extends Component {
         this.setState({ editSaleList: newList });
     }
 
+    commitData(newValue, fieldName, saleId) {
+        var sale = this.state.sales.filter(x => x.saleId === saleId)[0];
+        sale[fieldName] = newValue;
+        this.addSaleObjectToList(sale);
+    }
+
+    renderSalesTable = () => {
+        if (this.state && this.state.sales && this.state.parameters) {
+            return (
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>SaleId</th>
+                            <th>Region</th>
+                            <th>Country</th>
+                            <th>ItemType</th>
+                            <th>Sales Channel</th>
+                            <th>Order Priority</th>
+                            <th>Order Date</th>
+                            <th>Order ID</th>
+                            <th>Ship Date</th>
+                            <th>Unit Sold</th>
+                            <th>Unit Price</th>
+                            <th>Unit Cost</th>
+                            <th>Total Revenue</th>
+                            <th>Total Cost</th>
+                            <th>Total Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.sales.map(sale => (
+                            <tr key={sale.saleId}>
+                                <TD value={sale.saleId} />
+                                <TD editable options={this.state.parameters.regions} value={sale.region.regionName} valueId={sale.region.regionId} commitData={(value) => this.commitData(value, "regionId", sale.saleId)} />
+                                <td onClick={this.onEditCountryClick.bind(this, sale.country.countryId, sale.saleId, this)} >
+                                    {this.state.displayCountry === undefined ? sale.country.countryName : this.state.displayCountry.saleId === sale.saleId ?
+                                        renderCountryDropDown(this, sale.country.countryId, sale) : sale.country.countryName}</td>
+                                <td>{sale.itemType.itemTypeName}</td>
+                                <td>{sale.salesChannel.salesChannelName}</td>
+                                <td>{sale.orderPriority.orderPriorityName}</td>
+                                <td onClick={this.onEditOrderDateChange.bind(this, sale.orderDate, sale.saleId, this)}>
+                                    {this.state.displayOrderDate === undefined ? sale.orderDate : this.state.displayOrderDate.saleId === sale.saleId ?
+                                        this.renderOrderDatePicker(this, sale.orderDate) : sale.orderDate}
+                                </td>
+                                <TD value={sale.orderID} />
+                                <TD value={sale.shipDate} />
+                                <TD value={sale.unitSold} />
+                                <TD value={sale.unitPrice} />
+                                <TD value={sale.unitCost} />
+                                <TD value={sale.totalRevenue} />
+                                <TD value={sale.totalCost} />
+                                <TD value={sale.totalProfit} />
+                            </tr>)
+                        )}
+                    </tbody>
+                </table>
+            );
+        }
+    }
+
     render() {
         return (
             <div>
                 {renderFilterSection(this.state, this)}
                 <h1>LinnWorks Sales</h1>
-                {renderSalesTable(this)}
+                {this.renderSalesTable(this)}
                 {renderPagination(this)}
             </div>
         );
@@ -257,70 +317,9 @@ function renderCountryDropDown(ref, currentValue, sale) {
     return <Dropdown onChange={ref.onEditCountryChange.bind(this, sale, ref)} options={ref.state.parameters.countries} value={currentValue.toString()} />;
 }
 
-function renderSalesTable(ref) {
-    if (ref.state && ref.state.sales && ref.state.parameters) {
-        return (
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>SaleId</th>
-                        <th>Region</th>
-                        <th>Country</th>
-                        <th>ItemType</th>
-                        <th>Sales Channel</th>
-                        <th>Order Priority</th>
-                        <th>Order Date</th>
-                        <th>Order ID</th>
-                        <th>Ship Date</th>
-                        <th>Unit Sold</th>
-                        <th>Unit Price</th>
-                        <th>Unit Cost</th>
-                        <th>Total Revenue</th>
-                        <th>Total Cost</th>
-                        <th>Total Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ref.state.sales.map(sale =>
-                        <tr key={sale.saleId}>
-                            <td>{sale.saleId}</td>
-                            <td onClick={ref.onEditRegionClick.bind(this, sale.region.regionId, sale.saleId, ref)} >
-                                {ref.state.displayRegion === undefined ? sale.region.regionName : ref.state.displayRegion.saleId === sale.saleId ?
-                                    renderRegionDropDown(ref, sale.region.regionId, sale) : sale.region.regionName}
-                            </td>
-                            <td onClick={ref.onEditCountryClick.bind(this, sale.country.countryId, sale.saleId, ref)} >
-                                {ref.state.displayCountry === undefined ? sale.country.countryName : ref.state.displayCountry.saleId === sale.saleId ?
-                                    renderCountryDropDown(ref, sale.country.countryId, sale) : sale.country.countryName}</td>
-                            <td>{sale.itemType.itemTypeName}</td>
-                            <td>{sale.salesChannel.salesChannelName}</td>
-                            <td>{sale.orderPriority.orderPriorityName}</td>
-                            <td onClick={ref.onEditOrderDateChange.bind(this, sale.orderDate, sale.saleId, ref)}>
-                                {ref.state.displayOrderDate === undefined ? sale.orderDate : ref.state.displayOrderDate.saleId === sale.saleId ?
-                                    ref.renderOrderDatePicker(ref, sale.orderDate) : sale.orderDate}
-                            </td>
-                            <td>{sale.orderID}</td>
-                            <td>{sale.shipDate}</td>
-                            <td>{sale.unitSold}</td>
-                            <td>{sale.unitPrice}</td>
-                            <td>{sale.unitCost}</td>
-                            <td>{sale.totalRevenue}</td>
-                            <td>{sale.totalCost}</td>
-                            <td>{sale.totalProfit}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
-    }
-}
-
 function renderPagination(props) {
     return <p className='clearfix text-center'>
         <button className='btn btn-default pull-left' onClick={props.previousPage}>Previous</button>
         <button className='btn btn-default pull-right' onClick={props.nextPage}>Next</button>
     </p>;
 }
-
-export default connect(
-
-)(FetchData);

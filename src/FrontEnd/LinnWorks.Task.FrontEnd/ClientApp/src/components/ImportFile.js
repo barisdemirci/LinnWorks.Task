@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { QueueApi } from '../api/queueApi';
 
-class ImportFile extends Component {
+export class ImportFile extends Component {
     componentWillMount() {
         this.queueApi = new QueueApi();
     }
@@ -48,5 +47,3 @@ class ImportFile extends Component {
         );
     }
 }
-
-export default connect()(ImportFile);

@@ -2,9 +2,8 @@
 
 export class QueueApi extends Api {
 
-    constructor(props) {
-        super(props);
-        const baseApiUrl = "http://linnworksqueuemicroservice-dev.eu-central-1.elasticbeanstalk.com/api/";
-        this.state = { baseApiUrl: baseApiUrl };
+    constructor(url) {
+        const baseApiUrl = url || "http://linnworksqueuemicroservice-dev.eu-central-1.elasticbeanstalk.com/api/";
+        super(baseApiUrl);
     }
 }

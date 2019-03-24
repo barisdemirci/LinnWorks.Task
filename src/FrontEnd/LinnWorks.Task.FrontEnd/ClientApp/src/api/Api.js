@@ -1,17 +1,12 @@
 ﻿export class Api {
-
-    constructor(props) {
-        const baseApiUrl = "http://localhost:5000/api/";
-        this.state = { baseApiUrl: baseApiUrl };
+    constructor(url) {
+        this.baseApiUrl = url || "http://localhost:5000/api/";
     }
 
     async Get(url) {
         try {
-            let response = await fetch(this.state.baseApiUrl.concat(url), {
-                method: "GET", headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+            let response = await fetch(this.baseApiUrl.concat(url), {
+                method: "GET", headers
             });
             return this.prepareResponse(response);
         } catch (e) {
@@ -21,11 +16,8 @@
 
     async Post(url, body) {
         try {
-            let response = await fetch(this.state.baseApiUrl.concat(url), {
-                method: "POST", body: body, mode: "no-cors", headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+            let response = await fetch(this.baseApiUrl.concat(url), {
+                method: "POST", body: body, mode: "no-cors", headers
             });
             return this.prepareResponse(response);
         } catch (e) {
@@ -36,11 +28,8 @@
 
     async Put(url, body) {
         try {
-            let response = await fetch(this.state.baseApiUrl.concat(url), {
-                method: "PUT", body: body, mode: "no-cors", headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+            let response = await fetch(this.baseApiUrl.concat(url), {
+                method: "PUT", body: body, mode: "no-cors", headers
             });
             return this.prepareResponse(response);
         } catch (e) {
@@ -57,3 +46,5 @@
         }
     }
 }
+
+const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
