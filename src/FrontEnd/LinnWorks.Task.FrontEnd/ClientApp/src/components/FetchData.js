@@ -183,18 +183,24 @@ export class FetchData extends Component {
             }
             newList.push(newSale);
         }
-
         this.setState({ editSaleList: newList });
     }
 
-    commitData(newValue, fieldName, saleId) {
-        var sale = this.state.sales.filter(x => x.saleId === saleId)[0];
-        sale[fieldName] = newValue;
+    commitData(newValue, newValueKeyFieldName, saleId) {
+        let sale = this.state.sales.filter(x => x.saleId === saleId)[0];
+        sale[newValueKeyFieldName] = newValue;
+        this.setState({ sales: this.state.sales });
         this.addSaleObjectToList(sale);
     }
 
     renderSalesTable = () => {
         if (this.state && this.state.sales && this.state.parameters) {
+            const regions = this.state.parameters.regions;
+            const countries = this.state.parameters.countries;
+            const itemTypes = this.state.parameters.itemTypes;
+            const salesChannels = this.state.parameters.salesChannels;
+            const orderPriorities = this.state.parameters.orderPriorities;
+
             return (
                 <table className='table'>
                     <thead>
@@ -219,26 +225,21 @@ export class FetchData extends Component {
                     <tbody>
                         {this.state.sales.map(sale => (
                             <tr key={sale.saleId}>
-                                <TD value={sale.saleId} />
-                                <TD editable options={this.state.parameters.regions} value={sale.region.regionName} valueId={sale.region.regionId} commitData={(value) => this.commitData(value, "regionId", sale.saleId)} />
-                                <td onClick={this.onEditCountryClick.bind(this, sale.country.countryId, sale.saleId, this)} >
-                                    {this.state.displayCountry === undefined ? sale.country.countryName : this.state.displayCountry.saleId === sale.saleId ?
-                                        renderCountryDropDown(this, sale.country.countryId, sale) : sale.country.countryName}</td>
-                                <td>{sale.itemType.itemTypeName}</td>
-                                <td>{sale.salesChannel.salesChannelName}</td>
-                                <td>{sale.orderPriority.orderPriorityName}</td>
-                                <td onClick={this.onEditOrderDateChange.bind(this, sale.orderDate, sale.saleId, this)}>
-                                    {this.state.displayOrderDate === undefined ? sale.orderDate : this.state.displayOrderDate.saleId === sale.saleId ?
-                                        this.renderOrderDatePicker(this, sale.orderDate) : sale.orderDate}
-                                </td>
-                                <TD value={sale.orderID} />
-                                <TD value={sale.shipDate} />
-                                <TD value={sale.unitSold} />
-                                <TD value={sale.unitPrice} />
-                                <TD value={sale.unitCost} />
-                                <TD value={sale.totalRevenue} />
-                                <TD value={sale.totalCost} />
-                                <TD value={sale.totalProfit} />
+                                <td> {sale.saleId} </td>
+                                <TD editable type="select" options={regions} value={sale.regionId} commitData={(value) => this.commitData(value, "regionId", sale.saleId)} />
+                                <TD editable type="select" options={countries} value={sale.countryId} commitData={(value) => this.commitData(value, "countryId", sale.saleId)} />
+                                <TD editable type="select" options={itemTypes} value={sale.itemTypeId} commitData={(value) => this.commitData(value, "itemTypeId", sale.saleId)} />
+                                <TD editable type="select" options={salesChannels} value={sale.salesChannelId} commitData={(value) => this.commitData(value, "salesChannelId", sale.saleId)} />
+                                <TD editable type="select" options={orderPriorities} value={sale.orderPriorityId} commitData={(value) => this.commitData(value, "orderPriorityId", sale.saleId)} />
+                                <TD editable type="date" value={sale.orderDate} commitData={(value) => this.commitData(value, "orderDate", sale.saleId)} />
+                                <TD editable type="number" value={sale.orderID} commitData={(value) => this.commitData(value, "orderID", sale.saleId)} />
+                                <TD editable type="date" value={sale.shipDate} commitData={(value) => this.commitData(value, "shipDate", sale.saleId)} />
+                                <TD editable type="number" value={sale.unitSold} commitData={(value) => this.commitData(value, "unitSold", sale.saleId)} />
+                                <TD editable type="number" value={sale.unitPrice} commitData={(value) => this.commitData(value, "unitPrice", sale.saleId)} />
+                                <TD editable type="number" value={sale.unitCost} commitData={(value) => this.commitData(value, "unitCost", sale.saleId)} />
+                                <TD editable type="number" value={sale.totalRevenue} commitData={(value) => this.commitData(value, "totalRevenue", sale.saleId)} />
+                                <TD editable type="number" value={sale.totalCost} commitData={(value) => this.commitData(value, "totalCost", sale.saleId)} />
+                                <TD editable type="number" value={sale.totalProfit} commitData={(value) => this.commitData(value, "totalProfit", sale.saleId)} />
                             </tr>)
                         )}
                     </tbody>
@@ -307,14 +308,6 @@ function renderFilterSection(state, ref) {
             </div>
         </div>
     }
-}
-
-function renderRegionDropDown(ref, currentValue, sale) {
-    return <Dropdown onChange={ref.onEditRegionChange.bind(this, sale, ref)} options={ref.state.parameters.regions} value={currentValue.toString()} />;
-}
-
-function renderCountryDropDown(ref, currentValue, sale) {
-    return <Dropdown onChange={ref.onEditCountryChange.bind(this, sale, ref)} options={ref.state.parameters.countries} value={currentValue.toString()} />;
 }
 
 function renderPagination(props) {

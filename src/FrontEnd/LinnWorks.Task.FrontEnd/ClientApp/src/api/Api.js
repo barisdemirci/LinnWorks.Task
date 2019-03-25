@@ -29,7 +29,7 @@
     async Put(url, body) {
         try {
             let response = await fetch(this.baseApiUrl.concat(url), {
-                method: "PUT", body: body, mode: "no-cors", headers
+                method: "PUT", body: body, headers
             });
             return this.prepareResponse(response);
         } catch (e) {

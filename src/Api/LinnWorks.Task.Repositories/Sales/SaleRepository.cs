@@ -25,8 +25,8 @@ namespace LinnWorks.Task.Repositories.Sales
         public IEnumerable<Sale> GetFilteredSales(GetSalesRequestDto requestDto)
         {
             int skip = (requestDto.PageIndex - 1) * requestDto.PageSize;
-            var selectedUserSectorQuery = GetQueryFilteredSales(requestDto);
-            var sales = selectedUserSectorQuery.Skip(skip).Take(requestDto.PageSize).ToList();
+            var salesQuery = GetQueryFilteredSales(requestDto);
+            var sales = salesQuery.Skip(skip).Take(requestDto.PageSize).ToList();
             return sales;
         }
 
@@ -43,37 +43,13 @@ namespace LinnWorks.Task.Repositories.Sales
 
         private IQueryable<Sale> GetQueryFilteredSales(GetSalesRequestDto requestDto)
         {
-            return (from sale in ApplicationDbContext.Set<Sale>()
-                    where (sale.OrderID == requestDto.OrderId || requestDto.OrderId == default(int)) && (sale.OrderDate >= requestDto.OrderDate || requestDto.OrderDate == default(DateTime))
-                    join country in ApplicationDbContext.Set<Country>() on sale.Country.CountryId equals country.CountryId
-                    where (country.CountryId == requestDto.CountryId || requestDto.CountryId == default(int))
-                    join itemType in ApplicationDbContext.Set<ItemType>() on sale.ItemType.ItemTypeId equals itemType.ItemTypeId
-                    where (itemType.ItemTypeId == requestDto.ItemTypeId || requestDto.ItemTypeId == default(int))
-                    join order in ApplicationDbContext.Set<OrderPriority>() on sale.OrderPriority.OrderPriorityId equals order.OrderPriorityId
-                    where (order.OrderPriorityId == requestDto.OrderPriorityId || requestDto.OrderPriorityId == default(int))
-                    join region in ApplicationDbContext.Set<Region>() on sale.Region.RegionId equals region.RegionId
-                    where (region.RegionId == requestDto.RegionId || requestDto.RegionId == default(int))
-                    join channel in ApplicationDbContext.Set<SalesChannel>() on sale.SalesChannel.SalesChannelId equals channel.SalesChannelId
-                    where (channel.SalesChannelId == requestDto.SalesChannelId || requestDto.SalesChannelId == default(int))
-                    select new Sale
-                    {
-                        Country = country,
-                        OrderPriority = sale.OrderPriority,
-                        ItemType = itemType,
-                        Region = sale.Region,
-                        SalesChannel = sale.SalesChannel,
-                        OrderID = sale.OrderID,
-                        OrderDate = sale.OrderDate,
-                        SaleId = sale.SaleId,
-                        ShipDate = sale.ShipDate,
-                        TotalCost = sale.TotalCost,
-                        TotalProfit = sale.TotalProfit,
-                        TotalRevenue = sale.TotalRevenue,
-                        UnitCost = sale.UnitCost,
-                        UnitPrice = sale.UnitPrice,
-                        UnitSold = sale.UnitSold
-
-                    });
+            return ApplicationDbContext.Sales.Where(x => x.OrderDate >= requestDto.OrderDate)
+                .Where(x => x.OrderID == requestDto.OrderId || requestDto.OrderId == default(int))
+                .Where(x => x.CountryId == requestDto.CountryId || requestDto.CountryId == default(int))
+                .Where(x => x.ItemTypeId == requestDto.ItemTypeId || requestDto.ItemTypeId == default(int))
+                .Where(x => x.OrderPriorityId == requestDto.OrderPriorityId || requestDto.OrderPriorityId == default(int))
+                .Where(x => x.RegionId == requestDto.RegionId || requestDto.RegionId == default(int))
+                .Where(x => x.SalesChannelId == requestDto.SalesChannelId || requestDto.SalesChannelId == default(int));
         }
 
         public int GetLastPageIndex(GetSalesRequestDto requestDto)

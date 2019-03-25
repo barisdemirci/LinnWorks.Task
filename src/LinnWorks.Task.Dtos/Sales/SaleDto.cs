@@ -8,15 +8,15 @@ namespace LinnWorks.Task.Dtos.Sales
     {
         public int SaleId { get; set; }
 
-        public RegionDto Region { get; set; }
+        public int RegionId { get; set; }
 
-        public CountryDto Country { get; set; }
+        public int CountryId { get; set; }
 
-        public ItemTypeDto ItemType { get; set; }
+        public int ItemTypeId { get; set; }
 
-        public SalesChannelDto SalesChannel { get; set; }
+        public int SalesChannelId { get; set; }
 
-        public OrderPriorityDto OrderPriority { get; set; }
+        public int OrderPriorityId { get; set; }
 
         public DateTime OrderDate { get; set; }
 
