@@ -12,10 +12,6 @@ namespace LinnWorks.Task.Entities
 
         [Required]
         [MaxLength(255)]
-        public string CountryCode { get; set; }
-
-        [Required]
-        [MaxLength(255)]
         public string CountryName { get; set; }
     }
 }

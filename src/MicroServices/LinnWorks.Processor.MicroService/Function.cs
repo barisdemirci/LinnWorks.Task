@@ -9,6 +9,7 @@ using Amazon.Lambda.S3Events;
 using Amazon.S3;
 using LinnWorks.AWS.Redis;
 using LinnWorks.AWS.S3;
+using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.Entities;
 using LinnWorks.Task.ExcelReader.Services;
@@ -63,10 +64,12 @@ namespace LinnWorks.Processor.MicroService
             {
                 RedisDataAgent agent = new RedisDataAgent();
                 string value = await agent.RightPopAsync("ExcelTask");
+                context.Logger.LogLine($"Parsing of {value} file is started.");
                 S3 s3 = new S3(S3Client);
                 StreamReader reader = await s3.ReadObjectDataAsync(value);
                 CSVReader csvReader = new CSVReader();
                 List<SaleDto> sales = csvReader.ReadDocument<SaleDto>(reader);
+                InsertMissingData(sales);
                 LoadData();
                 List<Sale> salesEntity = new List<Sale>();
                 foreach (var item in sales.AsParallel())
@@ -89,32 +92,32 @@ namespace LinnWorks.Processor.MicroService
             }
         }
 
-        private List<Country> Countries;
-        private List<ItemType> ItemTypes;
-        private List<OrderPriority> OrderPriorities;
-        private List<Region> Regions;
-        private List<SalesChannel> SalesChannels;
+        private Dictionary<string, Country> Countries;
+        private Dictionary<string, ItemType> ItemTypes;
+        private Dictionary<string, OrderPriority> OrderPriorities;
+        private Dictionary<string, Region> Regions;
+        private Dictionary<string, SalesChannel> SalesChannels;
 
         private void LoadData()
         {
-            Countries = dbContext.Countries.ToList();
-            ItemTypes = dbContext.ItemTypes.ToList();
-            Regions = dbContext.Regions.ToList();
-            OrderPriorities = dbContext.OrderPriorities.ToList();
-            SalesChannels = dbContext.SalesChannels.ToList();
+            Countries = dbContext.Countries.ToDictionary(x => x.CountryName);
+            ItemTypes = dbContext.ItemTypes.ToDictionary(x => x.ItemTypeName);
+            Regions = dbContext.Regions.ToDictionary(x => x.RegionName);
+            OrderPriorities = dbContext.OrderPriorities.ToDictionary(x => x.OrderPriorityName);
+            SalesChannels = dbContext.SalesChannels.ToDictionary(x => x.SalesChannelName);
         }
 
         private Sale BuildObject(SaleDto dto)
         {
             return new Sale()
             {
-                Country = Countries.FirstOrDefault(x => x.CountryName == dto.Country.CountryName),
-                ItemType = ItemTypes.FirstOrDefault(x => x.ItemTypeName == dto.ItemType.ItemTypeName),
+                Country = Countries[dto.Country.CountryName],
+                ItemType = ItemTypes[dto.ItemType.ItemTypeName],
                 OrderDate = dto.OrderDate,
-                OrderPriority = OrderPriorities.FirstOrDefault(x => x.OrderPriorityName == dto.OrderPriority.OrderPriorityName),
-                Region = Regions.FirstOrDefault(x => x.RegionName == dto.Region.RegionName),
+                OrderPriority = OrderPriorities[dto.OrderPriority.OrderPriorityName],
+                Region = Regions[dto.Region.RegionName],
                 OrderID = dto.OrderID,
-                SalesChannel = SalesChannels.FirstOrDefault(x => x.SalesChannelName == dto.SalesChannel.SalesChannelName),
+                SalesChannel = SalesChannels[dto.SalesChannel.SalesChannelName],
                 ShipDate = dto.ShipDate,
                 TotalCost = dto.TotalCost,
                 TotalProfit = dto.TotalProfit,
@@ -123,6 +126,42 @@ namespace LinnWorks.Processor.MicroService
                 UnitPrice = dto.UnitPrice,
                 UnitSold = dto.UnitSold
             };
+        }
+
+        private async void InsertMissingData(List<SaleDto> sales)
+        {
+            List<CountryDto> countries = sales.Select(x => x.Country).Distinct().ToList();
+            List<RegionDto> regions = sales.Select(x => x.Region).Distinct().ToList();
+            List<ItemTypeDto> itemTypes = sales.Select(x => x.ItemType).Distinct().ToList();
+            List<SalesChannelDto> salesChannels = sales.Select(x => x.SalesChannel).Distinct().ToList();
+            List<OrderPriorityDto> orderPriorities = sales.Select(x => x.OrderPriority).Distinct().ToList();
+
+            var countryList = dbContext.Countries.Select(x => x.CountryName).Intersect(countries.Select(x => x.CountryName)).ToList();
+            countries.RemoveAll(x => countryList.Contains(x.CountryName));
+            List<Country> newCountryList = countries.Select(x => x.CountryName).Distinct().Select(x => new Country { CountryName = x }).ToList();
+            await dbContext.Countries.AddRangeAsync(newCountryList);
+
+            var regionList = dbContext.Regions.Select(x => x.RegionName).Intersect(regions.Select(x => x.RegionName)).ToList();
+            regions.RemoveAll(x => regionList.Contains(x.RegionName));
+            List<Region> newRegionList = regions.Select(x => x.RegionName).Distinct().Select(x => new Region { RegionName = x }).ToList();
+            await dbContext.Regions.AddRangeAsync(newRegionList);
+
+            var itemTypeList = dbContext.ItemTypes.Select(x => x.ItemTypeName).Intersect(itemTypes.Select(x => x.ItemTypeName)).ToList();
+            itemTypes.RemoveAll(x => itemTypeList.Contains(x.ItemTypeName));
+            List<ItemType> newItemTypeList = itemTypes.Select(x => x.ItemTypeName).Distinct().Select(x => new ItemType { ItemTypeName = x }).ToList();
+            await dbContext.ItemTypes.AddRangeAsync(newItemTypeList);
+
+            var salesChannelList = dbContext.SalesChannels.Select(x => x.SalesChannelName).Intersect(salesChannels.Select(x => x.SalesChannelName)).ToList();
+            salesChannels.RemoveAll(x => salesChannelList.Contains(x.SalesChannelName));
+            List<SalesChannel> newSalesChannelList = salesChannels.Select(x => x.SalesChannelName).Distinct().Select(x => new SalesChannel { SalesChannelName = x }).ToList();
+            await dbContext.SalesChannels.AddRangeAsync(newSalesChannelList);
+
+            var orderPriorityList = dbContext.OrderPriorities.Select(x => x.OrderPriorityName).Intersect(orderPriorities.Select(x => x.OrderPriorityName)).ToList();
+            orderPriorities.RemoveAll(x => orderPriorityList.Contains(x.OrderPriorityName));
+            List<OrderPriority> newOrderPriorityList = orderPriorities.Select(x => x.OrderPriorityName).Distinct().Select(x => new OrderPriority { OrderPriorityName = x }).ToList();
+            await dbContext.OrderPriorities.AddRangeAsync(newOrderPriorityList);
+
+            dbContext.SaveChanges();
         }
     }
 }

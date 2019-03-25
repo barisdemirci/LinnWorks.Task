@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Amazon.SecretsManager;
 using LinnWorks.Task.Dtos;
 using LinnWorks.Task.Entities;
 using LinnWorks.Task.Mapper;
@@ -9,7 +8,6 @@ using LinnWorks.Task.WebApi.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -50,8 +48,6 @@ namespace LinnWorks.Task.WebApi
                 using (var context = new ApplicationDbContext())
                 {
                     context.Database.EnsureCreated();
-                    InsertTestData(context);
-                    context.SaveChanges();
                 }
             }
             else
@@ -73,7 +69,6 @@ namespace LinnWorks.Task.WebApi
                 {
                     Country newCountry = new Country()
                     {
-                        CountryCode = country.CountryCode,
                         CountryName = country.CountryName
                     };
                     context.Countries.Add(newCountry);
