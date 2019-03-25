@@ -55,6 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{AA2D0DB5-DDEF-49F5-A600-34F37574A57F}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\Baris Demirci How to run application.docx = ..\..\..\Desktop\Baris Demirci How to run application.docx
 		SolutionItems\Scripts\Run.Web.cmd = SolutionItems\Scripts\Run.Web.cmd
 		SolutionItems\Scripts\Run.WebAPI.cmd = SolutionItems\Scripts\Run.WebAPI.cmd
 	EndProjectSection
@@ -69,9 +70,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Processor.MicroService.Tests", "src\MicroServices\LinnWorks.Processor.MicroService.Tests\LinnWorks.Processor.MicroService.Tests.csproj", "{C81293D6-0288-4C57-88B1-27862DC8E117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Task.DtosBuilder", "test\LinnWorks.Task.DtosBuilder\LinnWorks.Task.DtosBuilder.csproj", "{8FF7879A-28DD-40CE-B281-755773C1A356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Task.DtosBuilder", "test\LinnWorks.Task.DtosBuilder\LinnWorks.Task.DtosBuilder.csproj", "{8FF7879A-28DD-40CE-B281-755773C1A356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinnWorks.Queue.MicroService.Tests", "test\MicroServices\LinnWorks.Queue.MicroService.Tests\LinnWorks.Queue.MicroService.Tests.csproj", "{4FC844CA-72D9-40AC-ADD8-464F8C7DB0D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinnWorks.Queue.MicroService.Tests", "test\MicroServices\LinnWorks.Queue.MicroService.Tests\LinnWorks.Queue.MicroService.Tests.csproj", "{4FC844CA-72D9-40AC-ADD8-464F8C7DB0D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
