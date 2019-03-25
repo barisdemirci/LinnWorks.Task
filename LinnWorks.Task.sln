@@ -55,7 +55,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{AA2D0DB5-DDEF-49F5-A600-34F37574A57F}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Desktop\Baris Demirci How to run application.docx = ..\..\..\Desktop\Baris Demirci How to run application.docx
 		SolutionItems\Scripts\Run.Web.cmd = SolutionItems\Scripts\Run.Web.cmd
 		SolutionItems\Scripts\Run.WebAPI.cmd = SolutionItems\Scripts\Run.WebAPI.cmd
 	EndProjectSection
