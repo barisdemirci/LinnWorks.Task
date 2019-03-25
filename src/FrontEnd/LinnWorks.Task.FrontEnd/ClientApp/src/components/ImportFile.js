@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { QueueApi } from '../api/queueApi';
+import { QueueApi } from '../api/QueueApi';
 
 export class ImportFile extends Component {
     componentWillMount() {
