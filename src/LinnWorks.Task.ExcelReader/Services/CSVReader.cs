@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
 using LinnWorks.Task.ExcelReader.Interfaces;
-using LinnWorks.Task.Dtos.Sales;
 using LinnWorks.Task.Dtos;
 
 namespace LinnWorks.Task.ExcelReader.Services
@@ -26,41 +25,21 @@ namespace LinnWorks.Task.ExcelReader.Services
                     };
 
                     var values = line.Split(',');
-                    SaleDto item = new SaleDto();
-                    item.Region = new RegionDto() { RegionName = values[0] };
-                    item.Country = new CountryDto() { CountryName = values[1] };
-                    item.ItemType = new ItemTypeDto { ItemTypeName = values[2] };
-                    item.SalesChannel = new SalesChannelDto() { SalesChannelName = values[3] };
-                    item.OrderPriority = new OrderPriorityDto() { OrderPriorityName = values[4] };
+                    CSVSaleDto item = new CSVSaleDto();
+                    item.RegionName = values[0];
+                    item.CountryName = values[1];
+                    item.ItemTypeName = values[2];
+                    item.SalesChannelName = values[3];
+                    item.OrderPriorityName = values[4];
                     item.OrderDate = ParseDateTime(values[5]);
                     item.OrderID = int.Parse(values[6]);
                     item.ShipDate = ParseDateTime(values[7]);
                     item.UnitSold = int.Parse(values[8]);
-                    decimal unitPrice;
-                    if (decimal.TryParse(values[9], out unitPrice))
-                    {
-                        item.UnitPrice = unitPrice;
-                    }
-                    decimal unitCost;
-                    if (decimal.TryParse(values[10], out unitCost))
-                    {
-                        item.UnitCost = unitCost;
-                    }
-                    decimal totalRevenue;
-                    if (decimal.TryParse(values[11], out totalRevenue))
-                    {
-                        item.TotalRevenue = totalRevenue;
-                    }
-                    decimal totalCost;
-                    if (decimal.TryParse(values[12], out totalCost))
-                    {
-                        item.TotalCost = totalCost;
-                    }
-                    decimal totalProfit;
-                    if (decimal.TryParse(values[13], out totalProfit))
-                    {
-                        item.TotalProfit = totalProfit;
-                    }
+                    item.UnitPrice = ParseDecimal(values[9]);
+                    item.UnitCost = ParseDecimal(values[10]);
+                    item.TotalRevenue = ParseDecimal(values[11]);
+                    item.TotalCost = ParseDecimal(values[12]);
+                    item.TotalProfit = ParseDecimal(values[13]);
                     result.Add(item as T);
                 }
             }
@@ -72,6 +51,13 @@ namespace LinnWorks.Task.ExcelReader.Services
         {
             DateTime result;
             DateTime.TryParseExact(date, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.NoCurrentDateDefault, out result);
+            return result;
+        }
+
+        private decimal ParseDecimal(string value)
+        {
+            decimal result;
+            decimal.TryParse(value, out result);
             return result;
         }
     }

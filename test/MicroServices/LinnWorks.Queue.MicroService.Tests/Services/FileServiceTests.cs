@@ -42,17 +42,21 @@ namespace LinnWorks.Queue.MicroService.Tests.Services
         public void AddQueue_ArgumentIsNull_ThrowsArgumentNullException()
         {
             // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => fileService.AddQueue(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => fileService.AddQueue(null, "Test"));
+            Assert.ThrowsAsync<ArgumentNullException>(() => fileService.AddQueue("Test", null));
         }
 
         [Fact]
         public async System.Threading.Tasks.Task AddQueue_ArgsOk_CallsRedisService()
         {
+            // arrange
+            string key = "key";
+            string value = "value";
             // act
-            await fileService.AddQueue(file);
+            await fileService.AddQueue(key, value);
 
             // assert
-            await regisAgent.Received(1).AddValueAsync(file.Name, file.FileName);
+            await regisAgent.Received(1).AddValueAsync(key, value);
         }
 
         [Fact]

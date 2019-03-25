@@ -22,6 +22,9 @@ namespace LinnWorks.Queue.MicroService.Services
 
         public System.Threading.Tasks.Task AddQueue(string key, string value)
         {
+            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
+            if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
+
             return regisAgent.AddValueAsync(key, value);
         }
 
