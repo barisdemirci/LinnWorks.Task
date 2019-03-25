@@ -133,7 +133,7 @@ namespace LinnWorks.Processor.MicroService
             List<string> countries = sales.Select(x => x.CountryName).Distinct().ToList();
             List<string> regions = sales.Select(x => x.RegionName).Distinct().ToList();
             List<string> itemTypes = sales.Select(x => x.ItemTypeName).Distinct().ToList();
-            List<string> salesChannels = sales.Select(x => x.SalesChannelName).Distinct().ToList();
+            List<string> salesChannels = sales.Distinct().Select(x => x.SalesChannelName).Distinct().ToList();
             List<string> orderPriorities = sales.Select(x => x.OrderPriorityName).Distinct().ToList();
 
             var countryList = dbContext.Countries.Select(x => x.CountryName).Intersect(countries).ToList();
@@ -143,7 +143,7 @@ namespace LinnWorks.Processor.MicroService
 
             var regionList = dbContext.Regions.Select(x => x.RegionName).Intersect(regions).ToList();
             regions.RemoveAll(x => regionList.Contains(x));
-            List<Region> newRegionList = regions.Select(x => new Region { RegionName = x }).ToList();
+            List<Region> newRegionList = regions.Distinct().Select(x => new Region { RegionName = x }).ToList();
             await dbContext.Regions.AddRangeAsync(newRegionList);
 
             var itemTypeList = dbContext.ItemTypes.Select(x => x.ItemTypeName).Intersect(itemTypes).ToList();
@@ -153,12 +153,12 @@ namespace LinnWorks.Processor.MicroService
 
             var salesChannelList = dbContext.SalesChannels.Select(x => x.SalesChannelName).Intersect(salesChannels).ToList();
             salesChannels.RemoveAll(x => salesChannelList.Contains(x));
-            List<SalesChannel> newSalesChannelList = salesChannels.Select(x => new SalesChannel { SalesChannelName = x }).ToList();
+            List<SalesChannel> newSalesChannelList = salesChannels.Distinct().Select(x => new SalesChannel { SalesChannelName = x }).ToList();
             await dbContext.SalesChannels.AddRangeAsync(newSalesChannelList);
 
             var orderPriorityList = dbContext.OrderPriorities.Select(x => x.OrderPriorityName).Intersect(orderPriorities).ToList();
             orderPriorities.RemoveAll(x => orderPriorityList.Contains(x));
-            List<OrderPriority> newOrderPriorityList = orderPriorities.Select(x => new OrderPriority { OrderPriorityName = x }).ToList();
+            List<OrderPriority> newOrderPriorityList = orderPriorities.Distinct().Select(x => new OrderPriority { OrderPriorityName = x }).ToList();
             await dbContext.OrderPriorities.AddRangeAsync(newOrderPriorityList);
 
             dbContext.SaveChanges();

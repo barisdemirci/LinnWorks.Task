@@ -4,7 +4,7 @@ import 'react-dropdown/style.css';
 import 'react-table/react-table.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Api } from '../api/api';
+import { Api } from '../api/Api';
 import { TD } from './td';
 
 export class FetchData extends Component {
